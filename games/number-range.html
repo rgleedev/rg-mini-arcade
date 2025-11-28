@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>終極密碼 - RG's Mini Arcade</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/number-range.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="title">
+                <span class="normal-title">🔐 終極密碼</span>
+                <span class="ide-title">// guessRange.exe</span>
+            </h1>
+            <div class="header-buttons">
+                <a href="../index.html" class="back-btn">
+                    <span class="normal-title">🏠 返回選單</span>
+                    <span class="ide-title">← return;</span>
+                </a>
+                <button id="theme-toggle" class="theme-btn">
+                    <span class="normal-mode">💻 IDE 模式</span>
+                    <span class="ide-mode">🎮 一般模式</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="game-area">
+            <!-- 開始畫面 -->
+            <div id="start-screen" class="start-screen">
+                <h2>
+                    <span class="normal-title">🔐 終極密碼</span>
+                    <span class="ide-title">// guessRange()</span>
+                </h2>
+                <p class="game-desc">
+                    <span class="normal-title">
+                        猜出隱藏的數字！<br>
+                        每次猜測後範圍會縮小
+                    </span>
+                    <span class="ide-title">
+                        /* Find the hidden number<br>
+                        Range narrows after each guess */
+                    </span>
+                </p>
+
+                <div class="range-selection">
+                    <h3>
+                        <span class="normal-title">選擇範圍</span>
+                        <span class="ide-title">// Range</span>
+                    </h3>
+                    <div class="range-buttons">
+                        <button class="range-btn" data-max="50">
+                            <span class="normal-title">1 ~ 50</span>
+                            <span class="ide-title">1..50</span>
+                        </button>
+                        <button class="range-btn active" data-max="100">
+                            <span class="normal-title">1 ~ 100</span>
+                            <span class="ide-title">1..100</span>
+                        </button>
+                        <button class="range-btn" data-max="500">
+                            <span class="normal-title">1 ~ 500</span>
+                            <span class="ide-title">1..500</span>
+                        </button>
+                        <button class="range-btn" data-max="1000">
+                            <span class="normal-title">1 ~ 1000</span>
+                            <span class="ide-title">1..1000</span>
+                        </button>
+                    </div>
+                </div>
+
+                <button id="start-btn" class="start-btn">
+                    <span class="normal-title">🚀 開始遊戲</span>
+                    <span class="ide-title">start()</span>
+                </button>
+            </div>
+
+            <!-- 遊戲區 -->
+            <div id="game-board" class="game-board hidden">
+                <div class="range-display">
+                    <div class="range-bound low">
+                        <span class="bound-label">
+                            <span class="normal-title">最小</span>
+                            <span class="ide-title">min:</span>
+                        </span>
+                        <span id="low-bound" class="bound-value">1</span>
+                    </div>
+                    <div class="range-separator">
+                        <span class="normal-title">～</span>
+                        <span class="ide-title">..</span>
+                    </div>
+                    <div class="range-bound high">
+                        <span class="bound-label">
+                            <span class="normal-title">最大</span>
+                            <span class="ide-title">max:</span>
+                        </span>
+                        <span id="high-bound" class="bound-value">100</span>
+                    </div>
+                </div>
+
+                <div class="guess-section">
+                    <input type="number" id="guess-input" class="guess-input" placeholder="輸入數字" autocomplete="off">
+                    <button id="guess-btn" class="guess-btn">
+                        <span class="normal-title">猜！</span>
+                        <span class="ide-title">guess()</span>
+                    </button>
+                </div>
+
+                <div id="hint" class="hint"></div>
+
+                <div class="stats">
+                    <div class="stat">
+                        <span class="stat-label">
+                            <span class="normal-title">已猜次數</span>
+                            <span class="ide-title">attempts:</span>
+                        </span>
+                        <span id="attempts" class="stat-value">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">
+                            <span class="normal-title">最佳紀錄</span>
+                            <span class="ide-title">best:</span>
+                        </span>
+                        <span id="best-record" class="stat-value">-</span>
+                    </div>
+                </div>
+
+                <div id="history" class="history">
+                    <h4>
+                        <span class="normal-title">猜測紀錄</span>
+                        <span class="ide-title">// log:</span>
+                    </h4>
+                    <div id="history-list" class="history-list"></div>
+                </div>
+            </div>
+
+            <!-- 遊戲結束畫面 -->
+            <div id="game-over" class="game-over hidden">
+                <h2>
+                    <span class="normal-title">🎉 恭喜答對！</span>
+                    <span class="ide-title">// Correct!</span>
+                </h2>
+                <div class="result-display">
+                    <p>
+                        <span class="normal-title">
+                            答案是 <strong id="final-answer">0</strong><br>
+                            你猜了 <strong id="final-attempts">0</strong> 次
+                        </span>
+                        <span class="ide-title">
+                            answer: <strong id="final-answer-ide">0</strong>;<br>
+                            attempts: <strong id="final-attempts-ide">0</strong>;
+                        </span>
+                    </p>
+                    <p id="new-record" class="new-record hidden">
+                        <span class="normal-title">🏆 新紀錄！</span>
+                        <span class="ide-title">// NEW RECORD!</span>
+                    </p>
+                </div>
+                <div class="game-over-buttons">
+                    <button id="restart-btn" class="restart-btn">
+                        <span class="normal-title">🔄 再玩一次</span>
+                        <span class="ide-title">restart()</span>
+                    </button>
+                    <button id="change-range-btn" class="back-menu-btn">
+                        <span class="normal-title">⚙️ 更換範圍</span>
+                        <span class="ide-title">setRange()</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p class="normal-title">Made with ❤️ by RG</p>
+            <p class="ide-title">// Copyright © 2025 RG. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="../js/theme.js"></script>
+    <script src="../js/number-range.js"></script>
+</body>
+</html>

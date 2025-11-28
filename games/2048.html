@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048 - RG's Mini Arcade</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/2048.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="title">
+                <span class="normal-title">🔢 2048</span>
+                <span class="ide-title">// game2048.exe</span>
+            </h1>
+            <div class="header-buttons">
+                <a href="../index.html" class="back-btn">
+                    <span class="normal-title">🏠 返回選單</span>
+                    <span class="ide-title">← return;</span>
+                </a>
+                <button id="theme-toggle" class="theme-btn">
+                    <span class="normal-mode">💻 IDE 模式</span>
+                    <span class="ide-mode">🎮 一般模式</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="game-area">
+            <div class="game-header">
+                <div class="score-container">
+                    <div class="score-box">
+                        <span class="score-label">
+                            <span class="normal-title">分數</span>
+                            <span class="ide-title">score</span>
+                        </span>
+                        <span id="score" class="score-value">0</span>
+                    </div>
+                    <div class="score-box">
+                        <span class="score-label">
+                            <span class="normal-title">最高分</span>
+                            <span class="ide-title">best</span>
+                        </span>
+                        <span id="best-score" class="score-value">0</span>
+                    </div>
+                </div>
+                <button id="new-game-btn" class="new-game-btn">
+                    <span class="normal-title">🔄 新遊戲</span>
+                    <span class="ide-title">newGame()</span>
+                </button>
+            </div>
+
+            <div class="game-instruction">
+                <span class="normal-title">使用方向鍵或滑動來移動方塊，合併相同數字達到 2048！</span>
+                <span class="ide-title">// Arrow keys or swipe to merge tiles</span>
+            </div>
+
+            <div id="game-container" class="game-container">
+                <div id="grid-background" class="grid-background"></div>
+                <div id="tile-container" class="tile-container"></div>
+            </div>
+
+            <!-- 遊戲結束覆蓋層 -->
+            <div id="game-over" class="game-message hidden">
+                <h2>
+                    <span class="normal-title">遊戲結束！</span>
+                    <span class="ide-title">// Game Over</span>
+                </h2>
+                <p id="final-score-msg"></p>
+                <button id="retry-btn" class="retry-btn">
+                    <span class="normal-title">🔄 再試一次</span>
+                    <span class="ide-title">retry()</span>
+                </button>
+            </div>
+
+            <!-- 勝利覆蓋層 -->
+            <div id="game-win" class="game-message hidden">
+                <h2>
+                    <span class="normal-title">🎉 恭喜！你達到了 2048！</span>
+                    <span class="ide-title">// You Win! 2048 achieved!</span>
+                </h2>
+                <div class="win-buttons">
+                    <button id="continue-btn" class="continue-btn">
+                        <span class="normal-title">繼續遊戲</span>
+                        <span class="ide-title">continue()</span>
+                    </button>
+                    <button id="new-game-win-btn" class="retry-btn">
+                        <span class="normal-title">🔄 新遊戲</span>
+                        <span class="ide-title">newGame()</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p class="normal-title">Made with ❤️ by RG</p>
+            <p class="ide-title">// Copyright © 2025 RG. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="../js/theme.js"></script>
+    <script src="../js/2048.js"></script>
+</body>
+</html>
