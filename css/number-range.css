@@ -4,8 +4,6 @@
 .start-screen {
     max-width: 450px;
     width: 90%;
-    position: relative;
-    transform: none;
 }
 
 /* ===== 範圍選擇 ===== */
