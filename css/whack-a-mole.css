@@ -94,6 +94,45 @@
     content: '💫';
 }
 
+/* ===== 炸彈樣式 ===== */
+.hole.bomb .mole,
+.hole.bomb-hit .mole {
+    background: linear-gradient(180deg, #2d2d2d 0%, #1a1a1a 50%, #0d0d0d 100%) !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5) !important;
+}
+
+.hole.bomb .mole::before,
+.hole.bomb-hit .mole::before {
+    content: '💣' !important;
+    font-size: 28px !important;
+    top: 8px !important;
+}
+
+.hole.bomb .mole::after,
+.hole.bomb-hit .mole::after {
+    display: none !important;
+}
+
+/* 炸彈被打中 */
+.hole.bomb-hit .mole {
+    bottom: 20px;
+}
+
+.hole.bomb-hit .mole::before {
+    content: '💥' !important;
+    font-size: 32px !important;
+}
+
+@keyframes bombShake {
+    0%, 100% { transform: translateX(-50%) rotate(0deg); }
+    25% { transform: translateX(-50%) rotate(-5deg); }
+    75% { transform: translateX(-50%) rotate(5deg); }
+}
+
+.hole.bomb-hit .mole {
+    animation: bombShake 0.2s ease 2;
+}
+
 /* ===== IDE 模式地鼠 ===== */
 body.ide-mode .hole {
     background: linear-gradient(180deg, #2d333b 0%, #22272e 50%, #1c2128 100%);
@@ -110,8 +149,8 @@ body.ide-mode .mole {
 }
 
 body.ide-mode .mole::before {
-    content: '{ }';
-    font-size: 16px;
+    content: '✓';
+    font-size: 24px;
     font-weight: bold;
     font-family: 'Consolas', monospace;
     color: #1e1e1e;
@@ -122,9 +161,36 @@ body.ide-mode .mole::after {
 }
 
 body.ide-mode .hole.hit .mole::before {
-    content: 'ERR';
-    color: #f14c4c;
-    font-weight: bold;
+    content: '✔';
+    color: #1e1e1e;
+    font-size: 28px;
+}
+
+/* IDE 模式炸彈 */
+body.ide-mode .hole.bomb .mole,
+body.ide-mode .hole.bomb-hit .mole {
+    background: linear-gradient(180deg, #f14c4c 0%, #d32f2f 100%) !important;
+    box-shadow: 0 5px 15px rgba(241, 76, 76, 0.6) !important;
+    border: 3px solid #ff6b6b;
+}
+
+body.ide-mode .hole.bomb .mole::before,
+body.ide-mode .hole.bomb-hit .mole::before {
+    content: '✗' !important;
+    font-size: 28px !important;
+    font-weight: bold !important;
+    font-family: 'Consolas', monospace !important;
+    color: #fff !important;
+}
+
+body.ide-mode .hole.bomb .mole::after,
+body.ide-mode .hole.bomb-hit .mole::after {
+    display: none !important;
+}
+
+body.ide-mode .hole.bomb-hit .mole::before {
+    content: '💥' !important;
+    font-size: 32px !important;
 }
 
 /* ===== 連擊顯示 ===== */
@@ -365,4 +431,14 @@ body.ide-mode .game-board {
 body.ide-mode .score-popup {
     color: #4ec9b0;
     font-family: 'Consolas', monospace;
+}
+
+/* 扣分飄動 */
+.score-popup.penalty {
+    color: #f14c4c;
+    font-size: 1.4rem;
+}
+
+body.ide-mode .score-popup.penalty {
+    color: #f14c4c;
 }

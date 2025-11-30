@@ -1,38 +1,50 @@
 // Hangman 猜單字遊戲
 (function() {
-    // 單字庫（單字和提示）
-    const WORDS = [
-        { word: 'JAVASCRIPT', hint: '網頁程式語言' },
-        { word: 'PYTHON', hint: '蛇的名字也是程式語言' },
-        { word: 'COMPUTER', hint: '你現在正在使用的' },
-        { word: 'KEYBOARD', hint: '打字用的輸入裝置' },
-        { word: 'MONITOR', hint: '顯示畫面的螢幕' },
-        { word: 'INTERNET', hint: '全球資訊網路' },
-        { word: 'PROGRAM', hint: '軟體開發者寫的' },
-        { word: 'ALGORITHM', hint: '解決問題的步驟' },
-        { word: 'DATABASE', hint: '儲存資料的地方' },
-        { word: 'FUNCTION', hint: '程式中可重複使用的區塊' },
-        { word: 'VARIABLE', hint: '儲存數值的容器' },
-        { word: 'BROWSER', hint: '用來上網的軟體' },
-        { word: 'WEBSITE', hint: '網路上的頁面' },
-        { word: 'DOWNLOAD', hint: '從網路取得檔案' },
-        { word: 'UPLOAD', hint: '把檔案傳到網路' },
-        { word: 'PASSWORD', hint: '保護帳號的秘密' },
-        { word: 'SECURITY', hint: '保護系統的安全' },
-        { word: 'NETWORK', hint: '連接多台電腦' },
-        { word: 'SOFTWARE', hint: '電腦執行的程式' },
-        { word: 'HARDWARE', hint: '電腦的實體零件' },
-        { word: 'MEMORY', hint: '電腦暫存資料的地方' },
-        { word: 'STORAGE', hint: '永久保存資料的地方' },
-        { word: 'PROCESSOR', hint: '電腦的大腦' },
-        { word: 'GRAPHICS', hint: '視覺圖像相關' },
-        { word: 'TERMINAL', hint: '命令列介面' },
-        { word: 'GITHUB', hint: '程式碼托管平台' },
-        { word: 'CODING', hint: '寫程式的動作' },
-        { word: 'DEBUG', hint: '找出並修復錯誤' },
-        { word: 'COMPILE', hint: '將程式碼轉成執行檔' },
-        { word: 'DEPLOY', hint: '部署應用程式' }
-    ];
+    // 單字庫（將從 JSON 檔案載入）
+    let WORDS = [];
+
+    // 載入單字庫
+    async function loadWords() {
+        try {
+            const paths = [
+                '../data/hangman-words.json',
+                './data/hangman-words.json',
+                '/data/hangman-words.json'
+            ];
+
+            let data = null;
+            for (const path of paths) {
+                try {
+                    const response = await fetch(path);
+                    if (response.ok) {
+                        data = await response.json();
+                        break;
+                    }
+                } catch (e) {
+                    continue;
+                }
+            }
+
+            if (!data) {
+                throw new Error('Failed to load word list');
+            }
+
+            WORDS = data.words;
+            console.log(`Hangman 單字庫已載入：${WORDS.length} 個單字`);
+            return true;
+        } catch (error) {
+            console.error('載入單字庫失敗:', error);
+            // 備用單字
+            WORDS = [
+                { word: 'APPLE', hint: '紅色的水果' },
+                { word: 'BANANA', hint: '黃色彎彎的水果' },
+                { word: 'ORANGE', hint: '橘色的水果' },
+                { word: 'HAPPY', hint: '開心的' },
+                { word: 'MUSIC', hint: '用耳朵聽的藝術' }
+            ];
+            return false;
+        }
+    }
 
     const BODY_PARTS = ['head', 'body', 'left-arm', 'right-arm', 'left-leg', 'right-leg'];
     const MAX_LIVES = 6;
@@ -186,6 +198,7 @@
         selectWord();
         guessedLetters = [];
         lives = MAX_LIVES;
+        isPlaying = true;
 
         livesDisplay.textContent = lives;
         hintDisplay.textContent = `💡 提示：${currentHint}`;
@@ -256,4 +269,7 @@
     document.getElementById('next-btn').addEventListener('click', nextRound);
     document.getElementById('back-btn').addEventListener('click', backToStart);
     document.getElementById('back-win-btn').addEventListener('click', backToStart);
+
+    // 初始化：載入單字庫
+    loadWords();
 })();

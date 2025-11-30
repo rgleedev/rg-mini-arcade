@@ -2,122 +2,47 @@
 (function () {
     const BEST_WPM_KEY = 'rg-typing-best-';
 
-    // 英文單字庫（包含常用字、程式詞彙、學測指考等級詞彙）
-    const WORDS = [
-        // 基礎常用字
-        'the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have', 'I',
-        'it', 'for', 'not', 'on', 'with', 'he', 'as', 'you', 'do', 'at',
-        'this', 'but', 'his', 'by', 'from', 'they', 'we', 'say', 'her', 'she',
-        'or', 'an', 'will', 'my', 'one', 'all', 'would', 'there', 'their', 'what',
-        'so', 'up', 'out', 'if', 'about', 'who', 'get', 'which', 'go', 'me',
-        'when', 'make', 'can', 'like', 'time', 'no', 'just', 'him', 'know', 'take',
-        'people', 'into', 'year', 'your', 'good', 'some', 'could', 'them', 'see', 'other',
-        'than', 'then', 'now', 'look', 'only', 'come', 'its', 'over', 'think', 'also',
-        'back', 'after', 'use', 'two', 'how', 'our', 'work', 'first', 'well', 'way',
-        'even', 'new', 'want', 'because', 'any', 'these', 'give', 'day', 'most', 'us',
+    // 動態載入的題庫
+    let WORDS = [];
+    let ARTICLES = [];
 
-        // 程式相關
-        'code', 'program', 'function', 'variable', 'array', 'object', 'string', 'number', 'boolean', 'null',
-        'return', 'class', 'method', 'loop', 'while', 'break', 'continue', 'switch', 'case', 'default',
-        'import', 'export', 'const', 'let', 'var', 'async', 'await', 'promise', 'callback', 'event',
-        'error', 'debug', 'test', 'build', 'deploy', 'server', 'client', 'database', 'query', 'index',
+    // 載入題庫
+    async function loadData() {
+        try {
+            const paths = [
+                '../data/typing-words.json',
+                './data/typing-words.json',
+                '/data/typing-words.json'
+            ];
 
-        // 電腦科技
-        'keyboard', 'mouse', 'screen', 'monitor', 'laptop', 'desktop', 'mobile', 'tablet', 'device', 'browser',
-        'website', 'application', 'software', 'hardware', 'network', 'internet', 'cloud', 'storage', 'memory', 'processor',
+            let data = null;
+            for (const path of paths) {
+                try {
+                    const response = await fetch(path);
+                    if (response.ok) {
+                        data = await response.json();
+                        break;
+                    }
+                } catch (e) {
+                    continue;
+                }
+            }
 
-        // 學測指考等級詞彙 - 學術與教育
-        'education', 'knowledge', 'university', 'research', 'experiment', 'theory', 'analysis', 'evidence', 'conclusion', 'hypothesis',
-        'literature', 'philosophy', 'psychology', 'biology', 'chemistry', 'physics', 'mathematics', 'geography', 'history', 'economics',
-        'professor', 'lecture', 'seminar', 'assignment', 'examination', 'scholarship', 'curriculum', 'certificate', 'graduate', 'academic',
+            if (!data) {
+                throw new Error('Failed to load word list from all paths');
+            }
 
-        // 學測指考等級詞彙 - 社會與文化
-        'society', 'culture', 'tradition', 'civilization', 'democracy', 'government', 'politics', 'citizen', 'community', 'population',
-        'environment', 'pollution', 'conservation', 'sustainable', 'resource', 'climate', 'global', 'warming', 'ecosystem', 'species',
-        'technology', 'innovation', 'artificial', 'intelligence', 'revolution', 'industrial', 'manufacture', 'economy', 'commerce', 'investment',
-
-        // 學測指考等級詞彙 - 個人特質與情感
-        'achieve', 'accomplish', 'ambitious', 'confident', 'creative', 'curious', 'determined', 'diligent', 'enthusiastic', 'flexible',
-        'generous', 'grateful', 'humble', 'independent', 'optimistic', 'patient', 'persistent', 'reliable', 'responsible', 'sincere',
-        'anxiety', 'depression', 'emotion', 'sympathy', 'empathy', 'frustration', 'satisfaction', 'enthusiasm', 'motivation', 'inspiration',
-
-        // 學測指考等級詞彙 - 動作與行為
-        'acquire', 'adapt', 'anticipate', 'appreciate', 'approach', 'assume', 'attempt', 'challenge', 'communicate', 'compare',
-        'compete', 'concentrate', 'consider', 'contribute', 'cooperate', 'demonstrate', 'determine', 'develop', 'discover', 'distinguish',
-        'eliminate', 'emphasize', 'encourage', 'enhance', 'establish', 'evaluate', 'explore', 'generate', 'identify', 'illustrate',
-        'implement', 'improve', 'indicate', 'influence', 'interpret', 'investigate', 'maintain', 'observe', 'obtain', 'overcome',
-        'participate', 'perceive', 'persuade', 'predict', 'preserve', 'prevent', 'promote', 'propose', 'recognize', 'recommend',
-        'reflect', 'represent', 'require', 'resolve', 'respond', 'reveal', 'significant', 'solve', 'stimulate', 'transform',
-
-        // 學測指考等級詞彙 - 形容詞
-        'absolute', 'abundant', 'accurate', 'adequate', 'alternative', 'apparent', 'appropriate', 'available', 'beneficial', 'capable',
-        'complex', 'comprehensive', 'considerable', 'constant', 'contemporary', 'critical', 'crucial', 'diverse', 'dominant', 'efficient',
-        'essential', 'evident', 'exclusive', 'extraordinary', 'familiar', 'fundamental', 'genuine', 'identical', 'immediate', 'inevitable',
-        'initial', 'intense', 'massive', 'moderate', 'negative', 'obvious', 'particular', 'permanent', 'positive', 'potential',
-        'practical', 'precious', 'previous', 'primary', 'principal', 'professional', 'profound', 'prominent', 'reasonable', 'relevant',
-        'remarkable', 'severe', 'significant', 'similar', 'specific', 'substantial', 'sufficient', 'superior', 'tremendous', 'ultimate',
-
-        // 學測指考等級詞彙 - 名詞
-        'advantage', 'aspect', 'attitude', 'authority', 'awareness', 'behavior', 'benefit', 'capacity', 'category', 'circumstance',
-        'commitment', 'concept', 'conflict', 'consequence', 'context', 'contrast', 'controversy', 'criterion', 'decade', 'definition',
-        'dimension', 'discipline', 'diversity', 'element', 'emphasis', 'era', 'evolution', 'exception', 'existence', 'expansion',
-        'factor', 'feature', 'foundation', 'framework', 'function', 'generation', 'heritage', 'identity', 'impact', 'implication',
-        'phenomenon', 'perspective', 'principle', 'priority', 'procedure', 'process', 'proportion', 'purpose', 'quality', 'quantity',
-        'range', 'reaction', 'reality', 'region', 'relationship', 'religion', 'reputation', 'restriction', 'revolution', 'strategy',
-        'structure', 'survival', 'symbol', 'symptom', 'tendency', 'tension', 'threat', 'transition', 'trend', 'welfare'
-    ];
-
-    // 預設文章庫
-    const ARTICLES = [
-        {
-            id: 'tech-ai',
-            title: '🤖 AI 與未來',
-            titleIDE: 'ai_future',
-            text: 'Artificial intelligence is transforming the way we live and work. From virtual assistants to self-driving cars, AI technology is becoming an integral part of our daily lives. Machine learning algorithms can now recognize images, understand speech, and even generate creative content. As these systems become more sophisticated, they raise important questions about privacy, employment, and the future of human creativity. The key challenge is to develop AI that benefits humanity while minimizing potential risks.'
-        },
-        {
-            id: 'tech-programming',
-            title: '💻 程式設計',
-            titleIDE: 'programming',
-            text: 'Learning to code is one of the most valuable skills in the modern world. Programming teaches logical thinking, problem-solving, and creativity. Whether you want to build websites, create mobile apps, or analyze data, coding opens doors to countless opportunities. The best way to learn is by doing. Start with simple projects, make mistakes, and learn from them. Remember that every expert programmer was once a beginner who refused to give up.'
-        },
-        {
-            id: 'science-space',
-            title: '🚀 太空探索',
-            titleIDE: 'space_exploration',
-            text: 'Space exploration has always captured human imagination. From the first moon landing to the latest Mars rovers, we continue to push the boundaries of what is possible. Scientists are now planning missions to establish permanent bases on the Moon and eventually send humans to Mars. These ambitious goals require international cooperation, advanced technology, and tremendous resources. The search for life beyond Earth remains one of the most exciting frontiers in science.'
-        },
-        {
-            id: 'life-success',
-            title: '🎯 成功心態',
-            titleIDE: 'success_mindset',
-            text: 'Success is not just about talent or luck. It requires dedication, persistence, and the willingness to learn from failure. The most successful people share common habits: they set clear goals, manage their time effectively, and continuously improve their skills. They also understand the importance of maintaining good relationships and helping others succeed. Remember that success is a journey, not a destination. Enjoy the process and celebrate small victories along the way.'
-        },
-        {
-            id: 'nature-environment',
-            title: '🌍 環境保護',
-            titleIDE: 'environment',
-            text: 'Climate change is one of the greatest challenges facing our planet. Rising temperatures, extreme weather events, and melting ice caps are affecting ecosystems worldwide. However, there is still hope. By reducing carbon emissions, protecting forests, and developing renewable energy sources, we can slow down global warming. Every individual can make a difference by making sustainable choices in daily life. Together, we can create a healthier planet for future generations.'
-        },
-        {
-            id: 'culture-travel',
-            title: '✈️ 旅行體驗',
-            titleIDE: 'travel',
-            text: 'Traveling opens our minds to new cultures, ideas, and perspectives. When we explore different countries, we discover unique traditions, taste exotic foods, and meet people from all walks of life. These experiences help us appreciate diversity and understand our place in the global community. Whether you prefer adventure travel, cultural immersion, or relaxing beach vacations, every journey teaches us something valuable about ourselves and the world around us.'
-        },
-        {
-            id: 'health-wellness',
-            title: '💪 健康生活',
-            titleIDE: 'health',
-            text: 'A healthy lifestyle is the foundation of a happy life. Regular exercise, balanced nutrition, and adequate sleep are essential for physical and mental well-being. Studies show that people who maintain healthy habits have more energy, better focus, and longer lifespans. It is never too late to start making positive changes. Begin with small steps like taking daily walks, eating more vegetables, and reducing screen time before bed. Your future self will thank you.'
-        },
-        {
-            id: 'business-startup',
-            title: '💼 創業精神',
-            titleIDE: 'startup',
-            text: 'Starting a business requires courage, creativity, and careful planning. Successful entrepreneurs identify problems and create innovative solutions. They build strong teams, manage finances wisely, and adapt quickly to changing markets. Failure is often part of the journey, but it provides valuable lessons. The most important qualities are resilience and the ability to learn from mistakes. If you have a great idea and the determination to pursue it, entrepreneurship might be your path to success.'
+            if (data.words && Array.isArray(data.words)) {
+                WORDS = data.words;
+            }
+            if (data.articles && Array.isArray(data.articles)) {
+                ARTICLES = data.articles;
+            }
+            console.log(`Typing Test 題庫已載入：${WORDS.length} 個單字，${ARTICLES.length} 篇文章`);
+        } catch (error) {
+            console.error('載入題庫失敗:', error);
         }
-    ];
+    }
 
     // 遊戲狀態
     let duration = 60;
@@ -475,7 +400,8 @@
     }
 
     // 初始化
-    function init() {
+    async function init() {
+        await loadData();
         gameContent.classList.add('hidden');
         resultScreen.classList.add('hidden');
         startScreen.classList.remove('hidden');

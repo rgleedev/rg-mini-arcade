@@ -7,6 +7,8 @@
     const MOLE_MAX_TIME = 1500;  // 地鼠最長出現時間
     const SPAWN_MIN_DELAY = 400; // 最短生成間隔
     const SPAWN_MAX_DELAY = 1000; // 最長生成間隔
+    const BOMB_CHANCE = 0.25;    // 炸彈出現機率 (25%)
+    const BOMB_PENALTY = 20;     // 打到炸彈扣分
 
     // 遊戲狀態
     let score = 0;
@@ -14,12 +16,14 @@
     let hits = 0;
     let combo = 0;
     let maxCombo = 0;
+    let bombHits = 0;
     let duration = 30;
     let timeLeft = 30;
     let timer = null;
     let spawnTimer = null;
     let isPlaying = false;
     let activeMoles = new Set();
+    let activeTypes = new Map(); // 記錄每個洞的類型 (mole 或 bomb)
 
     // DOM 元素
     const startScreen = document.getElementById('start-screen');
@@ -60,7 +64,7 @@
         return availableHoles[random(0, availableHoles.length - 1)];
     }
 
-    // 顯示地鼠
+    // 顯示地鼠或炸彈
     function showMole() {
         if (!isPlaying) return;
 
@@ -72,17 +76,26 @@
         }
 
         const hole = holes[holeIndex];
-        activeMoles.add(holeIndex);
-        hole.classList.add('active');
+        const isBomb = Math.random() < BOMB_CHANCE;
 
-        // 設定地鼠自動隱藏
+        activeMoles.add(holeIndex);
+        activeTypes.set(holeIndex, isBomb ? 'bomb' : 'mole');
+
+        hole.classList.add('active');
+        if (isBomb) {
+            hole.classList.add('bomb');
+        }
+
+        // 設定自動隱藏
         const showTime = random(MOLE_MIN_TIME, MOLE_MAX_TIME);
         setTimeout(() => {
             if (hole.classList.contains('active') && !hole.classList.contains('hit')) {
                 hideMole(holeIndex);
-                // 沒打中，重置連擊
-                combo = 0;
-                comboStatDisplay.textContent = combo;
+                // 沒打中地鼠，重置連擊（炸彈不影響）
+                if (!isBomb) {
+                    combo = 0;
+                    comboStatDisplay.textContent = combo;
+                }
             }
         }, showTime);
 
@@ -92,9 +105,20 @@
     // 隱藏地鼠
     function hideMole(index) {
         const hole = holes[index];
+        const wasBomb = hole.classList.contains('bomb') || hole.classList.contains('bomb-hit');
+
         hole.classList.remove('active');
         hole.classList.remove('hit');
         activeMoles.delete(index);
+        activeTypes.delete(index);
+
+        // 延遲移除 bomb class，讓下降動畫完成後才移除
+        if (wasBomb) {
+            setTimeout(() => {
+                hole.classList.remove('bomb');
+                hole.classList.remove('bomb-hit');
+            }, 200);
+        }
     }
 
     // 安排下一個地鼠
@@ -113,51 +137,72 @@
         if (!hole) return;
 
         const index = parseInt(hole.dataset.index);
+        const type = activeTypes.get(index);
 
-        // 檢查是否有地鼠且沒被打過
-        if (hole.classList.contains('active') && !hole.classList.contains('hit')) {
-            // 命中！
-            hole.classList.add('hit');
-            hits++;
-            combo++;
+        // 檢查是否有地鼠/炸彈且沒被打過
+        if (hole.classList.contains('active') && !hole.classList.contains('hit') && !hole.classList.contains('bomb-hit')) {
 
-            if (combo > maxCombo) {
-                maxCombo = combo;
+            if (type === 'bomb') {
+                // 打到炸彈！
+                hole.classList.add('bomb-hit');
+                bombHits++;
+                combo = 0; // 重置連擊
+
+                // 扣分（但不低於0）
+                score = Math.max(0, score - BOMB_PENALTY);
+                updateStats();
+
+                // 顯示扣分飄動
+                showScorePopup(hole, -BOMB_PENALTY, true);
+
+                // 短暫延遲後隱藏
+                setTimeout(() => {
+                    hideMole(index);
+                }, 200);
+            } else {
+                // 命中地鼠！
+                hole.classList.add('hit');
+                hits++;
+                combo++;
+
+                if (combo > maxCombo) {
+                    maxCombo = combo;
+                }
+
+                // 計算分數（含連擊加成）
+                let points = 10;
+                if (combo >= 10) {
+                    points = 30;
+                } else if (combo >= 5) {
+                    points = 20;
+                } else if (combo >= 3) {
+                    points = 15;
+                }
+
+                score += points;
+                updateStats();
+
+                // 顯示分數飄動
+                showScorePopup(hole, points, false);
+
+                // 顯示連擊提示
+                if (combo >= 3) {
+                    showComboDisplay(combo);
+                }
+
+                // 短暫延遲後隱藏
+                setTimeout(() => {
+                    hideMole(index);
+                }, 150);
             }
-
-            // 計算分數（含連擊加成）
-            let points = 10;
-            if (combo >= 10) {
-                points = 30;
-            } else if (combo >= 5) {
-                points = 20;
-            } else if (combo >= 3) {
-                points = 15;
-            }
-
-            score += points;
-            updateStats();
-
-            // 顯示分數飄動
-            showScorePopup(hole, points);
-
-            // 顯示連擊提示
-            if (combo >= 3) {
-                showComboDisplay(combo);
-            }
-
-            // 短暫延遲後隱藏
-            setTimeout(() => {
-                hideMole(index);
-            }, 150);
         }
     }
 
     // 顯示分數飄動
-    function showScorePopup(hole, points) {
+    function showScorePopup(hole, points, isPenalty) {
         const popup = document.createElement('div');
-        popup.className = 'score-popup';
-        popup.textContent = `+${points}`;
+        popup.className = 'score-popup' + (isPenalty ? ' penalty' : '');
+        popup.textContent = isPenalty ? `${points}` : `+${points}`;
 
         const rect = hole.getBoundingClientRect();
         popup.style.left = rect.left + rect.width / 2 + 'px';
@@ -230,14 +275,18 @@
         hits = 0;
         combo = 0;
         maxCombo = 0;
+        bombHits = 0;
         timeLeft = duration;
         isPlaying = true;
         activeMoles.clear();
+        activeTypes.clear();
 
         // 清除所有地鼠
         holes.forEach(hole => {
             hole.classList.remove('active');
             hole.classList.remove('hit');
+            hole.classList.remove('bomb');
+            hole.classList.remove('bomb-hit');
         });
 
         loadBestScore();
@@ -264,8 +313,11 @@
         holes.forEach(hole => {
             hole.classList.remove('active');
             hole.classList.remove('hit');
+            hole.classList.remove('bomb');
+            hole.classList.remove('bomb-hit');
         });
         activeMoles.clear();
+        activeTypes.clear();
 
         saveBestScore();
 
