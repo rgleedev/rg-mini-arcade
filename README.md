@@ -4,7 +4,7 @@
 
 **Demo**: https://zzero0522.github.io/rg-mini-arcade/
 
-**目前版本**: v1.6.1
+**目前版本**: v1.7.0
 
 ## 遊戲列表
 
@@ -26,6 +26,9 @@
 | Hangman | 猜字母拼出單字，附中文提示 |
 | 井字遊戲 | 經典 OX 遊戲，含 AI 對手（簡單 / 普通 / 困難） |
 | 四子棋 | 四子連線獲勝，含 AI 對手（簡單 / 普通 / 困難） |
+| 數字拼圖 | 滑動數字排列還原（3×3 / 4×4 / 5×5） |
+| PAC-MAN | 經典吃豆人遊戲，4隻鬼魂各有不同個性 |
+| 坦克大戰 | 保衛基地消滅敵人，含盾牌道具（WASD / 方向鍵 / 空白鍵射擊） |
 
 ---
 
@@ -37,18 +40,20 @@
 | 遊戲 | 說明 | 難度 |
 |------|------|------|
 | ~~**採地雷**~~ | ✅ 已完成 | ⭐⭐ |
+| ~~**數字拼圖**~~ | ✅ 已完成 | ⭐⭐ |
 | **數獨** | 填數字解謎（簡單 / 困難） | ⭐⭐⭐ |
-| **拼圖** | 滑動拼圖還原圖片（3×3 / 4×4 / 5×5） | ⭐⭐ |
 | **連連看** | 配對相同圖案消除 | ⭐⭐ |
-| **俄羅斯方塊** | 經典方塊消除遊戲 | ⭐⭐⭐ |
+| **俄羅斯方塊** | 經典方塊消除遊戲（Coming Soon） | ⭐⭐⭐ |
 
 ### ⚡ 反應 / 技巧類
 | 遊戲 | 說明 | 難度 |
 |------|------|------|
+| ~~**PAC-MAN**~~ | ✅ 已完成 | ⭐⭐⭐ |
+| ~~**坦克大戰**~~ | ✅ 已完成 | ⭐⭐⭐ |
 | **Flappy Bird** | 點擊控制小鳥穿越障礙 | ⭐⭐ |
 | **節奏大師** | 音樂節拍遊戲（純視覺版） | ⭐⭐⭐ |
 | **彈珠台** | 簡易彈珠台遊戲 | ⭐⭐⭐ |
-| **打磚塊** | 經典 Breakout 遊戲 | ⭐⭐ |
+| **打磚塊** | 經典 Breakout 遊戲（Coming Soon） | ⭐⭐ |
 | **躲避球** | 控制角色閃避下落物體 | ⭐ |
 
 ### 🧠 記憶 / 文字類
@@ -122,7 +127,7 @@ rg-mini-arcade/
 
 ### Scope
 
-遊戲：`color-diff`、`1a2b`、`typing-test`、`memory-cards`、`rps`、`snake`、`whack-a-mole`、`2048`、`number-range`、`reaction-test`、`wordle`
+遊戲：`color-diff`、`1a2b`、`typing-test`、`memory-cards`、`rps`、`snake`、`whack-a-mole`、`2048`、`number-range`、`reaction-test`、`wordle`、`minesweeper`、`simon`、`hangman`、`tic-tac-toe`、`connect-four`、`number-puzzle`、`pacman`、`tank`
 
 模組：`theme`、`menu`、`css`
 

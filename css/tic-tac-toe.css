@@ -87,10 +87,20 @@
 body.ide-mode .ttt-cell {
     border-color: #4ec9b0;
     font-family: 'Consolas', monospace;
+    color: #d4d4d4;
+}
+
+body.ide-mode .ttt-cell.x {
+    color: #569cd6;
+}
+
+body.ide-mode .ttt-cell.o {
+    color: #ce9178;
 }
 
 body.ide-mode .ttt-cell.winner {
     background-color: #4ec9b0;
+    color: #1e1e1e;
 }
 
 /* ===== 響應式設計 ===== */

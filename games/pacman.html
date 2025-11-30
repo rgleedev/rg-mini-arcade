@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAC-MAN - RG's Mini Arcade</title>
+    <link rel="icon" type="image/png" href="../img/icon.png">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/pacman.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="title">
+                <span class="normal-title">👾 PAC-MAN</span>
+                <span class="ide-title">// pacman.exe</span>
+            </h1>
+            <div class="header-buttons">
+                <a href="../index.html" class="back-btn">
+                    <span class="normal-title">🏠 返回選單</span>
+                    <span class="ide-title">← return;</span>
+                </a>
+                <button id="theme-toggle" class="theme-btn">
+                    <span class="normal-mode">💻 IDE 模式</span>
+                    <span class="ide-mode">🎮 一般模式</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="game-area">
+            <!-- 開始畫面 -->
+            <div id="start-screen" class="start-screen">
+                <h2>
+                    <span class="normal-title">👾 PAC-MAN</span>
+                    <span class="ide-title">// PAC-MAN</span>
+                </h2>
+                <p class="game-desc">
+                    <span class="normal-title">使用方向鍵或 WASD 控制 PAC-MAN<br>吃掉所有豆子，避開鬼魂！<br>吃到大力丸可以反過來吃鬼魂！</span>
+                    <span class="ide-title">// Arrow keys or WASD to move<br>// Eat all dots, avoid ghosts<br>// Power pellets let you eat ghosts!</span>
+                </p>
+                <button id="start-btn" class="start-btn">
+                    <span class="normal-title">開始遊戲</span>
+                    <span class="ide-title">start()</span>
+                </button>
+            </div>
+
+            <!-- 遊戲區域 -->
+            <div id="game-content" class="game-content hidden">
+                <div class="game-stats">
+                    <div class="stat">
+                        <span class="stat-label">
+                            <span class="normal-title">分數:</span>
+                            <span class="ide-title">score:</span>
+                        </span>
+                        <span id="score" class="stat-value">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">
+                            <span class="normal-title">生命:</span>
+                            <span class="ide-title">lives:</span>
+                        </span>
+                        <span id="lives" class="stat-value">❤️❤️❤️</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">
+                            <span class="normal-title">關卡:</span>
+                            <span class="ide-title">level:</span>
+                        </span>
+                        <span id="level" class="stat-value">1</span>
+                    </div>
+                </div>
+
+                <div id="game-board" class="game-board">
+                    <!-- 遊戲格子由 JS 動態生成 -->
+                </div>
+
+                <div class="mobile-controls">
+                    <button class="control-btn" data-dir="up">⬆️</button>
+                    <div class="control-row">
+                        <button class="control-btn" data-dir="left">⬅️</button>
+                        <button class="control-btn" data-dir="down">⬇️</button>
+                        <button class="control-btn" data-dir="right">➡️</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 遊戲結束畫面 -->
+            <div id="game-over" class="game-over hidden">
+                <h2>
+                    <span class="normal-title">💀 遊戲結束</span>
+                    <span class="ide-title">// Game Over</span>
+                </h2>
+                <p id="final-score" class="final-score"></p>
+                <div class="game-over-buttons">
+                    <button id="retry-btn" class="restart-btn">
+                        <span class="normal-title">再試一次</span>
+                        <span class="ide-title">retry()</span>
+                    </button>
+                    <button id="back-menu-btn" class="back-menu-btn">
+                        <span class="normal-title">返回選單</span>
+                        <span class="ide-title">backToMenu()</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 過關畫面 -->
+            <div id="level-complete" class="level-complete hidden">
+                <h2>
+                    <span class="normal-title">🎉 關卡完成！</span>
+                    <span class="ide-title">// Level Complete!</span>
+                </h2>
+                <p id="level-score" class="level-score"></p>
+                <button id="next-level-btn" class="start-btn">
+                    <span class="normal-title">下一關</span>
+                    <span class="ide-title">nextLevel()</span>
+                </button>
+            </div>
+        </main>
+
+        <footer>
+            <p class="normal-title">Made with ❤️ by RG</p>
+            <p class="ide-title">// Copyright © 2025 RG. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="../js/theme.js"></script>
+    <script src="../js/pacman.js"></script>
+</body>
+</html>

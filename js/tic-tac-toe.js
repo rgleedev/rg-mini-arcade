@@ -147,6 +147,7 @@
         board[index] = player;
         cells[index].textContent = player;
         cells[index].disabled = true;
+        cells[index].classList.add(player.toLowerCase());
 
         const result = checkWinner(board);
 
@@ -233,7 +234,7 @@
         cells.forEach(cell => {
             cell.textContent = '';
             cell.disabled = false;
-            cell.classList.remove('winner');
+            cell.classList.remove('winner', 'x', 'o');
         });
 
         updateStatus('輪到你了！', '// Your turn');

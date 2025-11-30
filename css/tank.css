@@ -1,0 +1,162 @@
+/* ===== 坦克大戰遊戲樣式 ===== */
+
+/* 遊戲內容容器 */
+.game-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+/* 遊戲版面 */
+.game-board {
+    background-color: #2d2d2d;
+    border: 4px solid var(--accent);
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+#game-canvas {
+    display: block;
+}
+
+/* 手機控制按鈕 */
+.mobile-controls {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.control-row {
+    display: flex;
+    gap: 5px;
+}
+
+.control-btn {
+    width: 55px;
+    height: 55px;
+    font-size: 1.4rem;
+    background-color: var(--bg-secondary);
+    border: 2px solid var(--accent);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.control-btn:hover,
+.control-btn:active {
+    background-color: var(--accent);
+    transform: scale(0.95);
+}
+
+.fire-btn {
+    width: 80px;
+    height: 80px;
+    font-size: 2rem;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #e74c3c, #c0392b);
+    border-color: #e74c3c;
+}
+
+.fire-btn:hover,
+.fire-btn:active {
+    background: linear-gradient(145deg, #c0392b, #a93226);
+}
+
+/* 過關畫面 */
+.level-complete {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--bg-secondary);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+}
+
+.level-complete h2 {
+    color: var(--accent);
+    margin-bottom: 20px;
+}
+
+.level-score,
+.final-score {
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    margin: 20px 0;
+}
+
+.game-over-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* IDE 模式特殊樣式 */
+body.ide-mode .game-board {
+    border-color: #569cd6;
+    box-shadow: 0 0 20px rgba(86, 156, 214, 0.5);
+}
+
+body.ide-mode .fire-btn {
+    background: linear-gradient(145deg, #569cd6, #4a8bc2);
+    border-color: #569cd6;
+}
+
+/* 響應式設計 */
+@media (max-width: 600px) {
+    .mobile-controls {
+        display: flex;
+    }
+
+    .control-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+
+    .fire-btn {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .control-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1rem;
+    }
+
+    .fire-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+
+    .mobile-controls {
+        gap: 25px;
+    }
+}

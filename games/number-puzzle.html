@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>數字拼圖 - RG's Mini Arcade</title>
+    <link rel="icon" type="image/png" href="../img/icon.png">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/number-puzzle.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="title">
+                <span class="normal-title">🧩 數字拼圖</span>
+                <span class="ide-title">// numberPuzzle.exe</span>
+            </h1>
+            <div class="header-buttons">
+                <a href="../index.html" class="back-btn">
+                    <span class="normal-title">🏠 返回選單</span>
+                    <span class="ide-title">← return;</span>
+                </a>
+                <button id="theme-toggle" class="theme-btn">
+                    <span class="normal-mode">💻 IDE 模式</span>
+                    <span class="ide-mode">🎮 一般模式</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="game-area">
+            <!-- 開始畫面 -->
+            <div id="start-screen" class="start-screen">
+                <h2>
+                    <span class="normal-title">數字拼圖</span>
+                    <span class="ide-title">// Number Puzzle</span>
+                </h2>
+                <p class="game-desc">
+                    <span class="normal-title">滑動數字方塊，將它們按順序排列！<br>點擊空格旁的方塊即可移動。</span>
+                    <span class="ide-title">// Slide tiles to arrange them in order<br>// Click on tiles adjacent to empty space</span>
+                </p>
+
+                <div class="size-selection">
+                    <h3>
+                        <span class="normal-title">選擇難度</span>
+                        <span class="ide-title">// Select Difficulty</span>
+                    </h3>
+                    <div class="size-buttons">
+                        <button class="size-btn active" data-size="3">
+                            <span class="normal-title">3×3 簡單</span>
+                            <span class="ide-title">3×3 Easy</span>
+                        </button>
+                        <button class="size-btn" data-size="4">
+                            <span class="normal-title">4×4 中等</span>
+                            <span class="ide-title">4×4 Medium</span>
+                        </button>
+                        <button class="size-btn" data-size="5">
+                            <span class="normal-title">5×5 困難</span>
+                            <span class="ide-title">5×5 Hard</span>
+                        </button>
+                    </div>
+                </div>
+
+                <button id="start-btn" class="start-btn">
+                    <span class="normal-title">開始遊戲</span>
+                    <span class="ide-title">start()</span>
+                </button>
+            </div>
+
+            <!-- 遊戲區域 -->
+            <div id="game-content" class="game-content hidden">
+                <div class="game-stats">
+                    <div class="stat">
+                        <span class="stat-label">
+                            <span class="normal-title">移動次數:</span>
+                            <span class="ide-title">moves:</span>
+                        </span>
+                        <span id="moves" class="stat-value">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">
+                            <span class="normal-title">時間:</span>
+                            <span class="ide-title">time:</span>
+                        </span>
+                        <span id="time" class="stat-value">0:00</span>
+                    </div>
+                </div>
+
+                <div id="puzzle-container" class="puzzle-container">
+                    <!-- 拼圖格子將由 JS 動態生成 -->
+                </div>
+
+                <div class="game-controls">
+                    <button id="shuffle-btn" class="control-btn">
+                        <span class="normal-title">🔀 重新打亂</span>
+                        <span class="ide-title">shuffle()</span>
+                    </button>
+                    <button id="hint-btn" class="control-btn">
+                        <span class="normal-title">💡 提示</span>
+                        <span class="ide-title">hint()</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 勝利畫面 -->
+            <div id="win-screen" class="win-screen hidden">
+                <h2>
+                    <span class="normal-title">🎉 恭喜完成！</span>
+                    <span class="ide-title">// Puzzle Solved!</span>
+                </h2>
+                <p id="win-stats" class="win-stats"></p>
+                <div class="win-buttons">
+                    <button id="play-again-btn" class="restart-btn">
+                        <span class="normal-title">再玩一次</span>
+                        <span class="ide-title">playAgain()</span>
+                    </button>
+                    <button id="back-menu-btn" class="back-menu-btn">
+                        <span class="normal-title">返回選單</span>
+                        <span class="ide-title">backToMenu()</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p class="normal-title">Made with ❤️ by RG</p>
+            <p class="ide-title">// Copyright © 2025 RG. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="../js/theme.js"></script>
+    <script src="../js/number-puzzle.js"></script>
+</body>
+</html>

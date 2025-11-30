@@ -1,0 +1,383 @@
+/* ===== PAC-MAN 遊戲樣式 ===== */
+
+/* 遊戲內容容器 */
+.game-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+/* 遊戲版面 */
+.game-board {
+    display: grid;
+    gap: 0;
+    background-color: #000;
+    border: 4px solid #2121de;
+    border-radius: 8px;
+    padding: 4px;
+    box-shadow: 0 0 20px rgba(33, 33, 222, 0.5);
+}
+
+/* 格子 */
+.cell {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* PAC-MAN 容器 - 用於定位動畫 */
+.pacman-container {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: left 0.12s linear, top 0.12s linear;
+    z-index: 10;
+}
+
+/* 鬼魂容器 - 用於定位動畫 */
+.ghost-container {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: left 0.15s linear, top 0.15s linear;
+    z-index: 5;
+}
+
+/* 牆壁 */
+.cell.wall {
+    background-color: #2121de;
+    border-radius: 3px;
+}
+
+/* 空地 */
+.cell.path {
+    background-color: #000;
+}
+
+/* 豆子 */
+.cell.dot::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background-color: #ffb897;
+    border-radius: 50%;
+}
+
+/* 大力丸 */
+.cell.power-pellet::after {
+    content: '';
+    width: 16px;
+    height: 16px;
+    background-color: #ffb897;
+    border-radius: 50%;
+    animation: pelletPulse 0.5s ease-in-out infinite;
+}
+
+@keyframes pelletPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(0.7); opacity: 0.7; }
+}
+
+/* PAC-MAN */
+.pacman {
+    width: 24px;
+    height: 24px;
+    background-color: #ffff00;
+    border-radius: 50%;
+    position: relative;
+}
+
+.pacman.right {
+    animation: chompRight 0.15s linear infinite;
+}
+
+.pacman.left {
+    animation: chompLeft 0.15s linear infinite;
+}
+
+.pacman.up {
+    animation: chompUp 0.15s linear infinite;
+}
+
+.pacman.down {
+    animation: chompDown 0.15s linear infinite;
+}
+
+/* 向右吃 - 嘴巴在右邊 */
+@keyframes chompRight {
+    0%, 100% {
+        clip-path: polygon(0 0, 100% 0, 100% 35%, 50% 50%, 100% 65%, 100% 100%, 0 100%);
+    }
+    50% {
+        clip-path: polygon(0 0, 100% 0, 100% 50%, 50% 50%, 100% 50%, 100% 100%, 0 100%);
+    }
+}
+
+/* 向左吃 - 嘴巴在左邊 */
+@keyframes chompLeft {
+    0%, 100% {
+        clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 65%, 50% 50%, 0 35%, 0 0);
+    }
+    50% {
+        clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 50%, 50% 50%, 0 50%, 0 0);
+    }
+}
+
+/* 向上吃 - 嘴巴在上面 */
+@keyframes chompUp {
+    0%, 100% {
+        clip-path: polygon(0 0, 35% 0, 50% 50%, 65% 0, 100% 0, 100% 100%, 0 100%);
+    }
+    50% {
+        clip-path: polygon(0 0, 50% 0, 50% 50%, 50% 0, 100% 0, 100% 100%, 0 100%);
+    }
+}
+
+/* 向下吃 - 嘴巴在下面 */
+@keyframes chompDown {
+    0%, 100% {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 65% 100%, 50% 50%, 35% 100%, 0 100%);
+    }
+    50% {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 100%, 50% 50%, 50% 100%, 0 100%);
+    }
+}
+
+/* 鬼魂 */
+.ghost {
+    width: 24px;
+    height: 24px;
+    border-radius: 50% 50% 0 0;
+    position: relative;
+    animation: ghostFloat 0.3s ease-in-out infinite;
+}
+
+.ghost::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: inherit;
+    clip-path: polygon(0% 0%, 16% 100%, 33% 0%, 50% 100%, 66% 0%, 83% 100%, 100% 0%);
+}
+
+/* 鬼魂眼睛 */
+.ghost::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 4px;
+    width: 5px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 10px 0 0 white;
+}
+
+/* 各個鬼魂顏色 */
+.ghost.blinky { background-color: #ff0000; }
+.ghost.pinky { background-color: #ffb8ff; }
+.ghost.inky { background-color: #00ffff; }
+.ghost.clyde { background-color: #ffb852; }
+
+/* 驚嚇模式鬼魂 */
+.ghost.scared {
+    background-color: #2121de !important;
+    animation: ghostScared 0.2s ease-in-out infinite;
+}
+
+.ghost.scared::before {
+    background: white;
+    box-shadow: 8px 0 0 white;
+}
+
+/* 驚嚇結束閃爍 */
+.ghost.scared.ending {
+    animation: ghostFlash 0.2s ease-in-out infinite;
+}
+
+@keyframes ghostFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
+}
+
+@keyframes ghostScared {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-1px) scale(0.95); }
+}
+
+@keyframes ghostFlash {
+    0%, 50% { background-color: #2121de !important; }
+    51%, 100% { background-color: #ffffff !important; }
+}
+
+/* 手機控制按鈕 */
+.mobile-controls {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    margin-top: 20px;
+}
+
+.control-row {
+    display: flex;
+    gap: 5px;
+}
+
+.control-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+    background-color: var(--bg-secondary);
+    border: 2px solid var(--accent);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.control-btn:hover,
+.control-btn:active {
+    background-color: var(--accent);
+    transform: scale(0.95);
+}
+
+/* 過關畫面 */
+.level-complete {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--bg-secondary);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+}
+
+.level-complete h2 {
+    color: var(--accent);
+    margin-bottom: 20px;
+}
+
+.level-score,
+.final-score {
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    margin: 20px 0;
+}
+
+.game-over-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* IDE 模式特殊樣式 */
+body.ide-mode .game-board {
+    border-color: #569cd6;
+    box-shadow: 0 0 20px rgba(86, 156, 214, 0.5);
+}
+
+body.ide-mode .cell.wall {
+    background-color: #264f78;
+}
+
+body.ide-mode .cell.dot::after,
+body.ide-mode .cell.power-pellet::after {
+    background-color: #4ec9b0;
+}
+
+body.ide-mode .pacman {
+    background-color: #dcdcaa;
+}
+
+body.ide-mode .ghost.scared {
+    background-color: #569cd6 !important;
+}
+
+/* 響應式設計 */
+@media (max-width: 600px) {
+    .cell {
+        width: 16px;
+        height: 16px;
+    }
+
+    .pacman-container,
+    .ghost-container {
+        width: 16px;
+        height: 16px;
+    }
+
+    .pacman {
+        width: 14px;
+        height: 14px;
+    }
+
+    .ghost {
+        width: 14px;
+        height: 14px;
+    }
+
+    .cell.dot::after {
+        width: 3px;
+        height: 3px;
+    }
+
+    .cell.power-pellet::after {
+        width: 10px;
+        height: 10px;
+    }
+
+    .mobile-controls {
+        display: flex;
+    }
+}
+
+@media (max-width: 400px) {
+    .cell {
+        width: 14px;
+        height: 14px;
+    }
+
+    .pacman-container,
+    .ghost-container {
+        width: 14px;
+        height: 14px;
+    }
+
+    .pacman {
+        width: 12px;
+        height: 12px;
+    }
+
+    .ghost {
+        width: 12px;
+        height: 12px;
+    }
+
+    .control-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+}
