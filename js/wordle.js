@@ -9,11 +9,30 @@
     // 載入單字庫
     async function loadWords() {
         try {
-            const response = await fetch('../data/wordle-words.json');
-            if (!response.ok) {
-                throw new Error('Failed to load word list');
+            // 嘗試不同路徑（支援從不同位置載入）
+            const paths = [
+                '../data/wordle-words.json',
+                './data/wordle-words.json',
+                '/data/wordle-words.json'
+            ];
+            
+            let data = null;
+            for (const path of paths) {
+                try {
+                    const response = await fetch(path);
+                    if (response.ok) {
+                        data = await response.json();
+                        break;
+                    }
+                } catch (e) {
+                    continue;
+                }
             }
-            const data = await response.json();
+            
+            if (!data) {
+                throw new Error('Failed to load word list from all paths');
+            }
+            
             WORDS = data.answers;
             // 有效猜測 = 答案單字 + 額外猜測單字
             VALID_GUESSES = new Set([...data.answers, ...data.extraGuesses]);
