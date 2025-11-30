@@ -2,225 +2,225 @@
 (function () {
     const STATS_KEY = 'rg-wordle-stats';
 
-    // 單字庫（常見的 5 字母英文單字）
-    const WORDS = [
-        'APPLE', 'BEACH', 'BRAIN', 'BREAD', 'BRUSH',
-        'CHAIR', 'CHARM', 'CHASE', 'CHESS', 'CHILD',
-        'CLEAN', 'CLEAR', 'CLIMB', 'CLOCK', 'CLOSE',
-        'CLOUD', 'COACH', 'COAST', 'CORAL', 'COUCH',
-        'COVER', 'CRAFT', 'CRASH', 'CRAZY', 'CREAM',
-        'CRISP', 'CROSS', 'CROWD', 'DANCE', 'DEPTH',
-        'DRAFT', 'DRAIN', 'DRAMA', 'DREAM', 'DRESS',
-        'DRINK', 'DRIVE', 'EARTH', 'ENJOY', 'ENTER',
-        'EVENT', 'EVERY', 'EXACT', 'EXTRA', 'FAITH',
-        'FALSE', 'FANCY', 'FAVOR', 'FEAST', 'FIELD',
-        'FIGHT', 'FINAL', 'FIRST', 'FLAME', 'FLASH',
-        'FLOOR', 'FLUID', 'FOCUS', 'FORCE', 'FORUM',
-        'FRAME', 'FRANK', 'FRESH', 'FRONT', 'FRUIT',
-        'GIANT', 'GLASS', 'GLOBE', 'GLOVE', 'GRACE',
-        'GRADE', 'GRAIN', 'GRAND', 'GRANT', 'GRAPE',
-        'GRAPH', 'GRASP', 'GRASS', 'GREAT', 'GREEN',
-        'GREET', 'GROUP', 'GROVE', 'GROWN', 'GUARD',
-        'GUESS', 'GUEST', 'GUIDE', 'HABIT', 'HAPPY',
-        'HARSH', 'HAVEN', 'HEART', 'HEAVY', 'HELLO',
-        'HENCE', 'HONEY', 'HONOR', 'HORSE', 'HOTEL',
-        'HOUSE', 'HUMAN', 'HUMOR', 'IDEAL', 'IMAGE',
-        'INDEX', 'INNER', 'INPUT', 'ISSUE', 'JAPAN',
-        'JEWEL', 'JOINT', 'JUDGE', 'JUICE', 'KNIFE',
-        'KNOWN', 'LABEL', 'LARGE', 'LASER', 'LATER',
-        'LAUGH', 'LAYER', 'LEARN', 'LEASE', 'LEAST',
-        'LEAVE', 'LEGAL', 'LEMON', 'LEVEL', 'LEVER',
-        'LIGHT', 'LIMIT', 'LINUX', 'LIVING','LOBBY',
-        'LOCAL', 'LOGIC', 'LOOSE', 'LOTUS', 'LOWER',
-        'LUCKY', 'LUNCH', 'MAGIC', 'MAJOR', 'MAKER',
-        'MARCH', 'MATCH', 'MAYBE', 'MAYOR', 'MEDIA',
-        'METAL', 'MIGHT', 'MINOR', 'MINUS', 'MIXED',
-        'MODEL', 'MONEY', 'MONTH', 'MORAL', 'MOTOR',
-        'MOUNT', 'MOUSE', 'MOUTH', 'MOVIE', 'MUSIC',
-        'NAVAL', 'NEVER', 'NIGHT', 'NOISE', 'NORTH',
-        'NOTED', 'NOVEL', 'NURSE', 'OCCUR', 'OCEAN',
-        'OFFER', 'OFTEN', 'OLIVE', 'ONION', 'OPERA',
-        'ORDER', 'ORGAN', 'OTHER', 'OUGHT', 'OUTER',
-        'OWNER', 'PAINT', 'PANEL', 'PAPER', 'PARTY',
-        'PASTA', 'PATCH', 'PAUSE', 'PEACE', 'PEACH',
-        'PEARL', 'PHASE', 'PHONE', 'PHOTO', 'PIANO',
-        'PIECE', 'PILOT', 'PITCH', 'PIZZA', 'PLACE',
-        'PLAIN', 'PLANE', 'PLANT', 'PLATE', 'PLAZA',
-        'POINT', 'POLAR', 'POUND', 'POWER', 'PRESS',
-        'PRICE', 'PRIDE', 'PRIME', 'PRINT', 'PRIOR',
-        'PRIZE', 'PROBE', 'PROOF', 'PROUD', 'PROVE',
-        'PROXY', 'PUPIL', 'QUEEN', 'QUERY', 'QUEST',
-        'QUICK', 'QUIET', 'QUITE', 'QUOTA', 'QUOTE',
-        'RADAR', 'RADIO', 'RAISE', 'RALLY', 'RANCH',
-        'RANGE', 'RAPID', 'RATIO', 'REACH', 'REACT',
-        'READY', 'REALM', 'REBEL', 'REFER', 'RELAX',
-        'REPLY', 'RIGHT', 'RIVER', 'ROBOT', 'ROCKY',
-        'ROMAN', 'ROUGH', 'ROUND', 'ROUTE', 'ROYAL',
-        'RUGBY', 'RURAL', 'SALAD', 'SALON', 'SAUCE',
-        'SCALE', 'SCENE', 'SCOPE', 'SCORE', 'SENSE',
-        'SERVE', 'SEVEN', 'SHADE', 'SHAKE', 'SHALL',
-        'SHAME', 'SHAPE', 'SHARE', 'SHARK', 'SHARP',
-        'SHEEP', 'SHEET', 'SHELF', 'SHELL', 'SHIFT',
-        'SHINE', 'SHIRT', 'SHOCK', 'SHOOT', 'SHORT',
-        'SHOUT', 'SIGHT', 'SIGMA', 'SILLY', 'SINCE',
-        'SKILL', 'SKULL', 'SLASH', 'SLAVE', 'SLEEP',
-        'SLICE', 'SLIDE', 'SLOPE', 'SMART', 'SMELL',
-        'SMILE', 'SMOKE', 'SNAKE', 'SOLAR', 'SOLID',
-        'SOLVE', 'SORRY', 'SOUND', 'SOUTH', 'SPACE',
-        'SPARE', 'SPARK', 'SPEAK', 'SPEED', 'SPELL',
-        'SPEND', 'SPICY', 'SPINE', 'SPLIT', 'SPORT',
-        'SPRAY', 'SQUAD', 'STACK', 'STAFF', 'STAGE',
-        'STAIR', 'STAKE', 'STAMP', 'STAND', 'START',
-        'STATE', 'STEAM', 'STEEL', 'STEEP', 'STEER',
-        'STICK', 'STILL', 'STOCK', 'STONE', 'STORE',
-        'STORM', 'STORY', 'STRIP', 'STUCK', 'STUDY',
-        'STUFF', 'STYLE', 'SUGAR', 'SUITE', 'SUNNY',
-        'SUPER', 'SURGE', 'SWEET', 'SWIFT', 'SWING',
-        'SWORD', 'TABLE', 'TASTE', 'TEACH', 'TEETH',
-        'TEMPO', 'TENSE', 'TERMS', 'THANK', 'THEFT',
-        'THEIR', 'THEME', 'THERE', 'THESE', 'THICK',
-        'THIEF', 'THING', 'THINK', 'THIRD', 'THOSE',
-        'THREE', 'THROW', 'THUMB', 'TIGER', 'TIGHT',
-        'TIMER', 'TITLE', 'TODAY', 'TOKEN', 'TOPIC',
-        'TOTAL', 'TOUCH', 'TOUGH', 'TOWER', 'TRACE',
-        'TRACK', 'TRADE', 'TRAIL', 'TRAIN', 'TRAIT',
-        'TRASH', 'TREAT', 'TREND', 'TRIAL', 'TRIBE',
-        'TRICK', 'TRIED', 'TRUCK', 'TRULY', 'TRUMP',
-        'TRUNK', 'TRUST', 'TRUTH', 'TUMOR', 'TUTOR',
-        'TWICE', 'TWIST', 'ULTRA', 'UNCLE', 'UNDER',
-        'UNION', 'UNITE', 'UNITY', 'UNTIL', 'UPPER',
-        'UPSET', 'URBAN', 'USAGE', 'USUAL', 'VALID',
-        'VALUE', 'VALVE', 'VIDEO', 'VIGOR', 'VIRAL',
-        'VIRUS', 'VISIT', 'VITAL', 'VIVID', 'VOCAL',
-        'VOICE', 'VOTER', 'WAGON', 'WASTE', 'WATCH',
-        'WATER', 'WEIGH', 'WEIRD', 'WHALE', 'WHEAT',
-        'WHEEL', 'WHERE', 'WHICH', 'WHILE', 'WHITE',
-        'WHOLE', 'WHOSE', 'WOMAN', 'WORLD', 'WORRY',
-        'WORSE', 'WORST', 'WORTH', 'WOULD', 'WOUND',
-        'WRIST', 'WRITE', 'WRONG', 'WROTE', 'YACHT',
-        'YOUNG', 'YOUTH', 'ZEBRA', 'ZONES'
-    ];
+    // 單字庫（將從 JSON 檔案載入）
+    let WORDS = [];
+    let VALID_GUESSES = new Set();
+
+    // 載入單字庫
+    async function loadWords() {
+        try {
+            const response = await fetch('../data/wordle-words.json');
+            if (!response.ok) {
+                throw new Error('Failed to load word list');
+            }
+            const data = await response.json();
+            WORDS = data.answers;
+            // 有效猜測 = 答案單字 + 額外猜測單字
+            VALID_GUESSES = new Set([...data.answers, ...data.extraGuesses]);
+            console.log(`Wordle 單字庫已載入：${WORDS.length} 個答案，${VALID_GUESSES.size} 個有效猜測`);
+            return true;
+        } catch (error) {
+            console.error('載入單字庫失敗:', error);
+            return false;
+        }
+    }
+
+    // 遊戲設定
+    const WORD_LENGTH = 5;
+    const MAX_ATTEMPTS = 6;
 
     // 遊戲狀態
     let targetWord = '';
     let currentRow = 0;
     let currentTile = 0;
-    let guesses = [];
-    let isGameOver = false;
-    let stats = { played: 0, won: 0, streak: 0, maxStreak: 0 };
+    let currentGuess = '';
+    let gameOver = false;
+    let stats = {
+        played: 0,
+        won: 0,
+        currentStreak: 0,
+        maxStreak: 0,
+        guessDistribution: [0, 0, 0, 0, 0, 0]
+    };
 
     // DOM 元素
-    const startScreen = document.getElementById('start-screen');
-    const gameOver = document.getElementById('game-over');
-    const gameBoard = document.getElementById('game-board');
-    const keyboard = document.getElementById('keyboard');
-    const messageDisplay = document.getElementById('message');
-    const startBtn = document.getElementById('start-btn');
-    const restartBtn = document.getElementById('restart-btn');
-    const shareBtn = document.getElementById('share-btn');
-    const attemptsDisplay = document.getElementById('attempts');
-    const winRateDisplay = document.getElementById('win-rate');
-    const streakDisplay = document.getElementById('streak');
-    const gameOverTitle = document.getElementById('game-over-title');
-    const answerDisplay = document.getElementById('answer-display');
-    const answerDisplayIDE = document.getElementById('answer-display-ide');
-    const finalAttempts = document.getElementById('final-attempts');
-    const finalAttemptsIDE = document.getElementById('final-attempts-ide');
+    let boardEl, keyboardEl, messageEl, newGameBtn, statsBtn, helpBtn;
+    let modalEl, modalContentEl, modalCloseBtn;
 
-    // 載入統計
+    // 初始化遊戲
+    async function init() {
+        // 先載入單字庫
+        const loaded = await loadWords();
+        if (!loaded) {
+            alert('無法載入單字庫，請重新整理頁面');
+            return;
+        }
+
+        // 獲取 DOM 元素
+        boardEl = document.getElementById('board');
+        keyboardEl = document.getElementById('keyboard');
+        messageEl = document.getElementById('message');
+        newGameBtn = document.getElementById('newGameBtn');
+        statsBtn = document.getElementById('statsBtn');
+        helpBtn = document.getElementById('helpBtn');
+        modalEl = document.getElementById('modal');
+        modalContentEl = document.getElementById('modalContent');
+        modalCloseBtn = document.getElementById('modalClose');
+
+        // 載入統計資料
+        loadStats();
+
+        // 建立遊戲板
+        createBoard();
+
+        // 建立鍵盤
+        createKeyboard();
+
+        // 綁定事件
+        bindEvents();
+
+        // 開始新遊戲
+        startNewGame();
+    }
+
+    // 載入統計資料
     function loadStats() {
         const saved = localStorage.getItem(STATS_KEY);
         if (saved) {
             stats = JSON.parse(saved);
         }
-        updateStatsDisplay();
     }
 
-    // 儲存統計
+    // 儲存統計資料
     function saveStats() {
         localStorage.setItem(STATS_KEY, JSON.stringify(stats));
     }
 
-    // 更新統計顯示
-    function updateStatsDisplay() {
-        const winRate = stats.played > 0 ? Math.round((stats.won / stats.played) * 100) : 0;
-        winRateDisplay.textContent = winRate + '%';
-        streakDisplay.textContent = stats.streak;
-    }
-
     // 建立遊戲板
     function createBoard() {
-        gameBoard.innerHTML = '';
-        for (let i = 0; i < 6; i++) {
+        boardEl.innerHTML = '';
+        for (let i = 0; i < MAX_ATTEMPTS; i++) {
             const row = document.createElement('div');
-            row.className = 'board-row';
-            row.dataset.row = i;
-            for (let j = 0; j < 5; j++) {
+            row.className = 'row';
+            for (let j = 0; j < WORD_LENGTH; j++) {
                 const tile = document.createElement('div');
                 tile.className = 'tile';
                 tile.dataset.row = i;
                 tile.dataset.col = j;
                 row.appendChild(tile);
             }
-            gameBoard.appendChild(row);
+            boardEl.appendChild(row);
         }
     }
 
-    // 選擇隨機單字
-    function selectWord() {
-        return WORDS[Math.floor(Math.random() * WORDS.length)];
-    }
+    // 建立鍵盤
+    function createKeyboard() {
+        const rows = [
+            ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+            ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+            ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '⌫']
+        ];
 
-    // 開始遊戲
-    function startGame() {
-        targetWord = selectWord();
-        currentRow = 0;
-        currentTile = 0;
-        guesses = [];
-        isGameOver = false;
-
-        attemptsDisplay.textContent = '0/6';
-        loadStats();
-        createBoard();
-        resetKeyboard();
-
-        startScreen.classList.add('hidden');
-        gameOver.classList.add('hidden');
-        gameBoard.classList.remove('hidden');
-        keyboard.classList.remove('hidden');
-
-        // Debug 用（正式版移除）
-        // console.log('Target:', targetWord);
-    }
-
-    // 重置鍵盤
-    function resetKeyboard() {
-        const keys = keyboard.querySelectorAll('.key');
-        keys.forEach(key => {
-            key.classList.remove('correct', 'present', 'absent');
+        keyboardEl.innerHTML = '';
+        rows.forEach(row => {
+            const rowEl = document.createElement('div');
+            rowEl.className = 'keyboard-row';
+            row.forEach(key => {
+                const keyEl = document.createElement('button');
+                keyEl.className = 'key';
+                keyEl.textContent = key;
+                keyEl.dataset.key = key;
+                if (key === 'ENTER' || key === '⌫') {
+                    keyEl.classList.add('wide');
+                }
+                rowEl.appendChild(keyEl);
+            });
+            keyboardEl.appendChild(rowEl);
         });
     }
 
-    // 處理按鍵輸入
-    function handleKey(key) {
-        if (isGameOver) return;
+    // 綁定事件
+    function bindEvents() {
+        // 鍵盤點擊
+        keyboardEl.addEventListener('click', e => {
+            if (e.target.classList.contains('key')) {
+                handleKeyPress(e.target.dataset.key);
+            }
+        });
+
+        // 實體鍵盤
+        document.addEventListener('keydown', e => {
+            if (modalEl.classList.contains('active')) return;
+            
+            if (e.key === 'Enter') {
+                handleKeyPress('ENTER');
+            } else if (e.key === 'Backspace') {
+                handleKeyPress('⌫');
+            } else if (/^[a-zA-Z]$/.test(e.key)) {
+                handleKeyPress(e.key.toUpperCase());
+            }
+        });
+
+        // 按鈕
+        newGameBtn.addEventListener('click', startNewGame);
+        statsBtn.addEventListener('click', showStats);
+        helpBtn.addEventListener('click', showHelp);
+        modalCloseBtn.addEventListener('click', closeModal);
+        modalEl.addEventListener('click', e => {
+            if (e.target === modalEl) closeModal();
+        });
+    }
+
+    // 開始新遊戲
+    function startNewGame() {
+        targetWord = WORDS[Math.floor(Math.random() * WORDS.length)];
+        currentRow = 0;
+        currentTile = 0;
+        currentGuess = '';
+        gameOver = false;
+
+        // 重置遊戲板
+        const tiles = boardEl.querySelectorAll('.tile');
+        tiles.forEach(tile => {
+            tile.textContent = '';
+            tile.className = 'tile';
+        });
+
+        // 重置鍵盤
+        const keys = keyboardEl.querySelectorAll('.key');
+        keys.forEach(key => {
+            key.className = 'key';
+            if (key.dataset.key === 'ENTER' || key.dataset.key === '⌫') {
+                key.classList.add('wide');
+            }
+        });
+
+        // 清除訊息
+        showMessage('');
+        closeModal();
+    }
+
+    // 處理按鍵
+    function handleKeyPress(key) {
+        if (gameOver) return;
 
         if (key === 'ENTER') {
             submitGuess();
-        } else if (key === 'BACKSPACE') {
+        } else if (key === '⌫') {
             deleteLetter();
-        } else if (/^[A-Z]$/.test(key)) {
+        } else if (currentTile < WORD_LENGTH) {
             addLetter(key);
         }
     }
 
-    // 新增字母
+    // 添加字母
     function addLetter(letter) {
-        if (currentTile >= 5) return;
+        if (currentTile >= WORD_LENGTH) return;
 
-        const tile = gameBoard.querySelector(`[data-row="${currentRow}"][data-col="${currentTile}"]`);
+        const tile = getTile(currentRow, currentTile);
         tile.textContent = letter;
         tile.classList.add('filled');
+        currentGuess += letter;
         currentTile++;
     }
 
@@ -229,48 +229,40 @@
         if (currentTile <= 0) return;
 
         currentTile--;
-        const tile = gameBoard.querySelector(`[data-row="${currentRow}"][data-col="${currentTile}"]`);
+        const tile = getTile(currentRow, currentTile);
         tile.textContent = '';
         tile.classList.remove('filled');
-    }
-
-    // 取得目前行的猜測
-    function getCurrentGuess() {
-        let guess = '';
-        for (let i = 0; i < 5; i++) {
-            const tile = gameBoard.querySelector(`[data-row="${currentRow}"][data-col="${i}"]`);
-            guess += tile.textContent;
-        }
-        return guess;
+        currentGuess = currentGuess.slice(0, -1);
     }
 
     // 提交猜測
     function submitGuess() {
-        const guess = getCurrentGuess();
-
-        if (guess.length !== 5) {
-            showMessage('請輸入 5 個字母！');
-            shakeRow();
+        if (currentGuess.length !== WORD_LENGTH) {
+            showMessage('請輸入 5 個字母');
+            shakeRow(currentRow);
             return;
         }
 
-        // 驗證是否為有效單字（簡化版：只檢查是否在單字庫中）
-        // 若要更嚴格可加入完整字典驗證
-        
-        guesses.push(guess);
-        revealRow(guess);
+        // 驗證是否為有效單字
+        if (!VALID_GUESSES.has(currentGuess)) {
+            showMessage('不是有效的英文單字');
+            shakeRow(currentRow);
+            return;
+        }
+
+        // 檢查結果
+        const result = checkGuess(currentGuess);
+        revealResult(result);
     }
 
-    // 揭示結果
-    function revealRow(guess) {
-        const row = gameBoard.querySelector(`[data-row="${currentRow}"]`);
-        const tiles = row.querySelectorAll('.tile');
+    // 檢查猜測結果
+    function checkGuess(guess) {
+        const result = [];
         const targetLetters = targetWord.split('');
         const guessLetters = guess.split('');
-        const result = new Array(5).fill('absent');
 
-        // 第一輪：找出完全正確的
-        for (let i = 0; i < 5; i++) {
+        // 第一輪：標記正確位置（綠色）
+        for (let i = 0; i < WORD_LENGTH; i++) {
             if (guessLetters[i] === targetLetters[i]) {
                 result[i] = 'correct';
                 targetLetters[i] = null;
@@ -278,173 +270,223 @@
             }
         }
 
-        // 第二輪：找出位置錯誤但存在的
-        for (let i = 0; i < 5; i++) {
-            if (guessLetters[i] !== null) {
-                const index = targetLetters.indexOf(guessLetters[i]);
-                if (index !== -1) {
-                    result[i] = 'present';
-                    targetLetters[index] = null;
-                }
+        // 第二輪：標記錯誤位置（黃色）和不存在（灰色）
+        for (let i = 0; i < WORD_LENGTH; i++) {
+            if (guessLetters[i] === null) continue;
+
+            const index = targetLetters.indexOf(guessLetters[i]);
+            if (index !== -1) {
+                result[i] = 'present';
+                targetLetters[index] = null;
+            } else {
+                result[i] = 'absent';
             }
         }
 
-        // 動畫揭示
+        return result;
+    }
+
+    // 顯示結果
+    function revealResult(result) {
+        const row = boardEl.children[currentRow];
+        const tiles = row.querySelectorAll('.tile');
+
         tiles.forEach((tile, i) => {
             setTimeout(() => {
-                tile.classList.add('reveal', result[i]);
-                updateKeyboard(guess[i], result[i]);
-
-                // 最後一個 tile 揭示後檢查結果
-                if (i === 4) {
-                    setTimeout(() => checkResult(guess), 300);
-                }
+                tile.classList.add('flip');
+                setTimeout(() => {
+                    tile.classList.add(result[i]);
+                    updateKeyboard(currentGuess[i], result[i]);
+                }, 250);
             }, i * 300);
         });
+
+        // 等待動畫完成後檢查遊戲狀態
+        setTimeout(() => {
+            if (currentGuess === targetWord) {
+                gameWon();
+            } else if (currentRow >= MAX_ATTEMPTS - 1) {
+                gameLost();
+            } else {
+                currentRow++;
+                currentTile = 0;
+                currentGuess = '';
+            }
+        }, WORD_LENGTH * 300 + 500);
     }
 
     // 更新鍵盤顏色
-    function updateKeyboard(letter, status) {
-        const key = keyboard.querySelector(`[data-key="${letter}"]`);
+    function updateKeyboard(letter, state) {
+        const key = keyboardEl.querySelector(`[data-key="${letter}"]`);
         if (!key) return;
 
-        // 只能升級狀態：absent -> present -> correct
+        // 優先級：correct > present > absent
         if (key.classList.contains('correct')) return;
-        if (key.classList.contains('present') && status !== 'correct') return;
-
+        if (key.classList.contains('present') && state !== 'correct') return;
+        
         key.classList.remove('absent', 'present', 'correct');
-        key.classList.add(status);
+        key.classList.add(state);
     }
 
-    // 檢查結果
-    function checkResult(guess) {
-        if (guess === targetWord) {
-            // 贏了
-            isGameOver = true;
-            stats.played++;
-            stats.won++;
-            stats.streak++;
-            if (stats.streak > stats.maxStreak) {
-                stats.maxStreak = stats.streak;
-            }
-            saveStats();
-            showGameOver(true);
-        } else if (currentRow >= 5) {
-            // 輸了
-            isGameOver = true;
-            stats.played++;
-            stats.streak = 0;
-            saveStats();
-            showGameOver(false);
-        } else {
-            // 繼續
-            currentRow++;
-            currentTile = 0;
-            attemptsDisplay.textContent = `${currentRow}/6`;
-        }
+    // 遊戲勝利
+    function gameWon() {
+        gameOver = true;
+        const messages = ['天才！', '太厲害了！', '好棒！', '不錯！', '好險！', '呼！'];
+        showMessage(messages[currentRow]);
+
+        // 更新統計
+        stats.played++;
+        stats.won++;
+        stats.currentStreak++;
+        stats.maxStreak = Math.max(stats.maxStreak, stats.currentStreak);
+        stats.guessDistribution[currentRow]++;
+        saveStats();
+
+        // 勝利動畫
+        const row = boardEl.children[currentRow];
+        const tiles = row.querySelectorAll('.tile');
+        tiles.forEach((tile, i) => {
+            setTimeout(() => {
+                tile.classList.add('bounce');
+            }, i * 100);
+        });
+
+        setTimeout(showStats, 2000);
     }
 
-    // 顯示遊戲結束畫面
-    function showGameOver(won) {
-        answerDisplay.textContent = targetWord;
-        answerDisplayIDE.textContent = targetWord;
-        finalAttempts.textContent = currentRow + 1;
-        finalAttemptsIDE.textContent = currentRow + 1;
+    // 遊戲失敗
+    function gameLost() {
+        gameOver = true;
+        showMessage(`答案是：${targetWord}`);
 
-        if (won) {
-            gameOverTitle.classList.remove('lose');
-            gameOverTitle.innerHTML = `
-                <span class="normal-title">🎉 太棒了！</span>
-                <span class="ide-title">// SUCCESS!</span>
-            `;
-        } else {
-            gameOverTitle.classList.add('lose');
-            gameOverTitle.innerHTML = `
-                <span class="normal-title">😢 可惜！</span>
-                <span class="ide-title">// FAILED!</span>
-            `;
-        }
+        // 更新統計
+        stats.played++;
+        stats.currentStreak = 0;
+        saveStats();
 
-        setTimeout(() => {
-            gameOver.classList.remove('hidden');
-        }, 500);
+        setTimeout(showStats, 2000);
     }
 
     // 顯示訊息
     function showMessage(text) {
-        messageDisplay.textContent = text;
-        messageDisplay.classList.remove('hidden');
-        setTimeout(() => {
-            messageDisplay.classList.add('hidden');
-        }, 1500);
+        messageEl.textContent = text;
     }
 
-    // 抖動行
-    function shakeRow() {
-        const row = gameBoard.querySelector(`[data-row="${currentRow}"]`);
+    // 搖動行
+    function shakeRow(rowIndex) {
+        const row = boardEl.children[rowIndex];
         row.classList.add('shake');
-        setTimeout(() => row.classList.remove('shake'), 300);
+        setTimeout(() => {
+            row.classList.remove('shake');
+        }, 500);
     }
 
-    // 複製結果
-    function copyResult() {
-        const emojis = guesses.map(guess => {
-            let row = '';
-            for (let i = 0; i < 5; i++) {
-                if (guess[i] === targetWord[i]) {
-                    row += '🟩';
-                } else if (targetWord.includes(guess[i])) {
-                    row += '🟨';
-                } else {
-                    row += '⬜';
-                }
-            }
-            return row;
-        }).join('\n');
-
-        const result = `RG's Wordle\n${guesses.length}/6\n\n${emojis}`;
-
-        navigator.clipboard.writeText(result).then(() => {
-            showMessage('已複製到剪貼簿！');
-        }).catch(() => {
-            showMessage('複製失敗');
-        });
+    // 取得方塊
+    function getTile(row, col) {
+        return boardEl.querySelector(`[data-row="${row}"][data-col="${col}"]`);
     }
 
-    // 事件監聽：虛擬鍵盤
-    keyboard.addEventListener('click', (e) => {
-        const key = e.target.closest('.key');
-        if (key) {
-            handleKey(key.dataset.key);
+    // 顯示統計
+    function showStats() {
+        const winRate = stats.played > 0 ? Math.round((stats.won / stats.played) * 100) : 0;
+        const maxDist = Math.max(...stats.guessDistribution, 1);
+
+        let html = `
+            <h2>統計資料</h2>
+            <div class="stats-grid">
+                <div class="stat">
+                    <div class="stat-value">${stats.played}</div>
+                    <div class="stat-label">遊戲次數</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">${winRate}</div>
+                    <div class="stat-label">勝率 %</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">${stats.currentStreak}</div>
+                    <div class="stat-label">目前連勝</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">${stats.maxStreak}</div>
+                    <div class="stat-label">最高連勝</div>
+                </div>
+            </div>
+            <h3>猜測分布</h3>
+            <div class="distribution">
+        `;
+
+        for (let i = 0; i < 6; i++) {
+            const count = stats.guessDistribution[i];
+            const width = Math.max((count / maxDist) * 100, 8);
+            const isLast = gameOver && i === currentRow && currentGuess === targetWord;
+            html += `
+                <div class="dist-row">
+                    <div class="dist-label">${i + 1}</div>
+                    <div class="dist-bar ${isLast ? 'highlight' : ''}" style="width: ${width}%">${count}</div>
+                </div>
+            `;
         }
-    });
 
-    // 事件監聽：實體鍵盤
-    document.addEventListener('keydown', (e) => {
-        if (startScreen.classList.contains('hidden') && gameOver.classList.contains('hidden')) {
-            if (e.key === 'Enter') {
-                handleKey('ENTER');
-            } else if (e.key === 'Backspace') {
-                handleKey('BACKSPACE');
-            } else if (/^[a-zA-Z]$/.test(e.key)) {
-                handleKey(e.key.toUpperCase());
-            }
-        }
-    });
-
-    // 事件監聽：按鈕
-    startBtn.addEventListener('click', startGame);
-    restartBtn.addEventListener('click', startGame);
-    shareBtn.addEventListener('click', copyResult);
-
-    // 初始化
-    function init() {
-        loadStats();
-        gameBoard.classList.add('hidden');
-        keyboard.classList.add('hidden');
-        gameOver.classList.add('hidden');
-        startScreen.classList.remove('hidden');
+        html += '</div>';
+        showModal(html);
     }
 
+    // 顯示說明
+    function showHelp() {
+        const html = `
+            <h2>遊戲規則</h2>
+            <p>在 6 次嘗試內猜出 5 個字母的英文單字。</p>
+            <p>每次猜測後，方塊顏色會改變以顯示你的猜測與答案的接近程度。</p>
+            
+            <div class="example">
+                <div class="example-row">
+                    <div class="tile correct">W</div>
+                    <div class="tile">E</div>
+                    <div class="tile">A</div>
+                    <div class="tile">R</div>
+                    <div class="tile">Y</div>
+                </div>
+                <p><strong>W</strong> 在正確的位置（綠色）</p>
+            </div>
+            
+            <div class="example">
+                <div class="example-row">
+                    <div class="tile">P</div>
+                    <div class="tile present">I</div>
+                    <div class="tile">L</div>
+                    <div class="tile">O</div>
+                    <div class="tile">T</div>
+                </div>
+                <p><strong>I</strong> 在單字中但位置錯誤（黃色）</p>
+            </div>
+            
+            <div class="example">
+                <div class="example-row">
+                    <div class="tile">V</div>
+                    <div class="tile">A</div>
+                    <div class="tile">G</div>
+                    <div class="tile absent">U</div>
+                    <div class="tile">E</div>
+                </div>
+                <p><strong>U</strong> 不在單字中（灰色）</p>
+            </div>
+            
+            <p>📝 只能輸入真正的英文單字！</p>
+        `;
+        showModal(html);
+    }
+
+    // 顯示彈窗
+    function showModal(content) {
+        modalContentEl.innerHTML = content;
+        modalEl.classList.add('active');
+    }
+
+    // 關閉彈窗
+    function closeModal() {
+        modalEl.classList.remove('active');
+    }
+
+    // 啟動遊戲
     init();
 })();
