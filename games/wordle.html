@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordle 猜單字 - RG's Mini Arcade</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/wordle.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="title">
+                <span class="normal-title">🧩 Wordle 猜單字</span>
+                <span class="ide-title">// wordle.exe</span>
+            </h1>
+            <div class="header-buttons">
+                <a href="../index.html" class="back-btn">
+                    <span class="normal-title">🏠 返回選單</span>
+                    <span class="ide-title">← return;</span>
+                </a>
+                <button id="theme-toggle" class="theme-btn">
+                    <span class="normal-mode">💻 IDE 模式</span>
+                    <span class="ide-mode">🎮 一般模式</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="game-area">
+            <div class="game-stats">
+                <div class="stat">
+                    <span class="stat-label">
+                        <span class="normal-title">嘗試</span>
+                        <span class="ide-title">attempts:</span>
+                    </span>
+                    <span id="attempts" class="stat-value">0/6</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">
+                        <span class="normal-title">勝率</span>
+                        <span class="ide-title">winRate:</span>
+                    </span>
+                    <span id="win-rate" class="stat-value">-%</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">
+                        <span class="normal-title">連勝</span>
+                        <span class="ide-title">streak:</span>
+                    </span>
+                    <span id="streak" class="stat-value">0</span>
+                </div>
+            </div>
+
+            <!-- 遊戲板 -->
+            <div id="game-board" class="game-board hidden">
+                <!-- 6 行，每行 5 個格子 -->
+            </div>
+
+            <!-- 虛擬鍵盤 -->
+            <div id="keyboard" class="keyboard hidden">
+                <div class="keyboard-row">
+                    <button class="key" data-key="Q">Q</button>
+                    <button class="key" data-key="W">W</button>
+                    <button class="key" data-key="E">E</button>
+                    <button class="key" data-key="R">R</button>
+                    <button class="key" data-key="T">T</button>
+                    <button class="key" data-key="Y">Y</button>
+                    <button class="key" data-key="U">U</button>
+                    <button class="key" data-key="I">I</button>
+                    <button class="key" data-key="O">O</button>
+                    <button class="key" data-key="P">P</button>
+                </div>
+                <div class="keyboard-row">
+                    <button class="key" data-key="A">A</button>
+                    <button class="key" data-key="S">S</button>
+                    <button class="key" data-key="D">D</button>
+                    <button class="key" data-key="F">F</button>
+                    <button class="key" data-key="G">G</button>
+                    <button class="key" data-key="H">H</button>
+                    <button class="key" data-key="J">J</button>
+                    <button class="key" data-key="K">K</button>
+                    <button class="key" data-key="L">L</button>
+                </div>
+                <div class="keyboard-row">
+                    <button class="key key-wide" data-key="ENTER">
+                        <span class="normal-title">確認</span>
+                        <span class="ide-title">⏎</span>
+                    </button>
+                    <button class="key" data-key="Z">Z</button>
+                    <button class="key" data-key="X">X</button>
+                    <button class="key" data-key="C">C</button>
+                    <button class="key" data-key="V">V</button>
+                    <button class="key" data-key="B">B</button>
+                    <button class="key" data-key="N">N</button>
+                    <button class="key" data-key="M">M</button>
+                    <button class="key key-wide" data-key="BACKSPACE">
+                        <span class="normal-title">⌫</span>
+                        <span class="ide-title">⌫</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 訊息提示 -->
+            <div id="message" class="message hidden"></div>
+
+            <!-- 遊戲結束畫面 -->
+            <div id="game-over" class="game-over hidden">
+                <h2 id="game-over-title">
+                    <span class="normal-title">🎉 太棒了！</span>
+                    <span class="ide-title">// SUCCESS!</span>
+                </h2>
+                <div class="game-over-stats">
+                    <p class="answer-reveal">
+                        <span class="normal-title">答案是：<strong id="answer-display">HELLO</strong></span>
+                        <span class="ide-title">answer = "<strong id="answer-display-ide">HELLO</strong>";</span>
+                    </p>
+                    <p>
+                        <span class="normal-title">
+                            嘗試次數：<strong id="final-attempts">0</strong>/6
+                        </span>
+                        <span class="ide-title">
+                            attempts: <strong id="final-attempts-ide">0</strong>/6;
+                        </span>
+                    </p>
+                </div>
+                <div class="game-over-buttons">
+                    <button id="restart-btn" class="restart-btn">
+                        <span class="normal-title">🔄 再玩一次</span>
+                        <span class="ide-title">restart()</span>
+                    </button>
+                    <button id="share-btn" class="back-menu-btn">
+                        <span class="normal-title">📋 複製結果</span>
+                        <span class="ide-title">copy()</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 開始畫面 -->
+            <div id="start-screen" class="start-screen">
+                <h2>
+                    <span class="normal-title">🧩 Wordle 猜單字</span>
+                    <span class="ide-title">// wordle()</span>
+                </h2>
+                <p class="game-desc">
+                    <span class="normal-title">
+                        猜出 5 個字母的英文單字！<br>
+                        🟩 <span class="green-hint">綠色</span> = 字母正確且位置對<br>
+                        🟨 <span class="yellow-hint">黃色</span> = 字母正確但位置錯<br>
+                        ⬜ 灰色 = 字母不存在
+                    </span>
+                    <span class="ide-title">
+                        /* Guess the 5-letter word!<br>
+                        🟩 green = correct position<br>
+                        🟨 yellow = wrong position<br>
+                        ⬜ gray = not in word */
+                    </span>
+                </p>
+
+                <button id="start-btn" class="start-btn">
+                    <span class="normal-title">🚀 開始遊戲</span>
+                    <span class="ide-title">start()</span>
+                </button>
+            </div>
+        </main>
+
+        <footer>
+            <p class="normal-title">Made with ❤️ by RG</p>
+            <p class="ide-title">// Copyright © 2025 RG. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="../js/theme.js"></script>
+    <script src="../js/wordle.js"></script>
+</body>
+</html>

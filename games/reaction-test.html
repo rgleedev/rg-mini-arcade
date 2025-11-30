@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>反應力測試 - RG's Mini Arcade</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/reaction-test.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="title">
+                <span class="normal-title">⚡ 反應力測試</span>
+                <span class="ide-title">// reactionTest.exe</span>
+            </h1>
+            <div class="header-buttons">
+                <a href="../index.html" class="back-btn">
+                    <span class="normal-title">🏠 返回選單</span>
+                    <span class="ide-title">← return;</span>
+                </a>
+                <button id="theme-toggle" class="theme-btn">
+                    <span class="normal-mode">💻 IDE 模式</span>
+                    <span class="ide-mode">🎮 一般模式</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="game-area">
+            <div class="game-stats">
+                <div class="stat">
+                    <span class="stat-label">
+                        <span class="normal-title">回合</span>
+                        <span class="ide-title">round:</span>
+                    </span>
+                    <span id="round" class="stat-value">0/5</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">
+                        <span class="normal-title">平均反應</span>
+                        <span class="ide-title">avgTime:</span>
+                    </span>
+                    <span id="avg-time" class="stat-value">- ms</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">
+                        <span class="normal-title">最佳紀錄</span>
+                        <span class="ide-title">bestRecord:</span>
+                    </span>
+                    <span id="best-record" class="stat-value">- ms</span>
+                </div>
+            </div>
+
+            <!-- 反應區域 -->
+            <div id="reaction-area" class="reaction-area waiting hidden">
+                <div class="reaction-content">
+                    <span id="reaction-text" class="reaction-text">
+                        <span class="normal-title">等待綠色...</span>
+                        <span class="ide-title">await greenSignal();</span>
+                    </span>
+                    <span id="reaction-time" class="reaction-time hidden"></span>
+                </div>
+            </div>
+
+            <!-- 結果紀錄 -->
+            <div id="results-section" class="results-section hidden">
+                <h3>
+                    <span class="normal-title">反應紀錄</span>
+                    <span class="ide-title">// Results Log</span>
+                </h3>
+                <div id="results" class="results"></div>
+            </div>
+
+            <!-- 遊戲結束畫面 -->
+            <div id="game-over" class="game-over hidden">
+                <h2>
+                    <span class="normal-title">🎯 測試完成！</span>
+                    <span class="ide-title">// Test Complete!</span>
+                </h2>
+                <div class="game-over-stats">
+                    <p>
+                        <span class="normal-title">
+                            平均反應時間：<strong id="final-avg">0</strong> ms<br>
+                            最快反應：<strong id="final-best">0</strong> ms<br>
+                            最慢反應：<strong id="final-worst">0</strong> ms
+                        </span>
+                        <span class="ide-title">
+                            avgTime: <strong id="final-avg-ide">0</strong>ms;<br>
+                            bestTime: <strong id="final-best-ide">0</strong>ms;<br>
+                            worstTime: <strong id="final-worst-ide">0</strong>ms;
+                        </span>
+                    </p>
+                    <div id="rating" class="rating"></div>
+                </div>
+                <div class="game-over-buttons">
+                    <button id="restart-btn" class="restart-btn">
+                        <span class="normal-title">🔄 再測一次</span>
+                        <span class="ide-title">restart()</span>
+                    </button>
+                    <button id="change-rounds-btn" class="back-menu-btn">
+                        <span class="normal-title">⚙️ 更換回合數</span>
+                        <span class="ide-title">setRounds()</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 開始畫面 -->
+            <div id="start-screen" class="start-screen">
+                <h2>
+                    <span class="normal-title">⚡ 反應力測試</span>
+                    <span class="ide-title">// reactionTest()</span>
+                </h2>
+                <p class="game-desc">
+                    <span class="normal-title">
+                        測試你的反應速度！<br>
+                        當畫面變成<span class="green-text">綠色</span>時立即點擊！<br>
+                        <small>⚠️ 提早點擊會重來該回合</small>
+                    </span>
+                    <span class="ide-title">
+                        /* Test your reaction speed!<br>
+                        Click when screen turns green!<br>
+                        Early click = retry round */
+                    </span>
+                </p>
+
+                <div class="rounds-selection">
+                    <h3>
+                        <span class="normal-title">選擇回合數</span>
+                        <span class="ide-title">// Rounds</span>
+                    </h3>
+                    <div class="rounds-buttons">
+                        <button class="rounds-btn" data-rounds="3">
+                            <span class="normal-title">3 回合</span>
+                            <span class="ide-title">3</span>
+                        </button>
+                        <button class="rounds-btn active" data-rounds="5">
+                            <span class="normal-title">5 回合</span>
+                            <span class="ide-title">5</span>
+                        </button>
+                        <button class="rounds-btn" data-rounds="10">
+                            <span class="normal-title">10 回合</span>
+                            <span class="ide-title">10</span>
+                        </button>
+                    </div>
+                </div>
+
+                <button id="start-btn" class="start-btn">
+                    <span class="normal-title">🚀 開始測試</span>
+                    <span class="ide-title">start()</span>
+                </button>
+            </div>
+        </main>
+
+        <footer>
+            <p class="normal-title">Made with ❤️ by RG</p>
+            <p class="ide-title">// Copyright © 2025 RG. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="../js/theme.js"></script>
+    <script src="../js/reaction-test.js"></script>
+</body>
+</html>

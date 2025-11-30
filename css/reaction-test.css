@@ -1,0 +1,334 @@
+/* ===== 反應區域 ===== */
+.reaction-area {
+    width: 100%;
+    max-width: 500px;
+    height: 300px;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.1s ease;
+    margin-bottom: 20px;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.reaction-area.waiting {
+    background-color: #e53e3e;
+}
+
+.reaction-area.ready {
+    background-color: #38a169;
+}
+
+.reaction-area.too-early {
+    background-color: #d69e2e;
+}
+
+.reaction-area.result {
+    background-color: var(--accent);
+}
+
+body.ide-mode .reaction-area.waiting {
+    background-color: #f14c4c;
+}
+
+body.ide-mode .reaction-area.ready {
+    background-color: #4ec9b0;
+}
+
+body.ide-mode .reaction-area.too-early {
+    background-color: #dcdcaa;
+}
+
+.reaction-content {
+    text-align: center;
+    color: white;
+}
+
+.reaction-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: block;
+}
+
+.reaction-time {
+    font-size: 3rem;
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+
+.green-text {
+    color: #38a169;
+    font-weight: bold;
+}
+
+body.ide-mode .green-text {
+    color: #4ec9b0;
+}
+
+/* ===== 結果紀錄 ===== */
+.results-section {
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: var(--card-shadow);
+    width: 100%;
+    max-width: 500px;
+}
+
+.results-section h3 {
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.results {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.result-item {
+    background-color: var(--bg-primary);
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    border-left: 3px solid var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: pop 0.3s ease;
+}
+
+.result-round {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.result-time {
+    font-weight: bold;
+    color: var(--text-primary);
+}
+
+.result-item.fast {
+    border-left-color: #38a169;
+}
+
+.result-item.fast .result-time {
+    color: #38a169;
+}
+
+.result-item.medium {
+    border-left-color: #d69e2e;
+}
+
+.result-item.medium .result-time {
+    color: #d69e2e;
+}
+
+.result-item.slow {
+    border-left-color: #e53e3e;
+}
+
+.result-item.slow .result-time {
+    color: #e53e3e;
+}
+
+body.ide-mode .result-item.fast {
+    border-left-color: #4ec9b0;
+}
+
+body.ide-mode .result-item.fast .result-time {
+    color: #4ec9b0;
+}
+
+body.ide-mode .result-item.medium {
+    border-left-color: #dcdcaa;
+}
+
+body.ide-mode .result-item.medium .result-time {
+    color: #dcdcaa;
+}
+
+body.ide-mode .result-item.slow {
+    border-left-color: #f14c4c;
+}
+
+body.ide-mode .result-item.slow .result-time {
+    color: #f14c4c;
+}
+
+/* ===== 回合選擇 ===== */
+.rounds-selection {
+    margin: 25px 0;
+}
+
+.rounds-selection h3 {
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.rounds-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.rounds-btn {
+    padding: 12px 25px;
+    background-color: var(--bg-primary);
+    border: 2px solid var(--text-secondary);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.rounds-btn:hover {
+    border-color: var(--accent);
+}
+
+.rounds-btn.active {
+    border-color: var(--accent);
+    background-color: var(--accent);
+    color: white;
+}
+
+/* ===== 評分 ===== */
+.rating {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+
+.rating-title {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+}
+
+.rating-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.rating.excellent .rating-value {
+    color: #38a169;
+}
+
+.rating.good .rating-value {
+    color: #3182ce;
+}
+
+.rating.average .rating-value {
+    color: #d69e2e;
+}
+
+.rating.slow .rating-value {
+    color: #e53e3e;
+}
+
+body.ide-mode .rating.excellent .rating-value {
+    color: #4ec9b0;
+}
+
+body.ide-mode .rating.good .rating-value {
+    color: #569cd6;
+}
+
+body.ide-mode .rating.average .rating-value {
+    color: #dcdcaa;
+}
+
+body.ide-mode .rating.slow .rating-value {
+    color: #f14c4c;
+}
+
+/* ===== 遊戲結束畫面 ===== */
+.game-over-stats {
+    margin-bottom: 25px;
+}
+
+.game-over-stats p {
+    color: var(--text-primary);
+    line-height: 1.8;
+    font-size: 1.1rem;
+}
+
+.game-over-stats strong {
+    color: var(--accent);
+}
+
+.game-over-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ===== 動畫 ===== */
+@keyframes pop {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+.reaction-area.waiting {
+    animation: pulse 2s infinite;
+}
+
+.reaction-area.ready {
+    animation: none;
+}
+
+/* ===== 響應式設計 ===== */
+@media (max-width: 600px) {
+    .reaction-area {
+        height: 250px;
+    }
+
+    .reaction-text {
+        font-size: 1.2rem;
+    }
+
+    .reaction-time {
+        font-size: 2.5rem;
+    }
+
+    .rounds-btn {
+        padding: 10px 20px;
+    }
+
+    .game-over {
+        width: 90%;
+        padding: 25px;
+    }
+}
+
+/* ===== IDE 模式特效 ===== */
+body.ide-mode .reaction-area {
+    border-radius: 4px;
+    border: 1px solid var(--accent);
+}
+
+body.ide-mode .result-item {
+    font-family: 'Consolas', 'Courier New', monospace;
+}
+
+body.ide-mode .start-screen,
+body.ide-mode .game-over {
+    border: 1px solid var(--accent);
+}
