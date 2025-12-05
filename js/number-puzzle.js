@@ -255,7 +255,7 @@ function endGame() {
     const seconds = elapsed % 60;
     const timeStr = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
-    const difficultyText = size === 3 ? '簡單' : size === 4 ? '中等' : size === 5 ? '困難' : '專家';
+    const difficultyText = gameState.size === 3 ? '簡單' : gameState.size === 4 ? '中等' : gameState.size === 5 ? '困難' : '專家';
 
     winStatsDisplay.innerHTML = `
         <span class="normal-title">
