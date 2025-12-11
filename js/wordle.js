@@ -147,6 +147,42 @@
         // 分享按鈕
         shareBtn.addEventListener('click', shareResult);
 
+        // 最小化按鈕
+        const minimizeBtn = document.getElementById('minimize-btn');
+        const restoreBtn = document.getElementById('restore-btn');
+
+        minimizeBtn.addEventListener('click', () => {
+            gameOverScreen.classList.add('minimized');
+            restoreBtn.classList.remove('hidden');
+        });
+
+        // 恢復按鈕
+        restoreBtn.addEventListener('click', () => {
+            gameOverScreen.classList.remove('minimized');
+            restoreBtn.classList.add('hidden');
+        });
+
+        // ESC 鍵切換最小化/恢復
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && !gameOverScreen.classList.contains('hidden')) {
+                if (gameOverScreen.classList.contains('minimized')) {
+                    gameOverScreen.classList.remove('minimized');
+                    restoreBtn.classList.add('hidden');
+                } else {
+                    gameOverScreen.classList.add('minimized');
+                    restoreBtn.classList.remove('hidden');
+                }
+            }
+        });
+
+        // 點擊背景恢復視窗
+        gameOverScreen.addEventListener('click', e => {
+            if (e.target === gameOverScreen && gameOverScreen.classList.contains('minimized')) {
+                gameOverScreen.classList.remove('minimized');
+                restoreBtn.classList.add('hidden');
+            }
+        });
+
         // 虛擬鍵盤
         keyboard.addEventListener('click', e => {
             const key = e.target.closest('.key');
@@ -398,26 +434,43 @@
         document.getElementById('final-attempts').textContent = currentRow + 1;
         document.getElementById('final-attempts-ide').textContent = currentRow + 1;
 
-        gameOverScreen.classList.remove('hidden');
+        // 顯示結束畫面並清除最小化狀態
+        gameOverScreen.classList.remove('hidden', 'minimized');
+        document.getElementById('restore-btn').classList.add('hidden');
     }
 
     // 分享結果
     function shareResult() {
-        const rows = gameBoard.querySelectorAll('.board-row');
-        let shareText = `Wordle ${currentRow + 1}/${MAX_ATTEMPTS}\n\n`;
+        // 確保遊戲已結束
+        if (!gameOver) return;
 
-        for (let i = 0; i <= currentRow; i++) {
+        const rows = gameBoard.querySelectorAll('.board-row');
+        // 計算實際嘗試次數（失敗時為 MAX_ATTEMPTS，成功時為 currentRow + 1）
+        const actualAttempts = currentGuess === targetWord ? currentRow + 1 : MAX_ATTEMPTS;
+        let shareText = `Wordle ${actualAttempts}/${MAX_ATTEMPTS}\n\n`;
+
+        // 只複製有填寫內容的行
+        for (let i = 0; i < actualAttempts; i++) {
             const tiles = rows[i].querySelectorAll('.tile');
+            let hasContent = false;
+            let rowText = '';
+
             tiles.forEach(tile => {
-                if (tile.classList.contains('correct')) {
-                    shareText += '🟩';
-                } else if (tile.classList.contains('present')) {
-                    shareText += '🟨';
-                } else {
-                    shareText += '⬜';
+                if (tile.textContent) {
+                    hasContent = true;
+                    if (tile.classList.contains('correct')) {
+                        rowText += '🟩';
+                    } else if (tile.classList.contains('present')) {
+                        rowText += '🟨';
+                    } else if (tile.classList.contains('absent')) {
+                        rowText += '⬜';
+                    }
                 }
             });
-            shareText += '\n';
+
+            if (hasContent) {
+                shareText += rowText + '\n';
+            }
         }
 
         navigator.clipboard.writeText(shareText).then(() => {

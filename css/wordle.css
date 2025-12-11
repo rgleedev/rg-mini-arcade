@@ -200,6 +200,103 @@ html.ide-mode .yellow-hint {
 }
 
 /* ===== 遊戲結束畫面 ===== */
+.game-over {
+    /* 使用 style.css 中的置中設定 */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.game-over.minimized {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.8);
+}
+
+.minimize-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background-color: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.minimize-btn:hover {
+    background-color: var(--accent);
+    color: white;
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+html.ide-mode .minimize-btn {
+    background-color: #3c3c3c;
+    color: #808080;
+}
+
+html.ide-mode .minimize-btn:hover {
+    background-color: var(--accent);
+    color: white;
+}
+
+/* 恢復按鈕 */
+.restore-btn {
+    position: fixed !important;
+    bottom: 30px;
+    right: 30px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--border-radius);
+    background-color: var(--accent);
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    z-index: 999 !important;
+    animation: bounce-in 0.5s ease;
+    display: block;
+}
+
+.restore-btn.hidden {
+    display: none !important;
+}
+
+.restore-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+}
+
+.restore-btn:active {
+    transform: translateY(-1px);
+}
+
+html.ide-mode .restore-btn {
+    background-color: #007acc !important;
+    color: white !important;
+    font-family: 'Consolas', 'Courier New', monospace;
+}
+
+html.ide-mode .restore-btn:hover {
+    background-color: #005a9e !important;
+}
+
+@keyframes bounce-in {
+    0% { transform: scale(0) translateY(20px); opacity: 0; }
+    50% { transform: scale(1.1) translateY(-5px); }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
 .answer-reveal {
     font-size: 1.3rem;
     margin-bottom: 15px;

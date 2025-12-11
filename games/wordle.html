@@ -105,8 +105,18 @@
             <!-- 訊息提示 -->
             <div id="message" class="message hidden"></div>
 
+            <!-- 恢復結果視窗按鈕 -->
+            <button id="restore-btn" class="restore-btn hidden" title="顯示結果視窗">
+                <span class="normal-title">📊 顯示結果</span>
+                <span class="ide-title">show()</span>
+            </button>
+
             <!-- 遊戲結束畫面 -->
             <div id="game-over" class="game-over hidden">
+                <button id="minimize-btn" class="minimize-btn" title="暫時隱藏以截圖（按 ESC 或點擊背景恢復）">
+                    <span class="normal-title">📷</span>
+                    <span class="ide-title">_</span>
+                </button>
                 <h2 id="game-over-title">
                     <span class="normal-title">🎉 太棒了！</span>
                     <span class="ide-title">// SUCCESS!</span>
