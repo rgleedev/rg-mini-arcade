@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>數獨 - RG's Mini Arcade</title>
+    <link rel="icon" type="image/png" href="../img/icon.png">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/sudoku.css">
+    <script src="../js/init-theme.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="title">
+                <span class="normal-title">🧩 數獨</span>
+                <span class="ide-title">// sudoku.exe</span>
+            </h1>
+            <div class="header-buttons">
+                <a href="../index.html" class="back-btn">
+                    <span class="normal-title">🏠 返回選單</span>
+                    <span class="ide-title">← return;</span>
+                </a>
+                <button id="theme-toggle" class="theme-btn">
+                    <span class="normal-mode">💻 IDE風格</span>
+                    <span class="ide-mode">🎮 一般風格</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="game-area">
+            <div class="game-stats">
+                <div class="stat">
+                    <span class="stat-label">
+                        <span class="normal-title">難度</span>
+                        <span class="ide-title">difficulty:</span>
+                    </span>
+                    <span id="difficulty-display" class="stat-value">簡單</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">
+                        <span class="normal-title">時間</span>
+                        <span class="ide-title">time:</span>
+                    </span>
+                    <span id="timer" class="stat-value">00:00</span>
+                </div>
+            </div>
+
+            <!-- 遊戲板 -->
+            <div id="game-board" class="sudoku-board hidden"></div>
+
+            <!-- 控制按鈕 -->
+            <div id="game-controls" class="game-controls hidden">
+                <div class="control-row">
+                    <button id="note-mode-btn" class="control-btn">
+                        <span class="normal-title">✏️ 筆記模式</span>
+                        <span class="ide-title">note()</span>
+                    </button>
+                    <button id="hint-btn" class="control-btn">
+                        <span class="normal-title">💡 提示</span>
+                        <span class="ide-title">hint()</span>
+                    </button>
+                    <button id="undo-btn" class="control-btn">
+                        <span class="normal-title">↶ 撤銷</span>
+                        <span class="ide-title">undo()</span>
+                    </button>
+                </div>
+                <div class="control-row">
+                    <button id="erase-btn" class="control-btn">
+                        <span class="normal-title">🗑️ 清除</span>
+                        <span class="ide-title">erase()</span>
+                    </button>
+                    <button id="new-game-btn" class="control-btn">
+                        <span class="normal-title">🔄 新遊戲</span>
+                        <span class="ide-title">newGame()</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 數字選擇器 -->
+            <div id="number-pad" class="number-pad hidden">
+                <button class="num-btn" data-num="1">1</button>
+                <button class="num-btn" data-num="2">2</button>
+                <button class="num-btn" data-num="3">3</button>
+                <button class="num-btn" data-num="4">4</button>
+                <button class="num-btn" data-num="5">5</button>
+                <button class="num-btn" data-num="6">6</button>
+                <button class="num-btn" data-num="7">7</button>
+                <button class="num-btn" data-num="8">8</button>
+                <button class="num-btn" data-num="9">9</button>
+            </div>
+
+            <!-- 訊息提示 -->
+            <div id="message" class="message hidden"></div>
+
+            <!-- 遊戲結束畫面 -->
+            <div id="game-over" class="game-over hidden">
+                <h2 id="game-over-title">
+                    <span class="normal-title">🎉 恭喜完成！</span>
+                    <span class="ide-title">// SUCCESS!</span>
+                </h2>
+                <div class="game-over-stats">
+                    <p>
+                        <span class="normal-title">
+                            完成時間：<strong id="final-time">00:00</strong>
+                        </span>
+                        <span class="ide-title">
+                            time: <strong id="final-time-ide">00:00</strong>;
+                        </span>
+                    </p>
+                    <p>
+                        <span class="normal-title">
+                            難度：<strong id="final-difficulty">簡單</strong>
+                        </span>
+                        <span class="ide-title">
+                            difficulty: <strong id="final-difficulty-ide">EASY</strong>;
+                        </span>
+                    </p>
+                </div>
+                <div class="game-over-buttons">
+                    <button id="restart-btn" class="restart-btn">
+                        <span class="normal-title">🔄 再玩一次</span>
+                        <span class="ide-title">restart()</span>
+                    </button>
+                    <a href="../index.html" class="back-menu-btn">
+                        <span class="normal-title">🏠 返回選單</span>
+                        <span class="ide-title">return;</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 開始畫面 -->
+            <div id="start-screen" class="start-screen">
+                <h2>
+                    <span class="normal-title">🧩 數獨</span>
+                    <span class="ide-title">// sudoku()</span>
+                </h2>
+                <p class="game-desc">
+                    <span class="normal-title">
+                        在 9×9 的格子中填入 1-9 的數字<br>
+                        每行、每列、每個 3×3 宮格內不能重複！<br>
+                        <br>
+                        💡 提示：可使用筆記模式記錄可能的數字
+                    </span>
+                    <span class="ide-title">
+                        /* Fill 9x9 grid with digits 1-9<br>
+                        Each row, column, and 3x3 box must contain unique digits<br>
+                        <br>
+                        Use note mode to mark possible numbers */
+                    </span>
+                </p>
+
+                <div class="difficulty-selection">
+                    <h3>
+                        <span class="normal-title">選擇難度</span>
+                        <span class="ide-title">// Select Difficulty</span>
+                    </h3>
+                    <div class="difficulty-buttons">
+                        <button class="difficulty-btn" data-difficulty="easy">
+                            <span class="normal-title">😊 簡單</span>
+                            <span class="ide-title">EASY</span>
+                        </button>
+                        <button class="difficulty-btn" data-difficulty="medium">
+                            <span class="normal-title">😐 中等</span>
+                            <span class="ide-title">MEDIUM</span>
+                        </button>
+                        <button class="difficulty-btn" data-difficulty="hard">
+                            <span class="normal-title">😰 困難</span>
+                            <span class="ide-title">HARD</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p class="normal-title">Made with ❤️ by RG</p>
+            <p class="ide-title">// Copyright © 2025 RG. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="../js/theme.js"></script>
+    <script src="../js/sudoku.js"></script>
+</body>
+</html>

@@ -1,5 +1,14 @@
 /* ===== 版本歷程頁面樣式 ===== */
 
+.version-display {
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 8px 12px;
+    background-color: var(--accent);
+    color: white;
+    border-radius: var(--border-radius);
+}
+
 .changelog-area {
     flex: 1;
     max-width: 700px;

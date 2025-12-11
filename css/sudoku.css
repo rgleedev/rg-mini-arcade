@@ -1,0 +1,490 @@
+/* ===== 數獨遊戲板 ===== */
+.sudoku-board {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 0;
+    width: min(90vw, 450px);
+    height: min(90vw, 450px);
+    margin: 20px auto;
+    background-color: #cbd5e0;
+    border: 3px solid #cbd5e0;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+/* ===== 亮色模式（預設） ===== */
+.cell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    font-weight: 600;
+    color: #2d3748;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    position: relative;
+    border: 0.5px solid #cbd5e0;
+}
+
+.cell:hover:not(.initial) {
+    background-color: #f7fafc;
+}
+
+.cell.initial {
+    background-color: #ffe6cc;
+    color: #CC6600;
+    cursor: default;
+    font-weight: 700;
+}
+
+.cell.selected {
+    background-color: #38a169;
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: inset 0 0 0 2px #2d7a4a;
+    border: 0.5px solid #2d7a4a;
+}
+
+.cell.highlight {
+    background-color: #bae6fd;
+    color: #0369a1;
+    font-weight: 600;
+}
+
+/* 淺色模式：高亮行列中已有數字的格子也要變色 */
+html:not(.dark-mode):not(.ide-mode) .cell.initial.highlight {
+    background-color: #7dd3fc;
+    color: #0369a1;
+}
+
+.cell.same-number {
+    background-color: #d69e2e;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.cell.error {
+    background-color: #fc8181;
+    color: #ffffff;
+    animation: shake 0.3s ease;
+}
+
+.cell.border-right {
+    border-right: 2px solid #cbd5e0;
+}
+
+.cell.border-bottom {
+    border-bottom: 2px solid #cbd5e0;
+}
+
+/* ===== 深色模式（一般風格） ===== */
+html.dark-mode .sudoku-board {
+    background-color: #4a5568;
+    border-color: #4a5568;
+}
+
+html.dark-mode .cell {
+    background-color: #2d3748;
+    color: #e2e8f0;
+    border: 0.5px solid #4a5568;
+}
+
+html.dark-mode .cell:hover:not(.initial) {
+    background-color: #3d4553;
+}
+
+html.dark-mode .cell.initial {
+    background-color: #3d4553;
+    color: #ffd9a0;
+    font-weight: 700;
+}
+
+html.dark-mode .cell.selected {
+    background-color: #4ec9b0;
+    color: #1e1e1e;
+    box-shadow: inset 0 0 0 2px #2d7a62;
+    border: 0.5px solid #2d7a62;
+}
+
+html.dark-mode .cell.highlight {
+    background-color: #3f3a2a;
+}
+
+/* 深色模式：高亮行列中已有數字的格子也要變色 */
+html.dark-mode .cell.initial.highlight {
+    background-color: #4a4538;
+}
+
+html.dark-mode .cell.same-number {
+    background-color: #dcdcaa;
+    color: #1e1e1e;
+    font-weight: 700;
+}
+
+html.dark-mode .cell.error {
+    background-color: #f14c4c;
+    color: #ffffff;
+    animation: shake 0.3s ease;
+}
+
+html.dark-mode .cell.border-right {
+    border-right: 2px solid #5a6c7d;
+}
+
+html.dark-mode .cell.border-bottom {
+    border-bottom: 2px solid #5a6c7d;
+}
+
+/* ===== IDE 深色主題（IDE + 深色）===== */
+html.ide-mode.dark-mode .sudoku-board {
+    background-color: #4a90e2;
+    border-color: #4a90e2;
+}
+
+html.ide-mode.dark-mode .cell {
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    border: 0.5px solid #4a90e2;
+}
+
+html.ide-mode.dark-mode .cell:hover:not(.initial) {
+    background-color: #252526;
+}
+
+html.ide-mode.dark-mode .cell.initial {
+    background-color: #2d2d30;
+    color: #4fc3f7;
+    font-weight: 700;
+}
+
+html.ide-mode.dark-mode .cell.selected {
+    background-color: #094771;
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: inset 0 0 0 2px #0d6ba3;
+    border: 0.5px solid #0d6ba3;
+}
+
+html.ide-mode.dark-mode .cell.highlight {
+    background-color: #2a3f5f;
+    color: #d4d4d4;
+}
+
+/* IDE深色模式：高亮行列中已有數字的格子也要變色 */
+html.ide-mode.dark-mode .cell.initial.highlight {
+    background-color: #3a5575;
+    color: #4fc3f7;
+}
+
+html.ide-mode.dark-mode .cell.same-number {
+    background-color: #4a7c59;
+    color: #e0e0e0;
+    font-weight: 700;
+}
+
+html.ide-mode.dark-mode .cell.error {
+    background-color: #f14c4c;
+    color: #ffffff;
+    animation: shake 0.3s ease;
+}
+
+html.ide-mode.dark-mode .cell.border-right {
+    border-right: 2px solid #4a90e2;
+}
+
+html.ide-mode.dark-mode .cell.border-bottom {
+    border-bottom: 2px solid #4a90e2;
+}
+
+/* ===== IDE 淺色主題（IDE + 淺色）===== */
+html.ide-mode:not(.dark-mode) .sudoku-board {
+    background-color: #4a90e2;
+    border-color: #4a90e2;
+}
+
+html.ide-mode:not(.dark-mode) .cell {
+    background-color: #f5f5f5;
+    color: #333333;
+    border: 0.5px solid #4a90e2;
+}
+
+html.ide-mode:not(.dark-mode) .cell:hover:not(.initial) {
+    background-color: #ececec;
+}
+
+html.ide-mode:not(.dark-mode) .cell.initial {
+    background-color: #e8f4f8;
+    color: #0e4f8f;
+    font-weight: 700;
+}
+
+html.ide-mode:not(.dark-mode) .cell.selected {
+    background-color: #0e5aa8;
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: inset 0 0 0 2px #0a3d75;
+    border: 0.5px solid #0a3d75;
+}
+
+html.ide-mode:not(.dark-mode) .cell.highlight {
+    background-color: #d9e8f8;
+    color: #333333;
+}
+
+/* IDE淺色模式：高亮行列中已有數字的格子也要變色 */
+html.ide-mode:not(.dark-mode) .cell.initial.highlight {
+    background-color: #b3d9f2;
+    color: #0e4f8f;
+}
+
+html.ide-mode:not(.dark-mode) .cell.same-number {
+    background-color: #b8d4e8;
+    color: #000000;
+    font-weight: 700;
+}
+
+html.ide-mode:not(.dark-mode) .cell.error {
+    background-color: #f48771;
+    color: #ffffff;
+    animation: shake 0.3s ease;
+}
+
+html.ide-mode:not(.dark-mode) .cell.border-right {
+    border-right: 2px solid #4a90e2;
+}
+
+html.ide-mode:not(.dark-mode) .cell.border-bottom {
+    border-bottom: 2px solid #4a90e2;
+}
+
+/* 筆記模式 */
+.notes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    width: 100%;
+    height: 100%;
+    padding: 2px;
+}
+
+.notes span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(0.5rem, 1.5vw, 0.7rem);
+    font-weight: normal;
+    color: #718096;
+}
+
+html.dark-mode .notes span {
+    color: #a0aec0;
+}
+
+html.ide-mode .notes span {
+    color: #858585;
+}
+
+/* ===== 數字鍵盤 ===== */
+.number-pad {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 8px;
+    max-width: 450px;
+    margin: 20px auto;
+}
+
+.num-btn {
+    aspect-ratio: 1;
+    border: none;
+    border-radius: var(--border-radius);
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--card-shadow);
+}
+
+.num-btn:hover {
+    background-color: var(--accent);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.num-btn:active {
+    transform: translateY(0);
+}
+
+html.ide-mode .num-btn {
+    background-color: #3c3c3c;
+    color: #e0e0e0;
+}
+
+html.ide-mode .num-btn:hover {
+    background-color: #0e639c;
+    color: white;
+}
+
+/* ===== 控制按鈕 ===== */
+.game-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 450px;
+    margin: 20px auto 10px;
+}
+
+.control-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.control-btn {
+    flex: 1;
+    padding: 12px 16px;
+    border: none;
+    border-radius: var(--border-radius);
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--card-shadow);
+}
+
+.control-btn:hover {
+    background-color: var(--accent);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.control-btn:active {
+    transform: translateY(0);
+}
+
+.control-btn.active {
+    background-color: var(--accent);
+    color: white;
+}
+
+html.ide-mode .control-btn {
+    background-color: #3c3c3c;
+    color: #e0e0e0;
+}
+
+html.ide-mode .control-btn:hover,
+html.ide-mode .control-btn.active {
+    background-color: #0e639c;
+    color: white;
+}
+
+/* ===== 難度選擇 ===== */
+.difficulty-selection {
+    margin-top: 30px;
+}
+
+.difficulty-selection h3 {
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.difficulty-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.difficulty-btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: var(--border-radius);
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--card-shadow);
+    min-width: 120px;
+}
+
+.difficulty-btn:hover {
+    background-color: var(--accent);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.difficulty-btn:active {
+    transform: translateY(0);
+}
+
+html.ide-mode .difficulty-btn {
+    background-color: #3c3c3c;
+    color: #e0e0e0;
+}
+
+html.ide-mode .difficulty-btn:hover {
+    background-color: #0e639c;
+    color: white;
+}
+
+/* ===== 響應式設計 ===== */
+@media (max-width: 600px) {
+    .sudoku-board {
+        width: 95vw;
+        height: 95vw;
+    }
+
+    .cell {
+        font-size: 1.2rem;
+    }
+
+    .number-pad {
+        gap: 6px;
+        max-width: 95vw;
+    }
+
+    .num-btn {
+        font-size: 1.2rem;
+    }
+
+    .control-btn {
+        padding: 10px 12px;
+        font-size: 0.8rem;
+    }
+
+    .difficulty-btn {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+        min-width: 100px;
+    }
+}
+
+@media (max-width: 400px) {
+    .cell {
+        font-size: 1rem;
+    }
+
+    .num-btn {
+        font-size: 1rem;
+    }
+
+    .notes span {
+        font-size: 0.45rem;
+    }
+}
+
+/* ===== 動畫 ===== */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
