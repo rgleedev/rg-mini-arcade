@@ -290,18 +290,21 @@ html.ide-mode .notes span {
 .number-pad {
     display: grid;
     grid-template-columns: repeat(9, 1fr);
-    gap: 8px;
-    max-width: 450px;
+    gap: 10px;
+    max-width: 100%;
+    width: min(90vw, 540px);
     margin: 20px auto;
+    padding: 0 10px;
 }
 
 .num-btn {
     aspect-ratio: 1;
+    min-height: 50px;
     border: none;
     border-radius: var(--border-radius);
     background-color: var(--bg-secondary);
     color: var(--text-primary);
-    font-size: 1.5rem;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
     font-weight: bold;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -479,6 +482,39 @@ html.ide-mode .difficulty-btn:hover {
 
     .notes span {
         font-size: 0.45rem;
+    }
+}
+
+/* ===== 極端小螢幕 (360px) ===== */
+@media (max-width: 360px) {
+    .game-stats {
+        gap: 8px;
+    }
+
+    .stat {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+
+    .stat-value {
+        font-size: 1rem;
+    }
+
+    .number-pad {
+        gap: 6px;
+        padding: 0 5px;
+    }
+}
+
+/* ===== 小螢幕 (600px) ===== */
+@media (max-width: 600px) {
+    .game-stats {
+        gap: 10px;
+    }
+
+    .stat {
+        padding: 8px 12px;
+        font-size: 0.85rem;
     }
 }
 

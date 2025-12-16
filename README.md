@@ -4,7 +4,7 @@
 
 **Demo**: https://rgleedev.github.io/rg-mini-arcade/
 
-**目前版本**: v1.10.0
+**目前版本**: v1.10.1
 
 ## 遊戲列表
 

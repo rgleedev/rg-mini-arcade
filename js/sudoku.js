@@ -97,7 +97,7 @@
         // 遊戲板點擊
         gameBoard.addEventListener('click', e => {
             const cell = e.target.closest('.cell');
-            if (cell && !cell.classList.contains('initial')) {
+            if (cell) {
                 selectCell(cell);
             }
         });
@@ -347,6 +347,12 @@
     function placeNumber(num) {
         if (!selectedCell) return;
 
+        // 防止修改初始數字
+        if (selectedCell.classList.contains('initial')) {
+            showMessage('❌ 無法修改原始數字！');
+            return;
+        }
+
         const row = parseInt(selectedCell.dataset.row);
         const col = parseInt(selectedCell.dataset.col);
 
@@ -382,6 +388,12 @@
     // 切換筆記
     function toggleNote(num) {
         if (!selectedCell) return;
+
+        // 防止在初始數字上記筆記
+        if (selectedCell.classList.contains('initial')) {
+            showMessage('❌ 無法在原始數字上記筆記！');
+            return;
+        }
 
         const row = parseInt(selectedCell.dataset.row);
         const col = parseInt(selectedCell.dataset.col);
@@ -466,6 +478,12 @@
     // 清除格子
     function eraseCell() {
         if (!selectedCell) return;
+
+        // 防止清除初始數字
+        if (selectedCell.classList.contains('initial')) {
+            showMessage('❌ 無法清除原始數字！');
+            return;
+        }
 
         const row = parseInt(selectedCell.dataset.row);
         const col = parseInt(selectedCell.dataset.col);
