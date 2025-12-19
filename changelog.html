@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-TW">
 
 <head>
@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" href="img/icon.png">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/changelog.css">
+    <script src="js/version-loader.js"></script>
 </head>
 
 <body>
@@ -18,7 +19,7 @@
                 <span class="ide-title">// changelog.md</span>
             </h1>
             <div class="header-buttons">
-                <span class="version-display">v1.10.1</span>
+                <span class="version-display" data-version></span>
                 <a href="index.html" class="back-btn">
                     <span class="normal-title">🏠 返回選單</span>
                     <span class="ide-title">← return;</span>
@@ -37,6 +38,24 @@
             </div>
 
             <div class="changelog-list">
+                <!-- v1.10.2 -->
+                <div class="version-card">
+                    <div class="version-header">
+                        <span class="version-tag">v1.10.2</span>
+                        <span class="version-date">2025.12</span>
+                    </div>
+                    <div class="version-content">
+                        <div class="update-item improve">
+                            <span class="update-icon">✨</span>
+                            <span>優化數獨遊戲的大九宮格邊框，改為加粗顯示增強視覺區隔</span>
+                        </div>
+                        <div class="update-item improve">
+                            <span class="update-icon">🔧</span>
+                            <span>實現版本號動態管理系統，版本號統一在 config/version.json 管理，所有頁面自動同步</span>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- v1.10.1 -->
                 <div class="version-card">
                     <div class="version-header">

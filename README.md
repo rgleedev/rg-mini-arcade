@@ -1,10 +1,10 @@
-# RG's Mini Arcade
+﻿# RG's Mini Arcade
 
 純前端迷你小遊戲合集，支援一般模式與 IDE 偽裝模式。
 
 **Demo**: https://rgleedev.github.io/rg-mini-arcade/
 
-**目前版本**: v1.10.1
+**目前版本**: v1.10.2
 
 ## 遊戲列表
 
@@ -84,6 +84,20 @@
 - 純 HTML / CSS / JavaScript，無框架依賴
 - localStorage 保存分數與設定
 - 響應式設計
+- 动態版本管理系統（`config/version.json` + `js/version-loader.js`）
+
+## 版本管理
+
+版本號集中管理在 `config/version.json`。
+
+**更新版本號：**
+
+1. 編輯 `config/version.json`，修改版本號
+2. 所有頁面會通過 `js/version-loader.js` 自動載入並顯示新版本號
+3. 手動更新 `README.md` 中的版本號（這是唯一需要手動改的地方）
+4. commit 並 push
+
+**注意：** HTML 中的版本號是空的，完全由 JavaScript 動態填充。
 
 ## 版本號規則
 
