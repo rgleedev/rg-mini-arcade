@@ -28,12 +28,14 @@
             element.textContent = version;
         });
 
-        // 更新所有版本號標籤
-        document.querySelectorAll('.version-tag').forEach(element => {
-            if (element.textContent.startsWith('v')) {
-                element.textContent = version;
-            }
-        });
+        // 更新版本號標籤 (但不更新 changelog 頁面中的歷史版本號)
+        if (!currentPath.includes('changelog')) {
+            document.querySelectorAll('.version-tag').forEach(element => {
+                if (element.textContent.startsWith('v')) {
+                    element.textContent = version;
+                }
+            });
+        }
 
         // 將版本號存儲在 window 物件
         window.APP_VERSION = version;
