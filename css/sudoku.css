@@ -7,7 +7,7 @@
     height: min(90vw, 450px);
     margin: 20px auto;
     background-color: #cbd5e0;
-    border: 3px solid #cbd5e0;
+    border: 5px solid #cbd5e0;
     border-radius: var(--border-radius);
     overflow: hidden;
 }
@@ -72,11 +72,11 @@ html:not(.dark-mode):not(.ide-mode) .cell.initial.highlight {
 }
 
 .cell.border-right {
-    border-right: 2px solid #cbd5e0;
+    border-right: 4px solid #cbd5e0;
 }
 
 .cell.border-bottom {
-    border-bottom: 2px solid #cbd5e0;
+    border-bottom: 4px solid #cbd5e0;
 }
 
 /* ===== 深色模式（一般風格） ===== */
@@ -130,11 +130,11 @@ html.dark-mode .cell.error {
 }
 
 html.dark-mode .cell.border-right {
-    border-right: 2px solid #5a6c7d;
+    border-right: 4px solid #5a6c7d;
 }
 
 html.dark-mode .cell.border-bottom {
-    border-bottom: 2px solid #5a6c7d;
+    border-bottom: 4px solid #5a6c7d;
 }
 
 /* ===== IDE 深色主題（IDE + 深色）===== */
@@ -191,11 +191,11 @@ html.ide-mode.dark-mode .cell.error {
 }
 
 html.ide-mode.dark-mode .cell.border-right {
-    border-right: 2px solid #4a90e2;
+    border-right: 4px solid #4a90e2;
 }
 
 html.ide-mode.dark-mode .cell.border-bottom {
-    border-bottom: 2px solid #4a90e2;
+    border-bottom: 4px solid #4a90e2;
 }
 
 /* ===== IDE 淺色主題（IDE + 淺色）===== */
@@ -252,11 +252,11 @@ html.ide-mode:not(.dark-mode) .cell.error {
 }
 
 html.ide-mode:not(.dark-mode) .cell.border-right {
-    border-right: 2px solid #4a90e2;
+    border-right: 4px solid #4a90e2;
 }
 
 html.ide-mode:not(.dark-mode) .cell.border-bottom {
-    border-bottom: 2px solid #4a90e2;
+    border-bottom: 4px solid #4a90e2;
 }
 
 /* 筆記模式 */
