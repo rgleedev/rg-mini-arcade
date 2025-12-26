@@ -9,7 +9,7 @@
     const PADDLE_HEIGHT = 12;
     const PADDLE_SPEED = 8;
     const BALL_RADIUS = 8;
-    const BALL_SPEED = 5;
+    const BALL_SPEED = 4.5;
     const BRICK_ROWS = 5;
     const BRICK_COLS = 8;
     const BRICK_WIDTH = 54;
@@ -191,24 +191,44 @@
 
         // 板子碰撞
         if (ball.y + ball.radius > paddle.y &&
-            ball.y - ball.radius < paddle.y + paddle.height &&
-            ball.x > paddle.x &&
-            ball.x < paddle.x + paddle.width) {
+            ball.y < paddle.y + paddle.height &&
+            ball.x + ball.radius > paddle.x &&
+            ball.x - ball.radius < paddle.x + paddle.width &&
+            ball.dy > 0) { // 只有球往下移動時才處理碰撞
 
             // 根據擊中位置改變反彈角度
-            const hitPos = (ball.x - paddle.x) / paddle.width; // 0-1
-            const angle = (hitPos * 120 + 30) * Math.PI / 180; // 30-150 度
+            // 將擊中位置映射到 -1 到 1 的範圍
+            const hitPos = (ball.x - (paddle.x + paddle.width / 2)) / (paddle.width / 2);
+            // 限制在 -1 到 1 之間（處理球擊中邊緣的情況）
+            const clampedHitPos = Math.max(-1, Math.min(1, hitPos));
+
+            // 將位置映射到 -75 到 +75 度的範圍（相對於垂直向上）
+            const maxAngle = 75 * Math.PI / 180;
+            const angle = clampedHitPos * maxAngle;
+
+            // 保持球速恆定
             const speed = Math.sqrt(ball.dx * ball.dx + ball.dy * ball.dy);
-            ball.dx = speed * Math.cos(angle) * (hitPos < 0.5 ? -1 : 1);
-            ball.dy = -Math.abs(speed * Math.sin(angle));
+            ball.dx = speed * Math.sin(angle); // 水平方向
+            ball.dy = -speed * Math.cos(angle); // 垂直方向（向上）
+
+            // 確保垂直速度有最小值，避免球太水平導致遊戲拖慢
+            const minVerticalSpeed = speed * 0.3;
+            if (Math.abs(ball.dy) < minVerticalSpeed) {
+                ball.dy = -minVerticalSpeed;
+                // 重新計算水平速度以保持總速度
+                ball.dx = Math.sign(ball.dx) * Math.sqrt(speed * speed - ball.dy * ball.dy);
+            }
+
             ball.y = paddle.y - ball.radius;
         }
 
-        // 磚塊碰撞
+        // 磚塊碰撞 - 只處理一次碰撞避免多重反彈
+        let hasCollided = false;
         bricks.forEach(brick => {
-            if (brick.alive && checkBrickCollision(brick)) {
+            if (brick.alive && !hasCollided && checkBrickCollision(brick)) {
                 brick.alive = false;
                 score += 10 * level;
+                hasCollided = true;
                 updateStats();
 
                 // 檢查是否過關
@@ -221,24 +241,77 @@
 
     // 檢查磚塊碰撞
     function checkBrickCollision(brick) {
-        if (ball.x + ball.radius > brick.x &&
-            ball.x - ball.radius < brick.x + brick.width &&
-            ball.y + ball.radius > brick.y &&
-            ball.y - ball.radius < brick.y + brick.height) {
+        // 計算球心到磚塊最近點的距離
+        const closestX = Math.max(brick.x, Math.min(ball.x, brick.x + brick.width));
+        const closestY = Math.max(brick.y, Math.min(ball.y, brick.y + brick.height));
 
-            // 判斷碰撞方向
-            const overlapLeft = ball.x + ball.radius - brick.x;
-            const overlapRight = brick.x + brick.width - (ball.x - ball.radius);
-            const overlapTop = ball.y + ball.radius - brick.y;
-            const overlapBottom = brick.y + brick.height - (ball.y - ball.radius);
+        const distX = ball.x - closestX;
+        const distY = ball.y - closestY;
+        const distance = Math.sqrt(distX * distX + distY * distY);
 
-            const minOverlapX = Math.min(overlapLeft, overlapRight);
-            const minOverlapY = Math.min(overlapTop, overlapBottom);
+        if (distance < ball.radius) {
+            // 判斷碰撞方向 - 使用球的前一位置來判斷
+            const prevX = ball.x - ball.dx;
+            const prevY = ball.y - ball.dy;
 
-            if (minOverlapX < minOverlapY) {
+            // 檢查球是從哪個方向進入的
+            const wasLeft = prevX + ball.radius <= brick.x;
+            const wasRight = prevX - ball.radius >= brick.x + brick.width;
+            const wasTop = prevY + ball.radius <= brick.y;
+            const wasBottom = prevY - ball.radius >= brick.y + brick.height;
+
+            // 計算需要反轉的方向
+            let flipX = false;
+            let flipY = false;
+
+            if (wasLeft || wasRight) {
+                flipX = true;
+            }
+            if (wasTop || wasBottom) {
+                flipY = true;
+            }
+
+            // 如果無法判斷（可能是角落或球速太快），使用重疊量判斷
+            if (!flipX && !flipY) {
+                const overlapLeft = ball.x + ball.radius - brick.x;
+                const overlapRight = brick.x + brick.width - (ball.x - ball.radius);
+                const overlapTop = ball.y + ball.radius - brick.y;
+                const overlapBottom = brick.y + brick.height - (ball.y - ball.radius);
+
+                const minOverlapX = Math.min(overlapLeft, overlapRight);
+                const minOverlapY = Math.min(overlapTop, overlapBottom);
+
+                // 判斷是否為角落碰撞（兩個方向重疊量接近）
+                const cornerThreshold = ball.radius * 0.5;
+                if (Math.abs(minOverlapX - minOverlapY) < cornerThreshold) {
+                    // 角落碰撞 - 兩個方向都反轉
+                    flipX = true;
+                    flipY = true;
+                } else if (minOverlapX < minOverlapY) {
+                    flipX = true;
+                } else {
+                    flipY = true;
+                }
+            }
+
+            // 執行反轉
+            if (flipX) {
                 ball.dx = -ball.dx;
-            } else {
+            }
+            if (flipY) {
                 ball.dy = -ball.dy;
+            }
+
+            // 將球推出磚塊
+            if (wasLeft) {
+                ball.x = brick.x - ball.radius;
+            } else if (wasRight) {
+                ball.x = brick.x + brick.width + ball.radius;
+            }
+            if (wasTop) {
+                ball.y = brick.y - ball.radius;
+            } else if (wasBottom) {
+                ball.y = brick.y + brick.height + ball.radius;
             }
 
             return true;
