@@ -8,7 +8,9 @@
     <link rel="icon" type="image/png" href="img/icon.png">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/changelog.css">
+    <script src="js/init-theme.js"></script>
     <script src="js/version-loader.js"></script>
+    <script src="js/ide-decoration.js"></script>
 </head>
 
 <body>
@@ -38,6 +40,56 @@
             </div>
 
             <div class="changelog-list">
+                <!-- v1.11.0 -->
+                <div class="version-card">
+                    <div class="version-header">
+                        <span class="version-tag">v1.11.0</span>
+                        <span class="version-date">2026.01</span>
+                    </div>
+                    <div class="version-content">
+                        <div class="update-item feature">
+                            <span class="update-icon">🎉</span>
+                            <span>全面實作 IDE 偽裝模式：在遊戲界面周圍增加實 VSCode IDE 裝飾元素</span>
+                        </div>
+                        <div class="update-item feature">
+                            <span class="update-icon">🖥️</span>
+                            <span>新增 IDE 裝飾元素：左側活動欄、文件管理器、右側 Minimap、AI Copilot 助手、下方終端機、頂部文件標籤列、底部狀態欄</span>
+                        </div>
+                        <div class="update-item feature">
+                            <span class="update-icon">🎨</span>
+                            <span>所有 IDE 裝飾元素均為純視覺效果，不影響遊戲互動，使用 pointer-events: none 確保不放繪滑鼠事件</span>
+                        </div>
+                        <div class="update-item improve">
+                            <span class="update-icon">✨</span>
+                            <span>改進滾動體驗：使用 fixed 定位和獨立滾動區域，解決裝飾元素和內容滾動的視覺衝突</span>
+                        </div>
+                        <div class="update-item improve">
+                            <span class="update-icon">📱</span>
+                            <span>全面響應式支援：小螢幕下自動隱藏部分 IDE 裝飾，確保遊戲體驗不受影響</span>
+                        </div>
+                        <div class="update-item improve">
+                            <span class="update-icon">🎮</span>
+                            <span>所有 23 個遊戲頁面均已支援 IDE 模式，自動加載 ide-decoration.js</span>
+                        </div>
+                        <div class="update-item improve">
+                            <span class="update-icon">🔧</span>
+                            <span>智能識別當前頁面，動態調整文件樹、麿包屑導航和 AI 建議內容</span>
+                        </div>
+                        <div class="update-item fix">
+                            <span class="update-icon">🐛</span>
+                            <span>修正 Wordle 遊戲中固定定位按鈕被終端機遮擋的問題</span>
+                        </div>
+                        <div class="update-item fix">
+                            <span class="update-icon">🐛</span>
+                            <span>修正容器底部 padding，確保所有遊戲內容滾動到底時完全可見</span>
+                        </div>
+                        <div class="update-item fix">
+                            <span class="update-icon">🐛</span>
+                            <span>修正 changelog.html 頁面缺少 init-theme.js 和 ide-decoration.js 的問題</span>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- v1.10.4 -->
                 <div class="version-card">
                     <div class="version-header">

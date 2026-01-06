@@ -629,6 +629,12 @@ html.ide-mode .back-btn:hover {
     flex-direction: column;
     align-items: center;
     position: relative;
+    padding-bottom: 50px; /* 確保遊戲內容不會太靠近底部 */
+}
+
+/* IDE 模式下為遊戲區域預留更多空間 */
+html.ide-mode .game-area {
+    padding-bottom: 100px; /* IDE 模式下預留更多空間給終端機 */
 }
 
 /* ===== 遊戲統計區 ===== */
@@ -845,5 +851,731 @@ html.ide-mode .game-message {
 
     .game-stats {
         gap: 25px;
+    }
+}
+
+/* ========================================
+   IDE 裝飾元素 (僅在 IDE 模式顯示)
+   ======================================== */
+
+/* 預設隱藏所有 IDE 裝飾 */
+.ide-decoration {
+    display: none;
+}
+
+/* IDE 模式下顯示裝飾 */
+html.ide-mode .ide-decoration {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none; /* 裝飾元素不攔截滑鼠事件 */
+    z-index: 5; /* 降低基礎層級，讓終端機和狀態欄可以在上層 */
+    font-family: 'Consolas', 'Courier New', monospace;
+}
+
+/* 修正滾動體驗 - 讓容器有自己的滾動區域 */
+html.ide-mode body {
+    overflow: hidden;
+}
+
+html.ide-mode .container {
+    position: fixed;
+    top: 65px; /* tabs height + breadcrumb */
+    left: 298px; /* activity bar + sidebar */
+    right: 380px; /* AI panel + minimap */
+    bottom: 0; /* 讓容器延伸到底部 */
+    z-index: 2;
+    pointer-events: auto; /* 恢復容器的互動 */
+    overflow-y: auto; /* 讓容器內部可以滾動 */
+    overflow-x: hidden;
+    margin: 0 !important;
+    padding: 30px 30px 280px 30px !important; /* 底部留更多空間（280px）給終端機+狀態欄 */
+    max-width: none !important;
+    background-color: var(--bg-primary);
+}
+
+/* ===== 左側活動欄 ===== */
+.ide-activity-bar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 22px; /* statusbar height */
+    width: 48px;
+    background-color: var(--bg-secondary);
+    border-right: 1px solid rgba(128, 128, 128, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+    gap: 5px;
+    z-index: 6;
+}
+
+.activity-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    cursor: default;
+    transition: background-color 0.2s;
+    border-left: 2px solid transparent;
+    opacity: 0.7;
+}
+
+.activity-icon:hover {
+    opacity: 1;
+    background-color: rgba(128, 128, 128, 0.1);
+}
+
+.activity-icon.active {
+    opacity: 1;
+    border-left-color: var(--accent);
+}
+
+.activity-icon.bottom {
+    margin-top: auto;
+}
+
+/* ===== 左側文件管理器 ===== */
+.ide-sidebar {
+    position: fixed;
+    left: 48px; /* activity bar width */
+    top: 0;
+    bottom: 222px; /* terminal + statusbar */
+    width: 250px;
+    background-color: var(--bg-secondary);
+    border-right: 1px solid rgba(128, 128, 128, 0.2);
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-size: 0.85rem;
+    z-index: 6;
+}
+
+.ide-sidebar-header {
+    padding: 10px 15px;
+    font-weight: bold;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    background-color: var(--bg-secondary);
+    z-index: 10;
+}
+
+.sidebar-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.sidebar-action {
+    opacity: 0.6;
+    cursor: default;
+    font-size: 0.9rem;
+    transition: opacity 0.2s;
+}
+
+.sidebar-action:hover {
+    opacity: 1;
+}
+
+.ide-file-tree {
+    padding: 8px 0;
+}
+
+.ide-folder {
+    padding: 4px 12px;
+    color: var(--text-primary);
+    cursor: default;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s;
+    font-size: 0.85rem;
+}
+
+.ide-folder.expanded {
+    font-weight: bold;
+}
+
+.ide-file-group {
+    padding-left: 0;
+}
+
+.ide-file {
+    padding: 3px 12px;
+    color: var(--text-primary);
+    cursor: default;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s;
+    font-size: 0.85rem;
+}
+
+.ide-file:hover,
+.ide-folder:hover {
+    background-color: rgba(128, 128, 128, 0.08);
+}
+
+.ide-file.active {
+    background-color: rgba(0, 122, 204, 0.12);
+    border-left: 2px solid var(--accent);
+}
+
+.file-indent {
+    width: 20px;
+    display: inline-block;
+}
+
+.folder-arrow {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    width: 14px;
+}
+
+.folder-name {
+    flex: 1;
+}
+
+.folder-badge {
+    font-size: 0.7rem;
+    background-color: rgba(128, 128, 128, 0.2);
+    padding: 2px 6px;
+    border-radius: 10px;
+    color: var(--text-secondary);
+}
+
+.ide-folder-icon,
+.ide-file-icon {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+/* ===== 右側 Minimap ===== */
+.ide-minimap {
+    position: fixed;
+    right: 320px; /* AI panel width */
+    top: 65px; /* tabs + breadcrumb */
+    bottom: 222px;
+    width: 60px;
+    background-color: var(--bg-secondary);
+    border-left: 1px solid rgba(128, 128, 128, 0.15);
+    overflow: hidden;
+    z-index: 6;
+}
+
+.minimap-content {
+    padding: 10px 5px;
+    position: relative;
+}
+
+.minimap-line {
+    height: 2px;
+    background-color: rgba(128, 128, 128, 0.3);
+    margin: 1px 0;
+    border-radius: 1px;
+}
+
+.minimap-line.short {
+    width: 60%;
+}
+
+.minimap-viewport {
+    position: absolute;
+    top: 20px;
+    left: 5px;
+    right: 5px;
+    height: 40px;
+    border: 1px solid var(--accent);
+    background-color: rgba(0, 122, 204, 0.1);
+    border-radius: 2px;
+}
+
+/* ===== 右側 AI 助手 ===== */
+.ide-ai-panel {
+    position: fixed;
+    right: 0;
+    top: 65px;
+    bottom: 222px;
+    width: 320px;
+    background-color: var(--bg-secondary);
+    border-left: 1px solid rgba(128, 128, 128, 0.2);
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-size: 0.85rem;
+    z-index: 6;
+}
+
+.ide-ai-header {
+    padding: 10px 15px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: sticky;
+    top: 0;
+    background-color: var(--bg-secondary);
+    z-index: 10;
+}
+
+.ai-icon {
+    font-size: 1rem;
+}
+
+.ai-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+}
+
+.ai-action {
+    opacity: 0.6;
+    cursor: default;
+    transition: opacity 0.2s;
+}
+
+.ai-action:hover {
+    opacity: 1;
+}
+
+.ide-ai-content {
+    padding: 15px;
+}
+
+.ai-suggestion {
+    margin-bottom: 20px;
+    padding: 12px;
+    background-color: rgba(128, 128, 128, 0.05);
+    border-radius: 4px;
+    border-left: 3px solid var(--accent);
+}
+
+.ai-label {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.ai-label-icon {
+    font-size: 0.9rem;
+}
+
+.ai-code {
+    font-family: 'Consolas', 'Courier New', monospace;
+    color: var(--accent);
+    font-size: 0.75rem;
+    line-height: 1.5;
+}
+
+.ai-chat {
+    padding: 10px;
+    background-color: rgba(128, 128, 128, 0.03);
+    border-radius: 4px;
+}
+
+.chat-message {
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    line-height: 1.5;
+    display: flex;
+    gap: 10px;
+}
+
+.chat-avatar {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.chat-content {
+    flex: 1;
+}
+
+.chat-content strong {
+    color: var(--accent);
+    display: block;
+    margin-bottom: 5px;
+}
+
+.chat-content p {
+    margin: 0;
+    font-size: 0.8rem;
+}
+
+/* ===== 下方終端機 ===== */
+.ide-terminal {
+    position: fixed;
+    left: 298px; /* activity bar + sidebar */
+    right: 380px; /* AI panel + minimap */
+    bottom: 22px; /* statusbar */
+    height: 200px;
+    background-color: var(--bg-secondary);
+    border-top: 1px solid rgba(128, 128, 128, 0.2);
+    font-size: 0.85rem;
+    z-index: 10; /* 確保終端機顯示在內容之上 */
+}
+
+.ide-terminal-header {
+    padding: 8px 15px;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.terminal-tabs {
+    display: flex;
+    gap: 15px;
+}
+
+.terminal-tab {
+    padding: 6px 12px;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    cursor: default;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: background-color 0.2s;
+}
+
+.terminal-tab:hover {
+    background-color: rgba(128, 128, 128, 0.1);
+}
+
+.terminal-tab.active {
+    color: var(--text-primary);
+    background-color: rgba(128, 128, 128, 0.15);
+}
+
+.terminal-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.terminal-action {
+    opacity: 0.6;
+    cursor: default;
+    font-size: 1rem;
+    transition: opacity 0.2s;
+}
+
+.terminal-action:hover {
+    opacity: 1;
+}
+
+.ide-terminal-content {
+    padding: 15px;
+    height: calc(100% - 42px);
+    overflow-y: auto;
+    background-color: var(--bg-primary);
+}
+
+.terminal-line {
+    margin-bottom: 5px;
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.terminal-prompt {
+    color: var(--accent);
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.terminal-command {
+    color: var(--text-primary);
+}
+
+.terminal-output {
+    color: var(--text-secondary);
+}
+
+.terminal-success {
+    color: #4ec9b0;
+    font-weight: bold;
+}
+
+.terminal-info {
+    color: #569cd6;
+}
+
+.terminal-cursor {
+    color: var(--text-primary);
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+
+/* ===== 頂部文件標籤列 ===== */
+.ide-tabs {
+    position: fixed;
+    left: 298px;
+    right: 380px;
+    top: 0;
+    height: 65px; /* breadcrumb + tabs */
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+    display: flex;
+    flex-direction: column;
+    z-index: 8;
+}
+
+.ide-breadcrumb {
+    height: 25px;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    background-color: var(--bg-primary);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+}
+
+.breadcrumb-item {
+    color: var(--text-primary);
+}
+
+.breadcrumb-separator {
+    opacity: 0.5;
+}
+
+.ide-tab-bar {
+    height: 40px;
+    display: flex;
+    align-items: flex-end;
+    padding-left: 10px;
+    gap: 2px;
+    background-color: var(--bg-secondary);
+}
+
+.ide-tab {
+    padding: 8px 12px;
+    background-color: rgba(128, 128, 128, 0.05);
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: default;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border: 1px solid transparent;
+    border-bottom: none;
+    transition: all 0.2s;
+    max-width: 200px;
+}
+
+.ide-tab:hover {
+    background-color: rgba(128, 128, 128, 0.1);
+}
+
+.ide-tab.active {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    border-color: rgba(128, 128, 128, 0.2);
+    border-bottom: 1px solid var(--bg-primary);
+}
+
+.tab-icon {
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.tab-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tab-modified {
+    color: var(--accent);
+    font-size: 0.6rem;
+    flex-shrink: 0;
+}
+
+.tab-close {
+    opacity: 0;
+    font-size: 1.1rem;
+    line-height: 1;
+    transition: opacity 0.2s;
+    flex-shrink: 0;
+}
+
+.ide-tab:hover .tab-close,
+.ide-tab.active .tab-close {
+    opacity: 0.7;
+}
+
+.ide-tab:hover .tab-close:hover {
+    opacity: 1;
+}
+
+/* ===== 底部狀態欄 ===== */
+.ide-statusbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 22px;
+    background-color: var(--accent);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 0.7rem;
+    z-index: 15; /* 確保狀態欄顯示在終端機之上 */
+}
+
+.statusbar-left,
+.statusbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 8px;
+    cursor: default;
+    transition: background-color 0.2s;
+    border-radius: 2px;
+}
+
+.status-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.status-error {
+    color: #f48771;
+}
+
+.status-warning {
+    color: #dcdcaa;
+}
+.status-warning {
+    color: #dcdcaa;
+}
+
+/* ===== 響應式調整 ===== */
+@media (max-width: 1400px) {
+    html.ide-mode .ide-ai-panel {
+        width: 280px;
+    }
+
+    html.ide-mode .container {
+        right: 340px;
+    }
+
+    html.ide-mode .ide-minimap {
+        right: 280px;
+    }
+
+    html.ide-mode .ide-tabs,
+    html.ide-mode .ide-terminal {
+        right: 340px;
+    }
+}
+
+@media (max-width: 1200px) {
+    /* 隱藏 minimap */
+    html.ide-mode .ide-minimap {
+        display: none;
+    }
+
+    html.ide-mode .container {
+        right: 280px;
+    }
+
+    html.ide-mode .ide-tabs,
+    html.ide-mode .ide-terminal {
+        right: 280px;
+    }
+}
+
+@media (max-width: 1024px) {
+    /* 隱藏 AI 面板 */
+    html.ide-mode .ide-ai-panel {
+        display: none;
+    }
+
+    html.ide-mode .container {
+        right: 20px;
+    }
+
+    html.ide-mode .ide-tabs,
+    html.ide-mode .ide-terminal {
+        right: 0;
+    }
+}
+
+@media (max-width: 900px) {
+    /* 隱藏側邊欄 */
+    html.ide-mode .ide-activity-bar,
+    html.ide-mode .ide-sidebar {
+        display: none;
+    }
+
+    html.ide-mode .container {
+        left: 20px;
+    }
+
+    html.ide-mode .ide-tabs,
+    html.ide-mode .ide-terminal {
+        left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    /* 隱藏終端機和標籤 */
+    html.ide-mode .ide-terminal,
+    html.ide-mode .ide-tabs {
+        display: none;
+    }
+
+    html.ide-mode body {
+        overflow: auto;
+    }
+
+    html.ide-mode .container {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        margin: 0 auto !important;
+        padding: 20px !important;
+        max-width: 1000px !important;
+        overflow: visible;
     }
 }

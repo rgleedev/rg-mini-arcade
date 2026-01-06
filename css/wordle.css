@@ -268,6 +268,38 @@ html.ide-mode .minimize-btn:hover {
     display: block;
 }
 
+/* IDE 模式下調整恢復按鈕位置，避免被終端機擋住 */
+html.ide-mode .restore-btn {
+    bottom: 250px !important; /* 終端機+狀態欄高度 */
+    right: 400px !important; /* 避開右側面板 */
+}
+
+/* IDE 模式響應式調整 */
+@media (max-width: 1400px) {
+    html.ide-mode .restore-btn {
+        right: 300px !important;
+    }
+}
+
+@media (max-width: 1200px) {
+    html.ide-mode .restore-btn {
+        right: 300px !important;
+    }
+}
+
+@media (max-width: 1024px) {
+    html.ide-mode .restore-btn {
+        right: 40px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    html.ide-mode .restore-btn {
+        bottom: 30px !important;
+        right: 30px !important;
+    }
+}
+
 .restore-btn.hidden {
     display: none !important;
 }
