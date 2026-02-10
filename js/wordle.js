@@ -35,7 +35,10 @@
 
             WORDS = data.answers;
             // 有效猜測 = 答案單字 + 額外猜測單字
-            VALID_GUESSES = new Set([...data.answers, ...data.extraGuesses]);
+            // 支援新舊格式：物件格式 {word, zh} 或字串格式
+            const answerWords = data.answers.map(item => typeof item === 'string' ? item : item.word);
+            const extraWords = data.extraGuesses || [];
+            VALID_GUESSES = new Set([...answerWords, ...extraWords]);
             console.log(`Wordle 單字庫已載入：${WORDS.length} 個答案，${VALID_GUESSES.size} 個有效猜測`);
             return true;
         } catch (error) {
@@ -49,7 +52,8 @@
     const MAX_ATTEMPTS = 6;
 
     // 遊戲狀態
-    let targetWord = '';
+    let targetWord = ''; // 目標單字（英文）
+    let targetWordZh = ''; // 目標單字（中文翻譯）
     let currentRow = 0;
     let currentTile = 0;
     let currentGuess = '';
@@ -217,7 +221,15 @@
     // 開始遊戲
     function startGame() {
         // 選擇隨機單字
-        targetWord = WORDS[Math.floor(Math.random() * WORDS.length)];
+        const randomWord = WORDS[Math.floor(Math.random() * WORDS.length)];
+        // 支援新舊格式
+        if (typeof randomWord === 'string') {
+            targetWord = randomWord;
+            targetWordZh = '';
+        } else {
+            targetWord = randomWord.word;
+            targetWordZh = randomWord.zh || '';
+        }
         currentRow = 0;
         currentTile = 0;
         currentGuess = '';
@@ -429,8 +441,9 @@
         }
 
         // 更新答案顯示
-        document.getElementById('answer-display').textContent = targetWord;
-        document.getElementById('answer-display-ide').textContent = targetWord;
+        const answerText = targetWordZh ? `${targetWord} (${targetWordZh})` : targetWord;
+        document.getElementById('answer-display').textContent = answerText;
+        document.getElementById('answer-display-ide').textContent = answerText;
         document.getElementById('final-attempts').textContent = currentRow + 1;
         document.getElementById('final-attempts-ide').textContent = currentRow + 1;
 
