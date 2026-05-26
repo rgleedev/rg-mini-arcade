@@ -1,0 +1,539 @@
+/* ===== Thai Rain 專屬樣式 ===== */
+
+.rain-field,
+.target-display,
+.bubble-char {
+    font-family: 'Noto Sans Thai', sans-serif;
+}
+
+/* Leelawadee UI 字型覆蓋 */
+.font-leelawadee .target-display,
+.font-leelawadee .bubble-char {
+    font-family: 'Leelawadee UI', 'Leelawadee', sans-serif;
+}
+
+/* ===== 開始畫面 ===== */
+.start-screen {
+    position: static;           /* override global position:absolute */
+    transform: none;            /* override global translate(-50%,-50%) */
+    background-color: transparent;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 20px 0;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+.start-screen h2 {
+    font-size: 1.6rem;
+    color: var(--text-primary);
+    margin: 0;
+    text-align: center;
+}
+
+.game-desc {
+    color: var(--text-secondary);
+    text-align: center;
+    font-size: 0.95rem;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.settings-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.settings-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+.btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.option-btn {
+    flex: 1;
+    min-width: 80px;
+    padding: 10px 8px;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.option-btn small {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+.option-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.option-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+}
+
+.option-btn.active small {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.start-btn {
+    width: 100%;
+    max-width: 300px;
+    padding: 14px 24px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+}
+
+.start-btn:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+.start-btn:active {
+    transform: translateY(0);
+}
+
+/* ===== 遊戲畫面 ===== */
+.game-screen {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+/* HUD */
+.game-hud {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    padding: 10px 16px;
+    box-shadow: var(--card-shadow);
+}
+
+.hud-lives {
+    display: flex;
+    gap: 4px;
+    font-size: 1.2rem;
+}
+
+.heart {
+    transition: transform 0.2s, opacity 0.3s;
+    display: inline-block;
+}
+
+.heart.lost {
+    opacity: 0.2;
+    filter: grayscale(1);
+}
+
+.hud-score,
+.hud-best {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+}
+
+.hud-score {
+    margin-left: auto;
+}
+
+.hud-best {
+    margin-left: 0;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.stat-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent);
+    min-width: 32px;
+    text-align: right;
+}
+
+/* 目標讀音 */
+.target-wrap {
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    padding: 14px 20px;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+    border: 2px solid var(--accent);
+}
+
+.target-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.target-display {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    transition: transform 0.2s;
+}
+
+.target-display.new-target {
+    animation: target-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes target-pop {
+    from { transform: scale(0.7); opacity: 0.4; }
+    to   { transform: scale(1);   opacity: 1;   }
+}
+
+.target-hint {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+/* 下落場地 */
+.rain-field {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    cursor: default;
+    touch-action: manipulation;
+}
+
+/* 氣泡 */
+.bubble {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    border: 3px solid;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.1s;
+    touch-action: manipulation;
+    animation: bubble-fall linear forwards;
+}
+
+.bubble:active {
+    transform: scale(0.92);
+}
+
+.bubble-char {
+    font-size: 1.7rem;
+    line-height: 1;
+    pointer-events: none;
+}
+
+/* 正確爆炸 */
+.bubble.pop-correct {
+    animation: pop-correct 0.35s ease forwards !important;
+    pointer-events: none;
+}
+
+@keyframes pop-correct {
+    0%   { transform: scale(1);   opacity: 1; }
+    50%  { transform: scale(1.4); opacity: 0.8; }
+    100% { transform: scale(0);   opacity: 0; }
+}
+
+/* 錯誤震動 */
+.bubble.pop-wrong {
+    animation: pop-wrong 0.4s ease forwards !important;
+    pointer-events: none;
+}
+
+@keyframes pop-wrong {
+    0%, 100% { transform: translateX(0); }
+    20%      { transform: translateX(-8px); }
+    40%      { transform: translateX(8px); }
+    60%      { transform: translateX(-6px); }
+    80%      { transform: translateX(6px); }
+}
+
+/* 下落動畫 */
+@keyframes bubble-fall {
+    from { top: -80px; }
+    to   { top: 100%;  }
+}
+
+/* ===== 遊戲結束 ===== */
+.game-over {
+    position: static;           /* override global position:absolute */
+    transform: none;            /* override global translate(-50%,-50%) */
+    background-color: transparent;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.result-icon {
+    font-size: 3.5rem;
+    animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes pop-in {
+    from { transform: scale(0); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+.game-over h2 {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.result-stats {
+    width: 100%;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    padding: 16px 20px;
+    box-shadow: var(--card-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.result-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.result-row strong {
+    margin-left: auto;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+}
+
+.result-row.highlight {
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+    color: var(--accent);
+}
+
+.result-row.highlight strong {
+    color: var(--accent);
+    font-size: 1.2rem;
+}
+
+.result-buttons {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.result-buttons .start-btn {
+    flex: 1;
+}
+
+.back-menu-btn {
+    flex: 1;
+    padding: 14px 24px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.back-menu-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* ===== 波次記錄（可折疊）===== */
+details.wave-details {
+    width: 100%;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    margin-bottom: 4px;
+}
+
+details.wave-details summary {
+    padding: 10px 16px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+}
+
+details.wave-details summary::-webkit-details-marker { display: none; }
+
+details.wave-details summary::before {
+    content: '▶';
+    font-size: 0.65rem;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+}
+
+details.wave-details[open] summary::before {
+    transform: rotate(90deg);
+}
+
+.wave-log {
+    max-height: 220px;
+    overflow-y: auto;
+    padding: 6px 10px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.wave-entry {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--bg-primary);
+    border-radius: 8px;
+    padding: 4px 8px;
+    font-size: 0.82rem;
+}
+
+.wave-entry.correct .wave-thai {
+    color: #38a169;
+}
+
+.wave-entry.missed .wave-thai {
+    color: #e53e3e;
+}
+
+.wave-thai {
+    font-family: 'Noto Sans Thai', sans-serif;
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.font-leelawadee .wave-thai {
+    font-family: 'Leelawadee UI', 'Leelawadee', sans-serif;
+}
+
+.wave-info {
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+}
+
+/* 生命扣除閃爍 */
+.life-lost {
+    animation: life-flash 0.4s ease;
+}
+
+@keyframes life-flash {
+    0%, 100% { background: var(--bg-secondary); }
+    50%       { background: rgba(229, 62, 62, 0.15); }
+}
+
+/* ===== hidden utility ===== */
+.hidden {
+    display: none !important;
+}
+
+/* ===== RWD 手機 ===== */
+@media (max-width: 600px) {
+    .rain-field {
+        height: 280px;
+    }
+
+    .bubble {
+        width: 56px;
+        height: 56px;
+    }
+
+    .bubble-char {
+        font-size: 1.5rem;
+    }
+
+    .target-display {
+        font-size: 2rem;
+    }
+
+    .option-btn {
+        font-size: 0.8rem;
+        min-width: 70px;
+        padding: 8px 6px;
+    }
+}
+
+@media (max-width: 360px) {
+    .rain-field {
+        height: 240px;
+    }
+
+    .bubble {
+        width: 50px;
+        height: 50px;
+    }
+
+    .bubble-char {
+        font-size: 1.35rem;
+    }
+
+    .target-display {
+        font-size: 1.7rem;
+    }
+}

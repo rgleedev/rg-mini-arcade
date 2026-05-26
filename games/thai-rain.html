@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>泰文字母雨 - RG's Mini Arcade</title>
+    <link rel="icon" type="image/png" href="../img/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/thai-rain.css">
+    <script src="../js/init-theme.js"></script>
+    <script src="../js/version-loader.js"></script>
+    <script src="../js/ide-decoration.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1 class="title">
+                <span class="normal-title">🌧️ 泰文字母雨</span>
+                <span class="ide-title">// thaiRain.exe</span>
+            </h1>
+            <div class="header-buttons">
+                <a href="../index.html" class="back-btn">
+                    <span class="normal-title">🏠 返回選單</span>
+                    <span class="ide-title">← return;</span>
+                </a>
+                <button id="theme-toggle" class="theme-btn">
+                    <span class="normal-mode">💻 IDE風格</span>
+                    <span class="ide-mode">🎮 一般風格</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="game-area">
+
+            <!-- 開始畫面 -->
+            <div id="start-screen" class="start-screen">
+                <h2>
+                    <span class="normal-title">🌧️ 泰文字母雨</span>
+                    <span class="ide-title">// thaiRain()</span>
+                </h2>
+                <p class="game-desc">
+                    <span class="normal-title">看到目標讀音，點擊落下的正確泰文字母！</span>
+                    <span class="ide-title">/* Tap the correct Thai consonant as it falls! */</span>
+                </p>
+
+                <div class="settings-group">
+                    <div class="settings-label">
+                        <span class="normal-title">📚 字母範圍</span>
+                        <span class="ide-title">// letterSet</span>
+                    </div>
+                    <div class="btn-group" id="set-selector">
+                        <button class="option-btn active" data-set="starter">
+                            <span class="normal-title">初學<br><small>前 22 個</small></span>
+                            <span class="ide-title">starter<br><small>// 22</small></span>
+                        </button>
+                        <button class="option-btn" data-set="all">
+                            <span class="normal-title">完整<br><small>全 44 個</small></span>
+                            <span class="ide-title">all<br><small>// 44</small></span>
+                        </button>
+                        <button class="option-btn" data-set="random10">
+                            <span class="normal-title">隨機<br><small>10 個</small></span>
+                            <span class="ide-title">random10<br><small>// 10</small></span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <div class="settings-label">
+                        <span class="normal-title">🔤 字型</span>
+                        <span class="ide-title">// fontFamily</span>
+                    </div>
+                    <div class="btn-group" id="font-selector">
+                        <button class="option-btn active" data-font="leelawadee">
+                            <span class="normal-title">傳統<br><small>Leelawadee UI</small></span>
+                            <span class="ide-title">leelawadee<br><small>// classic</small></span>
+                        </button>
+                        <button class="option-btn" data-font="noto">
+                            <span class="normal-title">現代<br><small>Noto Sans Thai</small></span>
+                            <span class="ide-title">noto<br><small>// modern</small></span>
+                        </button>
+                    </div>
+                </div>
+
+                <button id="start-btn" class="start-btn">
+                    <span class="normal-title">▶ 開始遊戲</span>
+                    <span class="ide-title">startGame()</span>
+                </button>
+            </div>
+
+            <!-- 遊戲畫面 -->
+            <div id="game-screen" class="game-screen hidden">
+                <!-- 頂部資訊列 -->
+                <div class="game-hud">
+                    <div class="hud-lives" id="lives-display">
+                        <span class="heart">❤️</span>
+                        <span class="heart">❤️</span>
+                        <span class="heart">❤️</span>
+                    </div>
+                    <div class="hud-score">
+                        <span class="stat-label">
+                            <span class="normal-title">分數</span>
+                            <span class="ide-title">score:</span>
+                        </span>
+                        <span id="score" class="stat-value">0</span>
+                    </div>
+                    <div class="hud-best">
+                        <span class="stat-label">
+                            <span class="normal-title">最高</span>
+                            <span class="ide-title">best:</span>
+                        </span>
+                        <span id="best-score" class="stat-value">0</span>
+                    </div>
+                </div>
+
+                <!-- 目標讀音 -->
+                <div class="target-wrap">
+                    <div class="target-label">
+                        <span class="normal-title">找這個：</span>
+                        <span class="ide-title">// target:</span>
+                    </div>
+                    <div id="target-display" class="target-display">Gor</div>
+                    <div id="target-hint" class="target-hint">Gor Gai · 雞</div>
+                </div>
+
+                <!-- 下落場地 -->
+                <div id="rain-field" class="rain-field">
+                    <!-- 氣泡由 JS 動態生成 -->
+                </div>
+            </div>
+
+            <!-- 遊戲結束畫面 -->
+            <div id="game-over" class="game-over hidden">
+                <div id="result-icon" class="result-icon">💧</div>
+                <h2>
+                    <span class="normal-title">遊戲結束</span>
+                    <span class="ide-title">// Game Over</span>
+                </h2>
+                <div class="result-stats">
+                    <div class="result-row">
+                        <span class="normal-title">最終分數</span>
+                        <span class="ide-title">score:</span>
+                        <strong id="final-score">0</strong>
+                    </div>
+                    <div class="result-row highlight">
+                        <span class="normal-title">🏆 最高紀錄</span>
+                        <span class="ide-title">best:</span>
+                        <strong id="final-best">0</strong>
+                    </div>
+                </div>
+                <details class="wave-details" id="wave-details">
+                    <summary>
+                        <span class="normal-title">📋 本局紀錄</span>
+                        <span class="ide-title">// waveLog[]</span>
+                    </summary>
+                    <div id="wave-log" class="wave-log"></div>
+                </details>
+                <div class="result-buttons">
+                    <button id="restart-btn" class="start-btn">
+                        <span class="normal-title">🔄 再玩一次</span>
+                        <span class="ide-title">restart()</span>
+                    </button>
+                    <button id="change-settings-btn" class="back-menu-btn">
+                        <span class="normal-title">⚙️ 更換設定</span>
+                        <span class="ide-title">settings()</span>
+                    </button>
+                </div>
+            </div>
+
+        </main>
+
+        <footer>
+            <span class="version-badge" data-version></span>
+            <p class="normal-title">Made with ❤️ by RG</p>
+            <p class="ide-title">// Copyright &copy; 2025 RG. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="../js/game-utils.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/thai-rain.js"></script>
+</body>
+
+</html>

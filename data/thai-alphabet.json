@@ -1,0 +1,447 @@
+{
+    "language": "thai",
+    "name": "泰語輔音字母",
+    "romanization": "Paiboon",
+    "consonants": [
+        {
+            "id": 1,
+            "char": "ก",
+            "romanized": "gor",
+            "full_name": "gor gài",
+            "keyword_th": "ไก่",
+            "keyword_zh": "雞",
+            "class": "mid",
+            "starter": true
+        },
+        {
+            "id": 2,
+            "char": "ข",
+            "romanized": "kŏr",
+            "full_name": "kŏr kài",
+            "keyword_th": "ไข่",
+            "keyword_zh": "蛋",
+            "class": "high",
+            "starter": true
+        },
+        {
+            "id": 3,
+            "char": "ฃ",
+            "romanized": "kŏr",
+            "full_name": "kŏr kùat",
+            "keyword_th": "ขวด",
+            "keyword_zh": "瓶子",
+            "class": "high",
+            "starter": true
+        },
+        {
+            "id": 4,
+            "char": "ค",
+            "romanized": "kor",
+            "full_name": "kor kwai",
+            "keyword_th": "ควาย",
+            "keyword_zh": "水牛",
+            "class": "low",
+            "starter": true
+        },
+        {
+            "id": 5,
+            "char": "ฅ",
+            "romanized": "kor",
+            "full_name": "kor kon",
+            "keyword_th": "คน",
+            "keyword_zh": "人",
+            "class": "low",
+            "starter": true
+        },
+        {
+            "id": 6,
+            "char": "ฆ",
+            "romanized": "kor",
+            "full_name": "kor rá-kang",
+            "keyword_th": "ระฆัง",
+            "keyword_zh": "鐘",
+            "class": "low",
+            "starter": true
+        },
+        {
+            "id": 7,
+            "char": "ง",
+            "romanized": "ngor",
+            "full_name": "ngor ngoo",
+            "keyword_th": "งู",
+            "keyword_zh": "蛇",
+            "class": "low",
+            "starter": true
+        },
+        {
+            "id": 8,
+            "char": "จ",
+            "romanized": "jor",
+            "full_name": "jor jaan",
+            "keyword_th": "จาน",
+            "keyword_zh": "盤子",
+            "class": "mid",
+            "starter": true
+        },
+        {
+            "id": 9,
+            "char": "ฉ",
+            "romanized": "chŏr",
+            "full_name": "chŏr ching",
+            "keyword_th": "ฉิ่ง",
+            "keyword_zh": "小鑼",
+            "class": "high",
+            "starter": true
+        },
+        {
+            "id": 10,
+            "char": "ช",
+            "romanized": "chor",
+            "full_name": "chor cháng",
+            "keyword_th": "ช้าง",
+            "keyword_zh": "大象",
+            "class": "low",
+            "starter": true
+        },
+        {
+            "id": 11,
+            "char": "ซ",
+            "romanized": "sor",
+            "full_name": "sor sôh",
+            "keyword_th": "โซ่",
+            "keyword_zh": "鏈子",
+            "class": "low",
+            "starter": true
+        },
+        {
+            "id": 12,
+            "char": "ฌ",
+            "romanized": "chor",
+            "full_name": "chor cher",
+            "keyword_th": "เฌอ",
+            "keyword_zh": "樹叢",
+            "class": "low",
+            "starter": true
+        },
+        {
+            "id": 13,
+            "char": "ญ",
+            "romanized": "yor",
+            "full_name": "yor yīng",
+            "keyword_th": "หญิง",
+            "keyword_zh": "女人",
+            "class": "low",
+            "starter": true
+        },
+        {
+            "id": 14,
+            "char": "ฎ",
+            "romanized": "dor",
+            "full_name": "dor chá-daa",
+            "keyword_th": "ชฎา",
+            "keyword_zh": "王冠",
+            "class": "mid",
+            "starter": true
+        },
+        {
+            "id": 15,
+            "char": "ฏ",
+            "romanized": "dtor",
+            "full_name": "dtor bpà-dtàk",
+            "keyword_th": "ปฏัก",
+            "keyword_zh": "長矛",
+            "class": "mid",
+            "starter": true
+        },
+        {
+            "id": 16,
+            "char": "ฐ",
+            "romanized": "tŏr",
+            "full_name": "tŏr tăan",
+            "keyword_th": "ฐาน",
+            "keyword_zh": "底座",
+            "class": "high",
+            "starter": true
+        },
+        {
+            "id": 17,
+            "char": "ฑ",
+            "romanized": "tor",
+            "full_name": "tor mon-toh",
+            "keyword_th": "มณโฑ",
+            "keyword_zh": "女巨人",
+            "class": "low",
+            "starter": true
+        },
+        {
+            "id": 18,
+            "char": "ฒ",
+            "romanized": "tor",
+            "full_name": "tor pôo-tâo",
+            "keyword_th": "ผู้เฒ่า",
+            "keyword_zh": "老人",
+            "class": "low",
+            "starter": true
+        },
+        {
+            "id": 19,
+            "char": "ณ",
+            "romanized": "nor",
+            "full_name": "nor nen",
+            "keyword_th": "เณร",
+            "keyword_zh": "沙彌",
+            "class": "low",
+            "starter": true
+        },
+        {
+            "id": 20,
+            "char": "ด",
+            "romanized": "dor",
+            "full_name": "dor dèk",
+            "keyword_th": "เด็ก",
+            "keyword_zh": "孩子",
+            "class": "mid",
+            "starter": true
+        },
+        {
+            "id": 21,
+            "char": "ต",
+            "romanized": "dtor",
+            "full_name": "dtor dtào",
+            "keyword_th": "เต่า",
+            "keyword_zh": "烏龜",
+            "class": "mid",
+            "starter": true
+        },
+        {
+            "id": 22,
+            "char": "ถ",
+            "romanized": "tŏr",
+            "full_name": "tŏr tûng",
+            "keyword_th": "ถุง",
+            "keyword_zh": "袋子",
+            "class": "high",
+            "starter": true
+        },
+        {
+            "id": 23,
+            "char": "ท",
+            "romanized": "tor",
+            "full_name": "tor tá-hăan",
+            "keyword_th": "ทหาร",
+            "keyword_zh": "士兵",
+            "class": "low",
+            "starter": false
+        },
+        {
+            "id": 24,
+            "char": "ธ",
+            "romanized": "tor",
+            "full_name": "tor tong",
+            "keyword_th": "ธง",
+            "keyword_zh": "旗子",
+            "class": "low",
+            "starter": false
+        },
+        {
+            "id": 25,
+            "char": "น",
+            "romanized": "nor",
+            "full_name": "nor nŏo",
+            "keyword_th": "หนู",
+            "keyword_zh": "老鼠",
+            "class": "low",
+            "starter": false
+        },
+        {
+            "id": 26,
+            "char": "บ",
+            "romanized": "bor",
+            "full_name": "bor bai-mái",
+            "keyword_th": "ใบไม้",
+            "keyword_zh": "樹葉",
+            "class": "mid",
+            "starter": false
+        },
+        {
+            "id": 27,
+            "char": "ป",
+            "romanized": "bpor",
+            "full_name": "bpor bplaa",
+            "keyword_th": "ปลา",
+            "keyword_zh": "魚",
+            "class": "mid",
+            "starter": false
+        },
+        {
+            "id": 28,
+            "char": "ผ",
+            "romanized": "pŏr",
+            "full_name": "pŏr pûeng",
+            "keyword_th": "ผึ้ง",
+            "keyword_zh": "蜜蜂",
+            "class": "high",
+            "starter": false
+        },
+        {
+            "id": 29,
+            "char": "ฝ",
+            "romanized": "fŏr",
+            "full_name": "fŏr făa",
+            "keyword_th": "ฝา",
+            "keyword_zh": "蓋子",
+            "class": "high",
+            "starter": false
+        },
+        {
+            "id": 30,
+            "char": "พ",
+            "romanized": "por",
+            "full_name": "por paan",
+            "keyword_th": "พาน",
+            "keyword_zh": "托盤",
+            "class": "low",
+            "starter": false
+        },
+        {
+            "id": 31,
+            "char": "ฟ",
+            "romanized": "for",
+            "full_name": "for fan",
+            "keyword_th": "ฟัน",
+            "keyword_zh": "牙齒",
+            "class": "low",
+            "starter": false
+        },
+        {
+            "id": 32,
+            "char": "ภ",
+            "romanized": "por",
+            "full_name": "por săm-pao",
+            "keyword_th": "สำเภา",
+            "keyword_zh": "帆船",
+            "class": "low",
+            "starter": false
+        },
+        {
+            "id": 33,
+            "char": "ม",
+            "romanized": "mor",
+            "full_name": "mor máa",
+            "keyword_th": "ม้า",
+            "keyword_zh": "馬",
+            "class": "low",
+            "starter": false
+        },
+        {
+            "id": 34,
+            "char": "ย",
+            "romanized": "yor",
+            "full_name": "yor yák",
+            "keyword_th": "ยักษ์",
+            "keyword_zh": "巨人",
+            "class": "low",
+            "starter": false
+        },
+        {
+            "id": 35,
+            "char": "ร",
+            "romanized": "ror",
+            "full_name": "ror reua",
+            "keyword_th": "เรือ",
+            "keyword_zh": "船",
+            "class": "low",
+            "starter": false
+        },
+        {
+            "id": 36,
+            "char": "ล",
+            "romanized": "lor",
+            "full_name": "lor ling",
+            "keyword_th": "ลิง",
+            "keyword_zh": "猴子",
+            "class": "low",
+            "starter": false
+        },
+        {
+            "id": 37,
+            "char": "ว",
+            "romanized": "wor",
+            "full_name": "wor wăen",
+            "keyword_th": "แหวน",
+            "keyword_zh": "戒指",
+            "class": "low",
+            "starter": false
+        },
+        {
+            "id": 38,
+            "char": "ศ",
+            "romanized": "sŏr",
+            "full_name": "sŏr săa-laa",
+            "keyword_th": "ศาลา",
+            "keyword_zh": "涼亭",
+            "class": "high",
+            "starter": false
+        },
+        {
+            "id": 39,
+            "char": "ษ",
+            "romanized": "sŏr",
+            "full_name": "sŏr rĕu-sĕe",
+            "keyword_th": "ฤๅษี",
+            "keyword_zh": "隱士",
+            "class": "high",
+            "starter": false
+        },
+        {
+            "id": 40,
+            "char": "ส",
+            "romanized": "sŏr",
+            "full_name": "sŏr sĕua",
+            "keyword_th": "เสือ",
+            "keyword_zh": "老虎",
+            "class": "high",
+            "starter": false
+        },
+        {
+            "id": 41,
+            "char": "ห",
+            "romanized": "hŏr",
+            "full_name": "hŏr hèep",
+            "keyword_th": "หีบ",
+            "keyword_zh": "箱子",
+            "class": "high",
+            "starter": false
+        },
+        {
+            "id": 42,
+            "char": "ฬ",
+            "romanized": "lor",
+            "full_name": "lor jù-laa",
+            "keyword_th": "จุฬา",
+            "keyword_zh": "風箏",
+            "class": "low",
+            "starter": false
+        },
+        {
+            "id": 43,
+            "char": "อ",
+            "romanized": "or",
+            "full_name": "or àang",
+            "keyword_th": "อ่าง",
+            "keyword_zh": "盆子",
+            "class": "mid",
+            "starter": false
+        },
+        {
+            "id": 44,
+            "char": "ฮ",
+            "romanized": "hor",
+            "full_name": "hor nók-hôok",
+            "keyword_th": "นกฮูก",
+            "keyword_zh": "貓頭鷹",
+            "class": "low",
+            "starter": false
+        }
+    ]
+}

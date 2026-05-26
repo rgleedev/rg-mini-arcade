@@ -1,0 +1,574 @@
+/* ===== Thai Flash 專屬樣式 ===== */
+
+/* Thai 字型套用範圍 */
+.current-char,
+.option-answer-btn {
+    font-family: 'Noto Sans Thai', sans-serif;
+}
+
+/* Leelawadee UI 字型覆蓋 */
+.font-leelawadee .current-char,
+.font-leelawadee .option-answer-btn {
+    font-family: 'Leelawadee UI', 'Leelawadee', sans-serif;
+}
+
+/* ===== 開始畫面 ===== */
+.start-screen {
+    position: static;           /* override global position:absolute */
+    transform: none;            /* override global translate(-50%,-50%) */
+    background-color: transparent;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 20px 0;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+.start-screen h2 {
+    font-size: 1.6rem;
+    color: var(--text-primary);
+    margin: 0;
+    text-align: center;
+}
+
+.game-desc {
+    color: var(--text-secondary);
+    text-align: center;
+    font-size: 0.95rem;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.settings-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.settings-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+.btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.option-btn {
+    flex: 1;
+    min-width: 80px;
+    padding: 10px 8px;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.option-btn small {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+.option-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.option-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+}
+
+.option-btn.active small {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.start-btn {
+    width: 100%;
+    max-width: 300px;
+    padding: 14px 24px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+}
+
+.start-btn:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+.start-btn:active {
+    transform: translateY(0);
+}
+
+/* ===== 遊戲畫面 ===== */
+.game-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 10px 0;
+}
+
+.game-stats {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    padding: 8px 16px;
+    min-width: 70px;
+    box-shadow: var(--card-shadow);
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.stat-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+/* 進度條 */
+.progress-bar-wrap {
+    width: 100%;
+    height: 6px;
+    background: var(--border-color);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+    transition: width 0.4s ease;
+    width: 0%;
+}
+
+/* 計時器 */
+.timer-wrap {
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.timer-svg {
+    width: 80px;
+    height: 80px;
+    transform: rotate(-90deg);
+}
+
+.timer-bg {
+    fill: none;
+    stroke: var(--border-color);
+    stroke-width: 6;
+}
+
+.timer-ring {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 6;
+    stroke-linecap: round;
+    stroke-dasharray: 213.6;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1s linear, stroke 0.3s;
+}
+
+.timer-ring.urgent {
+    stroke: #e53e3e;
+}
+
+.timer-num {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* 字母顯示 */
+.char-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    padding: 28px 40px;
+    box-shadow: var(--card-shadow);
+    width: 100%;
+    transition: transform 0.15s ease;
+}
+
+.char-display.bounce {
+    animation: char-bounce 0.3s ease;
+}
+
+@keyframes char-bounce {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+.current-char {
+    font-size: 7rem;
+    line-height: 0.82;
+    color: var(--text-primary);
+    user-select: none;
+}
+
+/* 選項按鈕 2×2 */
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+}
+
+.option-answer-btn {
+    padding: 16px 10px;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    line-height: 1.3;
+    box-shadow: var(--card-shadow);
+    min-height: 64px;
+}
+
+.option-answer-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.option-answer-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.option-answer-btn.correct {
+    background: #38a16920;
+    border-color: #38a169;
+    color: #38a169;
+}
+
+.option-answer-btn.wrong {
+    background: #e53e3e20;
+    border-color: #e53e3e;
+    color: #e53e3e;
+}
+
+.option-answer-btn:disabled {
+    cursor: default;
+}
+
+/* 回饋訊息 */
+.feedback {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    text-align: center;
+    min-height: 24px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    width: 100%;
+}
+
+.feedback.correct-msg {
+    color: #38a169;
+    background: #38a16915;
+}
+
+.feedback.wrong-msg {
+    color: #e53e3e;
+    background: #e53e3e15;
+}
+
+/* ===== 結果畫面 ===== */
+.result-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.result-icon {
+    font-size: 3.5rem;
+    animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes pop-in {
+    from { transform: scale(0); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+.result-screen h2 {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.result-stats {
+    width: 100%;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    padding: 16px 20px;
+    box-shadow: var(--card-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.result-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.result-row strong {
+    margin-left: auto;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+}
+
+.result-row.highlight {
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+    color: var(--accent);
+}
+
+.result-row.highlight strong {
+    color: var(--accent);
+    font-size: 1.2rem;
+}
+
+.wrong-note {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 10px 14px;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    border-left: 3px solid var(--accent);
+    width: 100%;
+}
+
+.result-buttons {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.result-buttons .start-btn {
+    flex: 1;
+}
+
+.back-menu-btn {
+    flex: 1;
+    padding: 14px 24px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.back-menu-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* ===== 本局詳情（可折疊）===== */
+details.history-details {
+    width: 100%;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+}
+
+details.history-details summary {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+}
+
+details.history-details summary::-webkit-details-marker { display: none; }
+
+details.history-details summary::before {
+    content: '▶';
+    font-size: 0.65rem;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+}
+
+details.history-details[open] summary::before {
+    transform: rotate(90deg);
+}
+
+.history-scroll {
+    max-height: 280px;
+    overflow-y: auto;
+    border-top: 1px solid var(--border-color);
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+}
+
+.history-table th {
+    padding: 7px 10px;
+    text-align: left;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    background: var(--bg-secondary);
+    z-index: 1;
+}
+
+.history-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+    vertical-align: middle;
+}
+
+.history-table .hist-thai {
+    font-family: 'Noto Sans Thai', sans-serif;
+    font-size: 1.6rem;
+    line-height: 1;
+    text-align: center;
+    width: 2.5rem;
+}
+
+.font-leelawadee .history-table .hist-thai {
+    font-family: 'Leelawadee UI', 'Leelawadee', sans-serif;
+}
+
+.history-table tr.hist-wrong > td {
+    background: rgba(229, 62, 62, 0.05);
+}
+
+.hist-wrong-answer {
+    color: #e53e3e;
+    font-size: 0.78rem;
+    display: block;
+    margin-top: 2px;
+}
+
+/* ===== hidden utility ===== */
+.hidden {
+    display: none !important;
+}
+
+/* ===== RWD 手機 ===== */
+@media (max-width: 600px) {
+    .current-char {
+        font-size: 5.5rem;
+    }
+
+    .char-display {
+        padding: 20px 24px;
+    }
+
+    .option-answer-btn {
+        font-size: 0.9rem;
+        padding: 14px 8px;
+        min-height: 56px;
+    }
+
+    .game-stats {
+        gap: 8px;
+    }
+
+    .stat {
+        padding: 6px 12px;
+        min-width: 60px;
+    }
+
+    .option-btn {
+        font-size: 0.8rem;
+        min-width: 70px;
+        padding: 8px 6px;
+    }
+}
+
+@media (max-width: 360px) {
+    .current-char {
+        font-size: 4.5rem;
+    }
+
+    .options-grid {
+        gap: 8px;
+    }
+
+    .option-answer-btn {
+        font-size: 0.85rem;
+        min-height: 52px;
+    }
+}

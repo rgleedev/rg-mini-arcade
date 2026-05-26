@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>泰文閃卡 - RG's Mini Arcade</title>
+    <link rel="icon" type="image/png" href="../img/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/thai-flash.css">
+    <script src="../js/init-theme.js"></script>
+    <script src="../js/version-loader.js"></script>
+    <script src="../js/ide-decoration.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1 class="title">
+                <span class="normal-title">🌺 泰文閃卡</span>
+                <span class="ide-title">// thaiFlash.exe</span>
+            </h1>
+            <div class="header-buttons">
+                <a href="../index.html" class="back-btn">
+                    <span class="normal-title">🏠 返回選單</span>
+                    <span class="ide-title">← return;</span>
+                </a>
+                <button id="theme-toggle" class="theme-btn">
+                    <span class="normal-mode">💻 IDE風格</span>
+                    <span class="ide-mode">🎮 一般風格</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="game-area">
+
+            <!-- 開始畫面 -->
+            <div id="start-screen" class="start-screen">
+                <h2>
+                    <span class="normal-title">🌺 泰文閃卡</span>
+                    <span class="ide-title">// thaiFlash()</span>
+                </h2>
+                <p class="game-desc">
+                    <span class="normal-title">看到泰文字母，選出正確的拼音！</span>
+                    <span class="ide-title">/* See Thai consonant, pick the correct phonetic! */</span>
+                </p>
+
+                <div class="settings-group">
+                    <div class="settings-label">
+                        <span class="normal-title">📚 字母範圍</span>
+                        <span class="ide-title">// letterSet</span>
+                    </div>
+                    <div class="btn-group" id="set-selector">
+                        <button class="option-btn active" data-set="starter">
+                            <span class="normal-title">初學<br><small>前 22 個</small></span>
+                            <span class="ide-title">starter<br><small>// 22</small></span>
+                        </button>
+                        <button class="option-btn" data-set="all">
+                            <span class="normal-title">完整<br><small>全 44 個</small></span>
+                            <span class="ide-title">all<br><small>// 44</small></span>
+                        </button>
+                        <button class="option-btn" data-set="random10">
+                            <span class="normal-title">隨機<br><small>10 個</small></span>
+                            <span class="ide-title">random10<br><small>// 10</small></span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <div class="settings-label">
+                        <span class="normal-title">⏱️ 計時模式</span>
+                        <span class="ide-title">// timerMode</span>
+                    </div>
+                    <div class="btn-group" id="timer-selector">
+                        <button class="option-btn active" data-timer="off">
+                            <span class="normal-title">關閉<br><small>無限時</small></span>
+                            <span class="ide-title">off<br><small>// no limit</small></span>
+                        </button>
+                        <button class="option-btn" data-timer="on">
+                            <span class="normal-title">開啟<br><small>每題 10 秒</small></span>
+                            <span class="ide-title">on<br><small>// 10s</small></span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <div class="settings-label">
+                        <span class="normal-title">🔤 字型</span>
+                        <span class="ide-title">// fontFamily</span>
+                    </div>
+                    <div class="btn-group" id="font-selector">
+                        <button class="option-btn active" data-font="leelawadee">
+                            <span class="normal-title">傳統<br><small>Leelawadee UI</small></span>
+                            <span class="ide-title">leelawadee<br><small>// classic</small></span>
+                        </button>
+                        <button class="option-btn" data-font="noto">
+                            <span class="normal-title">現代<br><small>Noto Sans Thai</small></span>
+                            <span class="ide-title">noto<br><small>// modern</small></span>
+                        </button>
+                    </div>
+                </div>
+
+                <button id="start-btn" class="start-btn">
+                    <span class="normal-title">▶ 開始遊戲</span>
+                    <span class="ide-title">startGame()</span>
+                </button>
+            </div>
+
+            <!-- 遊戲畫面 -->
+            <div id="game-screen" class="game-screen hidden">
+                <div class="game-stats">
+                    <div class="stat">
+                        <span class="stat-label">
+                            <span class="normal-title">連勝</span>
+                            <span class="ide-title">streak:</span>
+                        </span>
+                        <span id="streak" class="stat-value">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">
+                            <span class="normal-title">正確</span>
+                            <span class="ide-title">correct:</span>
+                        </span>
+                        <span id="correct-count" class="stat-value">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">
+                            <span class="normal-title">進度</span>
+                            <span class="ide-title">progress:</span>
+                        </span>
+                        <span id="progress-text" class="stat-value">0/0</span>
+                    </div>
+                </div>
+
+                <!-- 進度條 -->
+                <div class="progress-bar-wrap">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+
+                <!-- 計時器圓弧（計時模式才顯示） -->
+                <div id="timer-wrap" class="timer-wrap hidden">
+                    <svg class="timer-svg" viewBox="0 0 80 80">
+                        <circle class="timer-bg" cx="40" cy="40" r="34"/>
+                        <circle id="timer-ring" class="timer-ring" cx="40" cy="40" r="34"/>
+                    </svg>
+                    <span id="timer-num" class="timer-num">10</span>
+                </div>
+
+                <!-- 字母顯示 -->
+                <div id="char-display" class="char-display">
+                    <div id="current-char" class="current-char">ก</div>
+                </div>
+
+                <!-- 選項按鈕 2×2 -->
+                <div id="options-grid" class="options-grid">
+                    <button class="option-answer-btn" data-idx="0"></button>
+                    <button class="option-answer-btn" data-idx="1"></button>
+                    <button class="option-answer-btn" data-idx="2"></button>
+                    <button class="option-answer-btn" data-idx="3"></button>
+                </div>
+
+                <!-- 回饋訊息 -->
+                <div id="feedback" class="feedback hidden"></div>
+            </div>
+
+            <!-- 結果畫面 -->
+            <div id="result-screen" class="result-screen hidden">
+                <div id="result-icon" class="result-icon">🎉</div>
+                <h2>
+                    <span class="normal-title">完成！</span>
+                    <span class="ide-title">// Done!</span>
+                </h2>
+                <div class="result-stats">
+                    <div class="result-row">
+                        <span class="normal-title">正確率</span>
+                        <span class="ide-title">accuracy:</span>
+                        <strong id="result-accuracy">0%</strong>
+                    </div>
+                    <div class="result-row">
+                        <span class="normal-title">正確 / 總題</span>
+                        <span class="ide-title">correct/total:</span>
+                        <strong id="result-score">0 / 0</strong>
+                    </div>
+                    <div class="result-row">
+                        <span class="normal-title">最高連勝</span>
+                        <span class="ide-title">bestStreak:</span>
+                        <strong id="result-streak">0</strong>
+                    </div>
+                    <div class="result-row highlight">
+                        <span class="normal-title">🏆 最佳正確率</span>
+                        <span class="ide-title">bestAccuracy:</span>
+                        <strong id="result-best">0%</strong>
+                    </div>
+                </div>
+                <div id="wrong-note" class="wrong-note hidden">
+                    <span class="normal-title">⚠️ 答錯的字母已記錄，下次遊戲優先練習</span>
+                    <span class="ide-title">// wrongAnswers saved to localStorage</span>
+                </div>
+                <details class="history-details" id="history-details">
+                    <summary>
+                        <span class="normal-title">📋 本局詳情</span>
+                        <span class="ide-title">// history[]</span>
+                    </summary>
+                    <div class="history-scroll">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th><span class="normal-title">字母</span><span class="ide-title">char</span></th>
+                                    <th><span class="normal-title">正確答案</span><span class="ide-title">answer</span></th>
+                                    <th><span class="normal-title">結果</span><span class="ide-title">result</span></th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-tbody"></tbody>
+                        </table>
+                    </div>
+                </details>
+                <div class="result-buttons">
+                    <button id="restart-btn" class="start-btn">
+                        <span class="normal-title">🔄 再玩一次</span>
+                        <span class="ide-title">restart()</span>
+                    </button>
+                    <button id="change-settings-btn" class="back-menu-btn">
+                        <span class="normal-title">⚙️ 更換設定</span>
+                        <span class="ide-title">settings()</span>
+                    </button>
+                </div>
+            </div>
+
+        </main>
+
+        <footer>
+            <span class="version-badge" data-version></span>
+            <p class="normal-title">Made with ❤️ by RG</p>
+            <p class="ide-title">// Copyright &copy; 2025 RG. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="../js/game-utils.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/thai-flash.js"></script>
+</body>
+
+</html>
