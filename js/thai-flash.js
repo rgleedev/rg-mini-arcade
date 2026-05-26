@@ -46,6 +46,7 @@
     const charDisplay     = document.querySelector('.char-display');
     const optionBtns      = document.querySelectorAll('.option-answer-btn');
     const feedbackEl      = document.getElementById('feedback');
+    const nextBtn         = document.getElementById('next-btn');
     const resultIcon      = document.getElementById('result-icon');
     const resultAccuracy  = document.getElementById('result-accuracy');
     const resultScore     = document.getElementById('result-score');
@@ -196,6 +197,7 @@
         // 清除回饋
         feedbackEl.className = 'feedback hidden';
         feedbackEl.textContent = '';
+        if (nextBtn) nextBtn.classList.add('hidden');
 
         // 字母跳動
         charDisplay.classList.remove('bounce');
@@ -242,7 +244,11 @@
         });
         showFeedback(isCorrect, current);
 
-        setTimeout(nextQuestion, isCorrect ? 800 : 1400);
+        if (timerOn) {
+            setTimeout(nextQuestion, isCorrect ? 800 : 1400);
+        } else {
+            if (nextBtn) nextBtn.classList.remove('hidden');
+        }
     }
 
     function highlightOptions(clickedBtn) {
@@ -379,6 +385,14 @@
 
     // 重新開始（同設定）
     restartBtn.addEventListener('click', startGame);
+
+    // 手動下一題
+    if (nextBtn) {
+        nextBtn.addEventListener('click', function () {
+            nextBtn.classList.add('hidden');
+            nextQuestion();
+        });
+    }
 
     // 更換設定
     changeSettingsBtn.addEventListener('click', function () {
